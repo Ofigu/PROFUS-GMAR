@@ -1,0 +1,55 @@
+// custom variables
+$primary: #334be9;
+$secondary: #8a8fa7;
+$success: #2e7d32;
+$warning: #ff6d00;
+$danger: #d50000;
+$dark: #2c2e3a;
+$light: #383b44;
+$body-bg: #23252e;
+$line-height: 1px;
+
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../node_modules/material-icons/iconfont/material-icons.css';
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: $body-bg;
+}
+
+.material-icons-outlined {
+  vertical-align: middle;
+  line-height: $line-height;
+}
+
+.icon {
+  $size: 48px;
+  width: $size;
+  height: $size;
+}
+
+.icon-shape {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px;
+  border-radius: 50%;
+}
+
+#date {
+  color: #4caf50;
+  background-color: rgba(76, 175, 80, 0.1);
+  padding: 5px;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+nav {
+  a {
+    &:hover {
+      font-weight: bold;
+    }
+  }
+}
