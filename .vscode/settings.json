@@ -20,3 +20,9 @@
     },
     "peacock.color": "#49e115"
 }
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+  }
