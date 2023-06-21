@@ -1,0 +1,41 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0; /* Remove default body margin */
+    background: linear-gradient(to top left, #ffe26e, #ffa96f, #ff6a6a);
+  }
+  
+  nav {
+    display: flex;
+    flex-direction: row; /* Change to row to place the logo and nav-bar side by side */
+    justify-content: space-between; /* Add space between the logo and nav-bar */
+    align-items: center;
+    border: solid 2px red;
+    width: 100%;
+  }
+  
+  .nav-logo img {
+   width: 8%; /* Adjust the logo width to your preference */
+    border: solid 2px magenta;
+    margin: 0;
+    margin-left: 1%;
+  }
+  
+  .nav-bar {
+    font-size: 18px; /* Increase the font size to make it larger */
+    font-weight: bold; /* Apply bold style to the font */
+    margin-left: 10%;
+    width: 60%; /* Align the nav-bar more to the left */
+    border: solid 2px yellow;
+  }
+  .nav-bar a {
+    color: white; /* Set the font color to white */
+    text-decoration: none; /* Remove the underline */
+  }
+  
+  
+  .nav-bar a {
+    margin: 0 10px; /* Add margin to create space between navigation links */
+  }
+  .footer-logo img{
+    width: 10%;
+  }
