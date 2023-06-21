@@ -1,67 +1,125 @@
 body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0; /* Remove default body margin */
-    background: linear-gradient(to top left, #ffe26e, #ffa96f, #ff6a6a);
-  }
-  
-  nav {
-    display: flex;
-    flex-direction: row; /* Change to row to place the logo and nav-bar side by side */
-    align-items: center;
-    border: solid 2px red;
-  }
-  
-  .nav-logo img {
-    width: 270px;
-   max-width: 20%; /* Adjust the logo width to your preference */
-    border: solid 2px magenta;
-    margin: 0;
-    margin-left: 1%;
-  }
-  
-  .nav-bar a {
-    color: white;
-    text-decoration: none;
-    margin: 0 2%;
-    flex-grow: 1;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    min-width: 0; /* Reset the minimum width */
-  }
-  
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background: linear-gradient(to top left, #0f1113, #41464d, #161717); /* Set your gradient colors */
+}
+nav {
+  background-color: #1f1f1f;
+  border-bottom: solid 2px white;
+  padding-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.nav-logo img {
+  width: 270px;
+  max-width: 20%;
+  margin: 0;
+  margin-left: 1%;
+}
+
+.nav-bar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 2%;
+  flex-grow: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.nav-bar {
+  margin-top: 5px;
+  width: 200%;
+  display: flex;
+  font-size: 22px;
+  font-weight: bold;
+  flex-grow: 1;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.nav-bar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 0;
+  flex-grow: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
   .nav-bar {
-    width: 200%;
-    display: flex;
-    font-size: 22px;
-    font-weight: bold;
-    flex-grow: 1;
-    border: solid 2px yellow;
-    flex-wrap: nowrap; /* Prevent wrapping of the links */
-    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    font-size: 16px;
   }
   
   .nav-bar a {
-    color: white;
-    text-decoration: none;
-    margin: 0 0;
     flex-grow: 1;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    min-width: 0;
-    border: solid 2px blue;
   }
-  @media (max-width: 768px) {
-    .nav-bar {
-      font-size: 16px; /* Decrease the font size for smaller screens */
-    }
-    
-    .nav-bar a {
-      flex-grow: 1; /* Prevent the links from growing and wrapping */ /* Set the width to 100% to occupy the available space */
-    }
-  }
+}
+
+.text-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+h1 {
+  font-size: 50px;
+}
+
+h2 {
+  font-size: 25px;
+}
+
+.footer-logo img {
+  width: 10%;
+}
+
+/*---------------coins banner css---------------*/
+
+.banner-container{
+  /* border: solid 2px red; */
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.coin-price{
+  /* border: solid 2px magenta; */
+  display: flex;
+  align-items: center;
+}
+.container .coin-price{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 3px #ccc;
+  margin: 7px;
+}
+
+.banner-container .coin-price .logo{
+  width: 70px;
+  margin-right: 10px;
+}
+.banner-container .coin-price .logo img{
+  width: 50%;
+  display: flex;
+  margin-left: 35px;
+}
+.banner-container .coin-price div{
+  display: block;
   
-  .footer-logo img{
-    width: 10%;
-  }
+}
+.banner-container .coin-price div h1{
+  font-size: 20px;
+}
