@@ -7,35 +7,61 @@ body {
   nav {
     display: flex;
     flex-direction: row; /* Change to row to place the logo and nav-bar side by side */
-    justify-content: space-between; /* Add space between the logo and nav-bar */
     align-items: center;
     border: solid 2px red;
-    width: 100%;
   }
   
   .nav-logo img {
-   width: 8%; /* Adjust the logo width to your preference */
+    width: 270px;
+   max-width: 20%; /* Adjust the logo width to your preference */
     border: solid 2px magenta;
     margin: 0;
     margin-left: 1%;
   }
   
+  .nav-bar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 2%;
+    flex-grow: 1;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    min-width: 0; /* Reset the minimum width */
+  }
+  
   .nav-bar {
-    font-size: 18px; /* Increase the font size to make it larger */
-    font-weight: bold; /* Apply bold style to the font */
-    margin-left: 10%;
-    width: 60%; /* Align the nav-bar more to the left */
+    width: 200%;
+    display: flex;
+    font-size: 22px;
+    font-weight: bold;
+    flex-grow: 1;
     border: solid 2px yellow;
-  }
-  .nav-bar a {
-    color: white; /* Set the font color to white */
-    text-decoration: none; /* Remove the underline */
+    flex-wrap: nowrap; /* Prevent wrapping of the links */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
   }
   
-  
   .nav-bar a {
-    margin: 0 10px; /* Add margin to create space between navigation links */
+    color: white;
+    text-decoration: none;
+    margin: 0 0;
+    flex-grow: 1;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    min-width: 0;
+    border: solid 2px blue;
   }
+  @media (max-width: 768px) {
+    .nav-bar {
+      font-size: 16px; /* Decrease the font size for smaller screens */
+    }
+    
+    .nav-bar a {
+      flex-grow: 1; /* Prevent the links from growing and wrapping */ /* Set the width to 100% to occupy the available space */
+    }
+  }
+  
   .footer-logo img{
     width: 10%;
   }
