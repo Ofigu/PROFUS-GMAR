@@ -39,3 +39,6 @@ body{
 .container .coin-price div h1{
     font-size: 20px;
 }
+.trading-section {
+    margin-top: 20px;
+}
