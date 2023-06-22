@@ -125,23 +125,5 @@ h2 {
 }
 
 /*---------------footer---------------*/
-footer{
-  border: solid 2px red;
-  display: flex;
-  flex-direction: row;
-}
-.main-branch-text{
-  border: solid 2px magenta;
-}
-.iframe{
-  border: solid 2px yellow;
-}
-.contact-form{
-  border: solid 2px blue;
-}
-.footer-form{
-  border: solid 2px green;
-}
-.social-media{
-  border: solid 2px orange;
-}
+/* Main branch text */
+
