@@ -33,7 +33,7 @@ app.use(express.static('USERS'));
 
 // Create a route to serve the HTML file
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + 'register/signup.html');
+  res.sendFile(__dirname + '/register/signup.html');
 });
 
 // Create a route to add a new user
