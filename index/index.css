@@ -123,3 +123,108 @@ h2 {
 .banner-container .coin-price div h1{
   font-size: 20px;
 }
+
+/*---------------footer---------------*/
+
+footer {
+  border-top: solid 2px white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  padding: 20px;
+  background-color: #333;
+}
+
+.main-branch {
+  flex-basis: 100%;
+  font-size: 25px;
+  text-decoration: underline;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.footer-navbar {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.footer-navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-navbar li {
+  display: inline-block;
+}
+
+.footer-navbar a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+}
+
+.footer-logo {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.footer-logo img {
+  width: 50px;
+  height: auto;
+  max-width: 100%;
+}
+
+.main-branch iframe {
+  width: 100%;
+  height: 200px;
+  border: 0;
+}
+
+@media (min-width: 768px) {
+  .main-branch {
+    flex-basis: 30%;
+    margin-bottom: 0;
+    text-align: left;
+  }
+
+  .footer-navbar {
+    flex-basis: 60%;
+    justify-content: flex-end;
+    margin-top: 0;
+  }
+
+  .footer-logo {
+    flex-basis: 10%;
+    justify-content: flex-end;
+    margin-top: 0;
+  }
+
+  .main-branch iframe {
+    height: 300px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .main-branch {
+    flex-basis: 40%;
+  }
+
+  .footer-navbar {
+    flex-basis: 50%;
+  }
+
+  .footer-logo {
+    flex-basis: 10%;
+  }
+}
