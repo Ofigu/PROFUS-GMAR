@@ -28,8 +28,11 @@ const User = mongoose.model('User', {
 // Parse incoming request bodies as JSON
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve static files from the "USERS" directory
-app.use(express.static('USERS'));
+// Serve static files from the "PROFUS-GMAR" directory
+app.use(express.static('PROFUS-GMAR'));
+
+// Serve static files from the "welcome" directory
+app.use(express.static('welcome'));
 
 // Create a route to serve the HTML file
 app.get('/', (req, res) => {
@@ -46,16 +49,20 @@ app.post('/add', async (req, res) => {
       Ballance: req.body.Balance
     });
 
-  try {
-    // Save the user to the database
-    await user.save();
-    console.log('User added successfully');
-    res.redirect('/');
-  } catch (error) {
-    console.error('Error adding user:', error);
-    res.send(error);
-  }
-});
+    try {
+        // Save the user to the database
+        await user.save();
+        console.log('User added successfully');
+      
+        // Redirect the user to another page
+        res.redirect('/welcome.html');
+      } catch (error) {
+        console.error('Error adding user:', error);
+        res.send(error);
+      }
+    });
+
+      
 
 // Start the server
 app.listen(3000, () => {
