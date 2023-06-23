@@ -2,6 +2,10 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   background: linear-gradient(to top left, #0f1113, #41464d, #161717); /* Set your gradient colors */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 nav {
   background-color: #1f1f1f;
@@ -10,6 +14,7 @@ nav {
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 100%;
 }
 
 .nav-logo img {
@@ -62,12 +67,23 @@ nav {
   }
 }
 
+@media (max-width: 400px) {
+  .nav-bar {
+    font-size: 12px;
+  }
+  
+  .nav-bar a {
+    flex-grow: 1;
+  }
+}
+
 .text-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   color: white;
   text-align: center;
+  width: 90%;
 }
 
 h1 {
@@ -82,52 +98,10 @@ h2 {
   width: 10%;
 }
 
-/*---------------coins banner css---------------*/
-
-.banner-container{
-   border: solid 2px red;
-  display: flex;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  color: white;
-}
-.coin-price{
-  border: solid 2px magenta;
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-}
-.container .coin-price{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 3px #ccc;
-  margin: 7px;
-}
-
-.banner-container .coin-price .logo{
-  width: 70px;
-  margin-right: 10px;
-}
-.banner-container .coin-price .logo img{
-  width: 50%;
-  display: flex;
-  margin-left: 35px;
-}
-.banner-container .coin-price div{
-  display: block;
-  
-}
-.banner-container .coin-price div h1{
-  font-size: 20px;
-}
-
 /*---------------footer---------------*/
 /* Footer container */
 footer {
+  width: 100%;
   background-color: rgba(0, 0, 0, 0.4);
   padding: 20px;
   border-top: solid 3px white;
@@ -237,4 +211,10 @@ footer {
   font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important;
   color: #9db2bd !important;
   display: none !important;
+}
+
+.home-graph-container{
+margin-bottom: 50px;
+width: 100%;
+max-width: 1000px;
 }
