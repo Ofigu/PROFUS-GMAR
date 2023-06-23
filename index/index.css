@@ -6,6 +6,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 }
 nav {
   background-color: #1f1f1f;
