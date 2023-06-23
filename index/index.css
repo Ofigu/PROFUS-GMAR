@@ -85,7 +85,7 @@ h2 {
 /*---------------coins banner css---------------*/
 
 .banner-container{
-  /* border: solid 2px red; */
+   border: solid 2px red;
   display: flex;
   box-sizing: border-box;
   justify-content: center;
@@ -93,9 +93,10 @@ h2 {
   color: white;
 }
 .coin-price{
-  /* border: solid 2px magenta; */
+  border: solid 2px magenta;
   display: flex;
   align-items: center;
+  flex-grow: 1;
 }
 .container .coin-price{
   display: flex;
@@ -225,4 +226,15 @@ footer {
   padding: 10px;
   margin-bottom: 10px;
   justify-content: space-evenly;
+}
+
+
+.tradingview-widget-copyright {
+  font-size: 13px !important;
+  line-height: 32px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important;
+  color: #9db2bd !important;
+  display: none !important;
 }
