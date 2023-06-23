@@ -11,6 +11,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+    <video autoplay loop muted plays-inline class="back-video">
+<source src="../homepagevideo.mp4" type="video/mp4">
+    </video>
     <nav>
         <div class="nav-bar">
         <a href="../coin/coin.html">Coins To Trade</a>
@@ -20,62 +23,6 @@
         <a href="../register/signup.html" style="text-decoration: underline;">Sign Up!</a>
         </div>
     </nav>
-    <!-- <div class="banner-container">
-        <div class="coin-price">
-            <div class="logo"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEi32rDKQR2Swi7YfHjDzyZUBGEmxTz77OClnm24SZl7kWuls7fsVCIfAObY_JRJIReQnBWZIPSVfDLSqDvqeu4CCXCoNQIoUGK-OSDUGMtDJFxh9vmU6WGajIgXH4CsR_-sXU0qWbyJTJl7N0BSTB8HcAGSpCJ54G1daZPnU6h2oANo2CTGsbHCoaGJHQ"></div>
-            <div>
-                <h1>$<span id="bitcoin"></span></h1>
-            </div>
-        </div>
-        <div class="coin-price">
-            <div class="logo"><img src="https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png?1644979850"></div>
-            <div>
-                <h1>$<span id="bnb"></span></h1>
-            </div>
-        </div>
-        <div class="coin-price">
-            <div class="logo"><img src="https://assets.coingecko.com/coins/images/975/small/cardano.png?1547034860"></div>
-            <div>
-                <h1>$<span id="cardano"></span></h1>
-            </div>
-        </div>
-        <div class="coin-price">
-            <div class="logo"><img src="https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422"></div>
-            <div>
-                <h1>$<span id="solana"></span></h1>
-            </div>
-        </div>
-        <div class="coin-price">
-            <div class="logo"><img src="https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png?1605778731"></div>
-            <div>
-                <h1>$<span id="xrp"></span></h1>
-            </div>
-        </div>
-        <div class="coin-price">
-            <div class="logo"><img src="https://assets.coingecko.com/coins/images/11939/small/shiba.png?1622619446"></div>
-            <div>
-                <h1>$<span id="shiba-inu"></span></h1>
-            </div>
-        </div>
-        <div class="coin-price">
-            <div class="logo"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEhrUFoHC68rLHQYMV41awqGtoeU6qI-CkSVmcYK-KBCrOvL-jzwLOx8pN-5B8aALsHh1Zc9mmDm8LVQSSpdpsw0v6vrJsv4r9_lv0ic5aYbogc3i3h9mG6ZGMc7g9_cGSRh_soaKmXtpMEOxBFIsmiTa_wticu9T07MbqQ42J9NwowHp8tn8OUIBlhjqA"></div>
-            <div>
-                <h1>$<span id="litecoin"></span></h1>
-            </div>
-        </div>
-        <div class="coin-price">
-            <div class="logo"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEgfcodOJm7ZIXw2kiqdo5abN4cUvFYgyqpKt91zHI8710ltPK5Ny_S5X93w9LSDsF5jW61frn3C8a_8w2GXu4bf0clzxuJljoQ8n6az5EI5zQOcl5W2LScP-1-41NQwPW5A3JWT9EwejtOnHsd3q2-llUsJJQ3Z74v_2FOPn0TrI2529NS9_hmFbvModw"></div>
-            <div>
-                <h1>$<span id="ethereum"></span></h1>
-            </div>
-        </div>
-        <div class="coin-price">
-            <div class="logo"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEj9YzGIFUSMpRoWE4IjGl_o2zpdPkvtUS6jzIgZWEWl7ztYyV20oXu80A52v0R_nXpt_qXVBzxnfse2_pfeIbVHwQSR3oLqqAyMqVqnzJpdbSCBHA2b_zlheiLY3Bb0PYCEXQny7q-FnGE01ZtxVFVC8DbLWW-ZC1PC-gaqL7IC7ZfRxFOZufcv8lcY1g"></div>
-            <div>
-                <h1>$<span id="dogecoin"></span></h1>
-            </div>
-        </div>
-    </div> -->
     <!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container">
     <div class="tradingview-widget-container__widget"></div>
@@ -138,7 +85,7 @@
     ],
     "showSymbolLogo": true,
     "colorTheme": "dark",
-    "isTransparent": true,
+    "isTransparent": false,
     "displayMode": "compact",
     "locale": "en"
   }
