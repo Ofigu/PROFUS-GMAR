@@ -32,7 +32,7 @@
 .top-section{
   width: 100%;
   position: relative;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255 , 255, 255, 0));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255 , 255, 255, 0.1));
   backdrop-filter: blur(10px); 
   -webkit-backdrop-filter: blur(10px);
   border:1px solid rgba(255, 255, 255, 0.05);
@@ -148,7 +148,7 @@ nav {
   max-width: 1500px;
   margin-top: 250px;
   margin-bottom:220px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
   backdrop-filter: blur(10px); 
   -webkit-backdrop-filter: blur(10px);
   border-radius: 20px;
