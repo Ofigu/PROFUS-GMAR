@@ -1,3 +1,8 @@
+*{
+   font-family: 'Poppins', sans-serif;
+   box-sizing: border-box;
+}
+
 #myVideo{
   /* position: absolute;
   bottom: 0;
@@ -27,14 +32,17 @@
 .top-section{
   width: 100%;
   position: relative;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255 , 255, 255, 0));
   backdrop-filter: blur(10px); 
   -webkit-backdrop-filter: blur(10px);
   border:1px solid rgba(255, 255, 255, 0.05);
-
-}
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  }
 
 body {
+  margin: 0;
   font-family: 'Poppins', sans-serif;
   margin: 0;
   /* background: linear-gradient(to top left, #2b2b2b, #183b80, #202020); Set your gradient colors */
@@ -121,7 +129,6 @@ nav {
   }
 }
 @media (max-width: 300px) {
-  
   .nav-bar {
     font-size: 8px;
   }
@@ -137,9 +144,9 @@ nav {
   align-items: center;
   color: white;
   text-align: center;
-  padding: 5px;
-  width: 65%;
-  margin-top: 80px;
+  width: 95%;
+  max-width: 1500px;
+  margin-top: 250px;
   margin-bottom:220px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
   backdrop-filter: blur(10px); 
@@ -165,9 +172,13 @@ nav {
 /* Footer container */
 footer {
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
   padding: 20px;
-  border-top: solid 3px white;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   color: white;
 }
 .social{
@@ -180,7 +191,7 @@ footer {
 .social-media {
   width: 100%; /* Set the desired width of your container */
   max-width: 700px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25));
   /* backdrop-filter: blur(10px); */
   /* -webkit-backdrop-filter: blur(10px); */
   border-radius: 20px;
@@ -218,9 +229,14 @@ footer {
   margin-top: 10px;
 }
 
+input::placeholder , textarea::placeholder{
+  color: white;
+
+}
+
 .footer-form input,
 .footer-form textarea {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25));
   /* backdrop-filter: blur(10px); */
   /* -webkit-backdrop-filter: blur(10px); */
   text-align: center;
@@ -231,6 +247,7 @@ footer {
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 6px;
+  font-size: 20px;
 }
 
 .footer-form button {

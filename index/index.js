@@ -49,3 +49,4 @@ window.addEventListener('DOMContentLoaded', function() {
       op += op * 0.1; // Adjust the fade-in speed here
     }, 10); // Adjust the interval (in milliseconds) between opacity changes here
   }
+/*top section opacity-------------*/
