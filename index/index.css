@@ -127,8 +127,8 @@ nav {
   width: 100%;
   position: relative;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255 , 255, 255, 0.1));
-  backdrop-filter: blur(10px); 
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(25px); 
+  -webkit-backdrop-filter: blur(25);
   border:1px solid rgba(255, 255, 255, 0.05);
   position: fixed;
   top: 0;
@@ -152,8 +152,8 @@ nav {
   margin-top: 250px;
   margin-bottom:200px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
-  backdrop-filter: blur(10px); 
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(25px); 
+  -webkit-backdrop-filter: blur(25px);
   border-radius: 20px;
   border:1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
@@ -178,8 +178,8 @@ nav {
 
 .tradingview-widget-container{
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   border-radius: 20px;
   border:1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
@@ -196,9 +196,8 @@ footer {
   width: 100%;
   padding: 20px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 20px;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   border:1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   color: white;
