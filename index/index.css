@@ -2,7 +2,6 @@
    font-family: 'Poppins', sans-serif;
    box-sizing: border-box;
 }
-
 #myVideo{
   /* position: absolute;
   bottom: 0;
@@ -29,18 +28,6 @@
     height: 100%;
   }
 }
-.top-section{
-  width: 100%;
-  position: relative;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255 , 255, 255, 0.1));
-  backdrop-filter: blur(10px); 
-  -webkit-backdrop-filter: blur(10px);
-  border:1px solid rgba(255, 255, 255, 0.05);
-  position: fixed;
-  top: 0;
-  z-index: 1;
-  }
-
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -49,7 +36,6 @@ body {
   background-color: black;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   overflow-x: hidden;
 }
@@ -137,6 +123,23 @@ nav {
     flex-grow: 1;
   }
 }
+.top-section{
+  width: 100%;
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255 , 255, 255, 0.1));
+  backdrop-filter: blur(10px); 
+  -webkit-backdrop-filter: blur(10px);
+  border:1px solid rgba(255, 255, 255, 0.05);
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  }
+
+  .table-container{
+    margin-top: 500px;
+    margin-bottom:150px;
+    max-width: 1490px;
+  }
 
 .text-box {
   display: flex;
@@ -147,7 +150,7 @@ nav {
   width: 95%;
   max-width: 1500px;
   margin-top: 250px;
-  margin-bottom:300px;
+  margin-bottom:200px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
   backdrop-filter: blur(10px); 
   -webkit-backdrop-filter: blur(10px);
@@ -168,6 +171,25 @@ nav {
   width: 10%;
 }
 }
+
+
+
+/*---------------widget container---------------*/
+
+.tradingview-widget-container{
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  max-width: 1490px;
+  margin: 50px;
+}
+
+
+
+
 /*---------------footer---------------*/
 /* Footer container */
 footer {
@@ -290,10 +312,4 @@ input::placeholder , textarea::placeholder{
   font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important;
   color: #9db2bd !important;
   display: none !important;
-}
-
-.home-graph-container{
-margin-bottom: 50px;
-width: 100%;
-max-width: 1490px;
 }
