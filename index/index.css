@@ -1,17 +1,25 @@
-.back-video{
-  position: absolute;
+#myVideo{
+  /* position: absolute;
   bottom: 0;
+  z-index: -1; */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
   z-index: -1;
+  
 }
 
 @media(min-aspect-ratio:16/9){
-  .back-video{
+  #myVideo{
     width: 100%;
     height: auto;
   }
 }
 @media(max-aspect-ratio:16/9){
-  .back-video{
+  #myVideo{
     width: auto;
     height: 100%;
   }
@@ -29,7 +37,8 @@
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
-  background: linear-gradient(to top left, #2b2b2b, #183b80, #202020); /* Set your gradient colors */
+  /* background: linear-gradient(to top left, #2b2b2b, #183b80, #202020); Set your gradient colors */
+  background-color: black;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -112,9 +121,7 @@ nav {
   }
 }
 @media (max-width: 300px) {
-  .text-box{
-    font-size: 9px;
-  }
+  
   .nav-bar {
     font-size: 8px;
   }

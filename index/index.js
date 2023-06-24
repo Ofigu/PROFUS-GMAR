@@ -28,3 +28,23 @@ $.ajax(liveprice).done(function (response){
     sol.innerHTML = response.solana.usd;
     shib.innerHTML = response["shiba-inu"].usd;
 });
+
+/*background video-----------------*/
+
+window.addEventListener('DOMContentLoaded', function() {
+    var video = document.getElementById('myVideo');
+    video.addEventListener('canplay', function() {
+      fadeIn(video);
+    }, false);
+  });
+  
+  function fadeIn(element) {
+    var op = 0.01;  // Initial opacity
+    var timer = setInterval(function () {
+      if (op >= 1) {
+        clearInterval(timer);
+      }
+      element.style.opacity = op;
+      op += op * 0.1;  // Adjust the fade-in speed here
+    }, 10);  // Adjust the interval (in milliseconds) between opacity changes here
+  }
