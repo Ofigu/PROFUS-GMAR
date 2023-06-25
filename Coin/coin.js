@@ -21,7 +21,7 @@ $.ajax(liveprice).done(function (response){
 });
 
 
-<!-- trading test -->
+// <!-- trading test -->
 function updateBalance(action, coin, amount) {
     var balanceElement = document.getElementById('balance');
     var currentBalance = parseFloat(balanceElement.innerText);

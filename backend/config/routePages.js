@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const path = require('path'); // Add this line to include the path module
 const User = require('../models/user');
+const Coin = require('../models/coin');
 
 
-router.post('/add', async (req, res) => {
+router.post('/addUser', async (req, res) => {
     const user = new User({
       FirstName: req.body.FirstName,
       LastName: req.body.LastName,
@@ -26,8 +27,35 @@ router.post('/add', async (req, res) => {
     }
   });
 
+  router.post('/addCoin', async (req, res) => {
+    const coin = new Coin({
+      CoinName: req.body.CoinName,
+      Price: req.body.Price,
+      Recommended: req.body.Recommended || false,
+      AltCoin: req.body.AltCoin || false,
+      ProofOfWork: req.body.ProofOfWork || false,
+      ImageOfCoin: req.body.ImageOfCoin
+    });
+  
+    try {
+      // Save the user to the database
+      await coin.save();
+      console.log('Coin added successfully');
+  
+      // Redirect the user to another page
+      res.redirect('/welcome');
+    } catch (error) {
+      console.error('Error adding coin:', error);
+      res.send(error);
+    }
+  });
+
 router.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, '../../views', 'login.html'));
+});
+
+router.get('/Coin', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../views', 'addCoin.html'));
 });
 
 router.get('/signup', function (req, res) {

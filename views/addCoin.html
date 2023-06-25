@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Coin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      width: 400px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    input[type="checkbox"] {
+      margin-top: 5px;
+    }
+
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Add Coin</h1>
+  <form action="/addCoin" method="POST">
+    <div class="form-group">
+      <label for="coinName">Coin Name:</label>
+      <input type="text" id="coinName" name="CoinName" required>
+    </div>
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input type="number" id="price" name="Price">
+    </div>
+    <div class="form-group">
+      <label for="recommended">Recommended:</label>
+      <input type="checkbox" id="recommended" name="Recommended" value="true">
+    </div>
+    <div class="form-group">
+      <label for="altCoin">Alt Coin:</label>
+      <input type="checkbox" id="altCoin" name="AltCoin" value="true">
+    </div>
+    <div class="form-group">
+      <label for="proofOfWork">Proof of Work:</label>
+      <input type="checkbox" id="proofOfWork" name="ProofOfWork" value="true">
+    </div>
+    <div class="form-group">
+      <label for="imageOfCoin">Link to an image of the coin</label>
+      <input type="text" id="imageOfCoin" name="ImageOfCoin" required>
+    </div>
+    <div class="form-group">
+      <input type="submit" value="Add Coin">
+    </div>
+  </form>
+</body>
+</html>
