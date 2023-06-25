@@ -38,5 +38,20 @@ router.get('/welcome', function (req, res) {
     res.sendFile(path.join(__dirname, '../../views', 'welcome.html'));
 });
 
+router.get('/portfolio', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../views', 'portfolio.html'));
+});
+
+router.get('/coin', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../views', 'coin.html'));
+});
+
+router.get('/converter', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../views', 'converter.html'));
+});
+
+router.get('/watchlist', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../views', 'watchlist.html'));
+});
 
 module.exports = router;
