@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Trade - Kanoni Coin</title>
+  <style>
+    /* Add your custom CSS styles here */
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Include your site's header/navigation here -->
+  </header>
+
+  <main>
+    <section>
+      <h1>Trade Cryptocurrencies</h1>
+      <p>Buy your favorite cryptocurrencies securely and conveniently.</p>
+
+      <div>
+        <h2>Available Coins</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Coin Name</th>
+              <th>Price</th>
+              <th>Buy Quantity</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dynamically generate the table rows based on the coins in the database -->
+            <% coins.forEach(function(coin) { %>
+            <tr>
+              <td><%= coin.CoinName %></td>
+              <td><%= coin.Price %></td>
+              <td>
+                <input type="number" name="quantity-<%= coin._id %>" min="0" step="1">
+              </td>
+              <td>
+                <button onclick="buyCoin('<%= coin._id %>')">Buy</button>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <!-- Include your site's footer here -->
+  </footer>
+
+  <script>
+    // JavaScript function to handle the buy button click event
+    function buyCoin(coinId) {
+      const quantity = document.querySelector(`input[name="quantity-${coinId}"]`).value;
+      
+      // Perform the necessary logic to handle the buy action
+      // You can use JavaScript frameworks or make AJAX requests to the server for processing the purchase
+
+      // Example AJAX request using Fetch API
+      fetch('/buyCoin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          coinId: coinId,
+          quantity: quantity
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response from the server
+        // You can display a success message or update the UI accordingly
+      })
+      .catch(error => {
+        // Handle any errors that occurred during the request
+        console.error('Error:', error);
+      });
+    }
+  </script>
+</body>
+</html>
