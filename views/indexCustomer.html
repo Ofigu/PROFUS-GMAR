@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanoni-Coin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+<style>
+
+*{
+   font-family: 'Poppins', sans-serif;
+   box-sizing: border-box;
+}
+#myVideo{
+  /* position: absolute;
+  bottom: 0;
+  z-index: -1; */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: -1;
+  filter: brightness(80%);
+  
+}
+
+@media(min-aspect-ratio:16/9){
+  #myVideo{
+    width: 100%;
+    height: auto;
+  }
+}
+@media(max-aspect-ratio:16/9){
+  #myVideo{
+    width: auto;
+    height: 100%;
+  }
+}
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  /* background: linear-gradient(to top left, #2b2b2b, #183b80, #202020); Set your gradient colors */
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+nav {
+  background-color: transparent;
+  border-bottom: solid 2px white;
+  padding-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-logo img {
+  width: 270px;
+  max-width: 20%;
+  margin: 0;
+  margin-left: 1%;
+}
+
+.nav-bar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 2%;
+  flex-grow: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.nav-bar {
+  margin-top: 5px;
+  width: 100%;
+  display: flex;
+  font-size: 22px;
+  font-weight: bold;
+  flex-grow: 1;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.nav-bar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 0;
+  flex-grow: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .text-box{
+    font-size: 12px;
+  }
+  .nav-bar {
+    font-size: 16px;
+  }
+  
+  .nav-bar a {
+    flex-grow: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-box{
+    font-size: 10px;
+  }
+  .nav-bar {
+    font-size: 9px;
+  }
+  
+  .nav-bar a {
+    flex-grow: 1;
+  }
+}
+@media (max-width: 300px) {
+  .nav-bar {
+    font-size: 8px;
+  }
+  
+  .nav-bar a {
+    flex-grow: 1;
+  }
+}
+.top-section{
+  width: 100%;
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255 , 255, 255, 0.1));
+  backdrop-filter: blur(25px); 
+  -webkit-backdrop-filter: blur(25);
+  border:1px solid rgba(255, 255, 255, 0.05);
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  }
+
+  .table-container{
+    margin-top: 500px;
+    margin-bottom:150px;
+    max-width: 1490px;
+  }
+
+.text-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-align: center;
+  width: 95%;
+  max-width: 1500px;
+  margin-top: 250px;
+  margin-bottom:200px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
+  backdrop-filter: blur(25px); 
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+.title {
+  font-size: 50px;
+  font-weight:700;
+}
+
+.under-text {
+  font-size: 40px;
+  font-weight:700;
+}
+
+.footer-logo img {
+  width: 10%;
+}
+}
+
+
+
+/*---------------widget container---------------*/
+
+.tradingview-widget-container{
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  max-width: 1490px;
+  margin: 60px;
+}
+
+
+
+
+/*---------------footer---------------*/
+/* Footer container */
+footer {
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border:1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  color: white;
+}
+.social{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Social media section */
+.social-media {
+  width: 100%; /* Set the desired width of your container */
+  max-width: 700px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25));
+  /* backdrop-filter: blur(10px); */
+  /* -webkit-backdrop-filter: blur(10px); */
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+}
+
+.social-media p {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 550;
+}
+
+.social-buttons-frame {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.social-buttons-frame a {
+  width: 10%;
+  margin-left: 20px;
+}
+
+/* Contact form section */
+.contact-form {
+  text-align: center;
+  margin-bottom: 20px;
+  max-width: 350px;
+}
+
+.footer-form {
+  margin-top: 10px;
+}
+
+input::placeholder , textarea::placeholder{
+  color: white;
+
+}
+
+.footer-form input,
+.footer-form textarea {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25));
+  text-align: center;
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  font-size: 20px;
+}
+
+.footer-form button {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 15px;
+}
+
+/* Main branch section */
+.main-branch-text {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Maps iframes */
+.iframe {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.iframe iframe {
+  margin-bottom: 20px;
+  max-width: 100%;
+  height: auto;
+}
+.social-media img{
+  flex-grow: 1;
+  width: 100%;
+}
+
+.tradingview-widget-copyright {
+  font-size: 13px !important;
+  line-height: 32px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important;
+  color: #9db2bd !important;
+  display: none !important;
+}
+
+
+
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <video autoplay loop muted plays-inline id="myVideo">
+<source src="resources/homepagevideo.mp4" type="video/mp4">
+    </video>
+    <div class="top-section">
+    <nav>
+        <div class="nav-bar">
+        <a href="/portfolio">My Portfolio</a>
+        <a href="/trade">Trade</a>                                   
+        <a href="/about">About us</a>
+        <a style="text-decoration: underline;">Welcome, *customer name*</a>
+        </div>
+    </nav>
+    <!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
+
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {
+    "symbols": [
+      {
+        "proName": "FX_IDC:EURUSD",
+        "title": "EUR/USD"
+      },
+      {
+        "proName": "BITSTAMP:BTCUSD",
+        "title": "Bitcoin"
+      },
+      {
+        "proName": "BITSTAMP:ETHUSD",
+        "title": "Ethereum"
+      },
+      {
+        "description": "",
+        "proName": "BINANCE:BNBUSD"
+      },
+      {
+        "description": "",
+        "proName": "BITSTAMP:XRPUSD"
+      },
+      {
+        "description": "",
+        "proName": "BINANCE:DOGEUSD"
+      },
+      {
+        "description": "",
+        "proName": "BINANCE:ADAUSD"
+      },
+      {
+        "description": "",
+        "proName": "COINBASE:SHIBUSD"
+      },
+      {
+        "description": "",
+        "proName": "BITRUE:AVAXUSDC"
+      },
+      {
+        "description": "",
+        "proName": "BINANCE:SOLUSD"
+      },
+      {
+        "description": "",
+        "proName": "SAXO:LTCUSD"
+      },
+      {
+        "description": "",
+        "proName": "BINANCE:SANDUSD"
+      },
+      {
+        "description": "",
+        "proName": "OKX:MATICUSDC"
+      }
+    ],
+    "showSymbolLogo": true,
+    "colorTheme": "dark",
+    "isTransparent": true,
+    "displayMode": "compact",
+    "locale": "en"
+  }
+    </script>
+  </div>
+  <!-- TradingView Widget END -->
+    <div class="text-box">
+    <p>
+        <p class="title">Weclome To Kanoni-Coin</p>
+        <img src="resources/logo.png" alt="" style="width: 8%;">
+        <p class="under-text">the chipest crypto marketplace in the colman collage!.</p>
+        <p class="under-text">Here you can find all sorts of coins to buy, sell, and lose money on.
+        </p>
+        <h2>join us for the ride all the way to the future.</h2>
+        </p>
+    </div>
+    
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+  {
+  "symbols": [
+    [
+      "BITSTAMP:BTCUSD|1D"
+    ],
+    [
+      "BITSTAMP:ETHUSD|1D"
+    ],
+    [
+      "BINANCE:BNBUSD|1D"
+    ],
+    [
+      "BINANCE:SOLUSD|1D"
+    ],
+    [
+      "BINANCE:DOGEUSD|1D"
+    ],
+    [
+      "BITSTAMP:XRPUSD|1D"
+    ],
+    [
+      "COINBASE:ADAUSD|1D"
+    ],
+    [
+      "COINBASE:MATICUSD|1D"
+    ],
+    [
+      "COINBASE:SHIBUSD|1D"
+    ],
+    [
+      "TVC:VIX|1D"
+    ],
+    [
+      "AMEX:BITO|1D"
+    ]
+  ],
+  "chartOnly": false,
+  "width": "100%",
+  "height": "700",
+  "locale": "en",
+  "colorTheme": "dark",
+  "autosize": false,
+  "showVolume": false,
+  "showMA": false,
+  "hideDateRanges": false,
+  "hideMarketStatus": false,
+  "hideSymbolLogo": false,
+  "scalePosition": "right",
+  "scaleMode": "Normal",
+  "fontFamily": "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
+  "fontSize": "12",
+  "noTimeScale": false,
+  "valuesTracking": "1",
+  "changeMode": "price-and-percent",
+  "chartType": "area",
+  "fontColor": "rgba(255, 255, 255, 1)",
+  "backgroundColor": "rgba(19, 23, 34, 0)",
+  "widgetFontColor": "rgba(255, 255, 255, 1)",
+  "lineWidth": 2,
+  "lineType": 0,
+  "dateRanges": [
+    "1d|1",
+    "1m|30",
+    "3m|60",
+    "12m|1D",
+    "60m|1W",
+    "all|1M"
+  ]
+}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+
+  <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+  {
+  "width": "100%",
+  "height": "700",
+  "defaultColumn": "overview",
+  "screener_type": "crypto_mkt",
+  "displayCurrency": "USD",
+  "colorTheme": "dark",
+  "locale": "en",
+  "isTransparent": true
+}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+
+
+    <footer>
+        <div class="social">
+        <div class="social-media">
+            
+            <div class="social-buttons-frame">
+                <p>Come and say hello:</p>
+            <a href="https://www.facebook.com" target="_blank"><img src="resources/facebook.png" alt=""></a>
+            <a href="https://www.instagram.com" target="_blank"><img src="resources/instagram.png" alt=""></a>
+            </div>
+          </div>
+        <div class="contact-form">
+          <h3>Contact Us</h3>
+          <form class="footer-form">
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+            <textarea placeholder="Message"></textarea>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+    </div>
+        <div class="main-branch-text">
+            <h2>International HQ</h2>
+            </div>
+            <div class="iframe">
+                <div>
+                <h2>Israel</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3385.3948839848267!2d34.800039276169805!3d31.950182274020182!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4c9cd7a12f09%3A0xc5b56bf32533aeb9!2z15DXmdeg15jXqNeQ16fXmNeZ15Eg15nXqdeo15DXnCB8INeQ15nXoNeY16jXkNen15jXmdeRINeR16jXlden16jXoSB8INee16HXl9eoINei16bXnteQ15kg15HXqdeV16cg15TXlNeV158!5e0!3m2!1sen!2sil!4v1687354003537!5m2!1sen!2sil" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div>
+            <h2>Cayman Islands</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d698798.9087018352!2d-80.57190151138839!3d19.391801001093068!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sthe%20Cayman%20Islands!5e0!3m2!1siw!2sil!4v1687430123017!5m2!1siw!2sil" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div>
+            <h2>Profus</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d47936341.52869324!2d152.6552161!3d42.8347941!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389eb61104669de9%3A0x72861b32f26ddc9a!2sProfus!5e0!3m2!1siw!2sil!4v1687430170843!5m2!1siw!2sil" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+      </footer>
+      
+<script>
+
+var btc = document.getElementById("bitcoin");
+var ltc = document.getElementById("litecoin");
+var eth = document.getElementById("ethereum");
+var doge = document.getElementById("dogecoin");
+var bnb = document.getElementById("bnb");
+var ada = document.getElementById("cardano");
+var sol = document.getElementById("solana");
+var xrp = document.getElementById("xrp");
+var shib = document.getElementById("shibainu");
+
+var liveprice = {
+    "async": true,
+    "scroosDomain": true,
+    "url": "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Clitecoin%2Cethereum%2Cdogecoin%2Cbinancecoin%2Cxrp%2Ccardano%2Cavalanche&vs_currencies=usd",
+
+    "method": "GET",
+    "headers": {}
+}
+
+$.ajax(liveprice).done(function (response){
+    btc.innerHTML = response.bitcoin.usd;
+    ltc.innerHTML = response.litecoin.usd;
+    eth.innerHTML = response.ethereum.usd;
+    doge.innerHTML = response.dogecoin.usd;
+    bnb.innerHTML = response.binancecoin.usd;
+    xrp.innerHTML = response.xrp.usd;
+    ada.innerHTML = response.cardano.usd;
+    sol.innerHTML = response.solana.usd;
+    shib.innerHTML = response["shiba-inu"].usd;
+});
+
+/*background video-----------------*/
+
+window.addEventListener('DOMContentLoaded', function() {
+    var video = document.getElementById('myVideo');
+    video.addEventListener('loadeddata', function() {
+      fadeInOnce(video); // Call the modified fade-in function
+    }, false);
+  });
+  
+  function fadeInOnce(element) {
+    var op = 0.01; // Initial opacity
+    var timer = setInterval(function() {
+      if (op >= 1) {
+        clearInterval(timer);
+        element.removeEventListener('loadeddata', fadeInOnce); // Remove the event listener after fading in
+      }
+      element.style.opacity = op;
+      op += op * 0.1; // Adjust the fade-in speed here
+    }, 10); // Adjust the interval (in milliseconds) between opacity changes here
+  }
+/*top section opacity-------------*/
+
+</script>
+</body>
+</html>
