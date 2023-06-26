@@ -20,14 +20,14 @@
     justify-content: left;
     margin: 18%;
     margin-top: 16%;
-    width: 10%;
+    width: 12%;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
     backdrop-filter: blur(10px); 
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
     border:1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-    scale: 2.5;
+    scale: 2;
     padding: 30px;
     text-align: center;
 }
@@ -84,7 +84,7 @@ input::placeholder{
     box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
 }
 .image{
-    background-image: url('../views/resources/signup-background.jpg'); /* Specify the path to your image file */
+    background-image: url('resources/signup-background.jpg'); /* Specify the path to your image file */
     background-size: cover;
   background-repeat: no-repeat;
   position: fixed;
@@ -93,7 +93,6 @@ input::placeholder{
 }
 </style>
 <div class="image">
-    <h1>Sign up</h1>
     <div class="container">
         <form action="http://localhost:3300/add" method="post">
             <input type="text" name="First name" placeholder="First name" required><br><br>
@@ -103,9 +102,9 @@ input::placeholder{
             <input type="number" name="Balance" placeholder="    Cash Balance" required><br><br>
             <input type="submit" value="Sign Up" id="signup-button">
         </form>
-        <p>Already have an account? <a href="../login/login.html">log in here</a></p>
+        <p>Already have an account? <a href="/login">log in here</a></p>
         <br>
-        <p style="font-size: 10px;">Go back to <a href="../views/index.html">Home page</a></p>
+        <p style="font-size: 10px;">Go back to <a href="/index">Home page</a></p>
     </div>
 </body>
 </div>
