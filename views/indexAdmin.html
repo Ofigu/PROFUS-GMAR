@@ -341,8 +341,20 @@ input::placeholder , textarea::placeholder{
         <a href="/converter">Delete Coins</a>
         <a href="/Coin">Add coins</a>
         <a href="/portfolio">Manage coins</a>
-        <a style="text-decoration: underline;">Welcome, *customer name*</a>
+        <a style="text-decoration: underline;" id="welcome-message">Welcome, <span id="customer-name"></span></a>
         </div>
+      </nav>
+      
+      <script>
+        // Retrieve the customer's first name from the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const firstName = urlParams.get('firstName');
+      
+        // Update the HTML content with the customer's first name
+        const customerNameElement = document.getElementById('customer-name');
+        customerNameElement.textContent = firstName;
+      </script>
+      
     </nav>
     <!-- TradingView Widget BEGIN -->
     <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>

@@ -337,14 +337,26 @@ input::placeholder , textarea::placeholder{
 <source src="resources/homepagevideo.mp4" type="video/mp4">
     </video>
     <div class="top-section">
-    <nav>
+      <nav>
         <div class="nav-bar">
-        <a href="/about">About us</a>
-        <a href="/trade">Trade</a>                                   
-        <a href="/portfolio">Portfolio</a>
-        <a style="text-decoration: underline;">Welcome, *customer name*</a>
+          <a href="/about">About us</a>
+          <a href="/trade">Trade</a>                                   
+          <a href="/portfolio">Portfolio</a>
+          <a style="text-decoration: underline;" id="welcome-message">Welcome, <span id="customer-name"></span></a>
         </div>
-    </nav>
+      </nav>
+      
+      <script>
+        // Retrieve the customer's first name from the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const firstName = urlParams.get('firstName');
+      
+        // Update the HTML content with the customer's first name
+        const customerNameElement = document.getElementById('customer-name');
+        customerNameElement.textContent = firstName;
+      </script>
+
+
     <!-- TradingView Widget BEGIN -->
     <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
 
