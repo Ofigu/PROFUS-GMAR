@@ -160,7 +160,7 @@ nav {
   align-items: center;
   color: white;
   text-align: center;
-  width: 95%;
+  width: 90%;
   max-width: 1150px;
   margin-top: 170px;
   margin-bottom:160px;
@@ -205,10 +205,11 @@ nav {
   }
 
 }
-@media (max-width: 600px) {
+@media (max-width: 750px) {
   .text-box{
-    margin-bottom: 200px;
-    max-width: 400px;
+    margin-top: 200px;
+    margin-bottom: 180px;
+    max-width: 650px;
   }
   .text-box  .title{
     font-size: 35px;
@@ -248,21 +249,31 @@ footer {
 }
 .social{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
 }
 
 /* Social media section */
 .social-media {
   width: 100%; /* Set the desired width of your container */
-  max-width: 700px;
+  max-width: 550px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25));
   /* backdrop-filter: blur(10px); */
   /* -webkit-backdrop-filter: blur(10px); */
   border-radius: 20px;
   border:1px solid rgba(255, 255, 255, 0);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  margin-right: 150px;
 
+}
+@media (max-width: 1096px){
+  .social{
+    flex-direction: column;
+  }
+  .social-media{
+    margin-left: 145px;
+  }
 }
 
 .social-media p {
@@ -498,7 +509,7 @@ input::placeholder , textarea::placeholder{
     ]
   ],
   "chartOnly": false,
-  "width": "90%",
+  "width": "100%",
   "height": "700",
   "locale": "en",
   "colorTheme": "dark",
@@ -540,7 +551,7 @@ input::placeholder , textarea::placeholder{
   <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
   <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
   {
-  "width": "90%",
+  "width": "100%",
   "height": "700",
   "defaultColumn": "overview",
   "screener_type": "crypto_mkt",
