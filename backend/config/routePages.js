@@ -3,13 +3,14 @@ const router = express.Router();
 const path = require('path'); // Add this line to include the path module
 const User = require('../models/user');
 const Coin = require('../models/coin');
+const { get } = require('http');
 
 
 router.post('/addUser', async (req, res) => {
     const user = new User({
       FirstName: req.body.FirstName,
       LastName: req.body.LastName,
-      Username: req.body.Username,
+      UserName: req.body.UserName,
       Password: req.body.Password,
       Balance: req.body.Balance
     });
@@ -52,20 +53,31 @@ router.post('/addUser', async (req, res) => {
 
 
   router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-  
-    // Authenticate user credentials
-    const loguser = await db.collection('users').findOne({ username, password });
-  
-    if (loguser) {
-      // Retrieve user's role based on username and ID
-      if (loguser.id === '6495dc17e83ddba6c27287f6') {
-        res.redirect('/admin'); // Redirect to admin index page
+    const username = req.body.Username;
+    const password = req.body.Password;
+    console.log(username);
+    console.log(password);
+      
+    try {
+      // Find the user in the database based on the provided username
+      const loguser = await User.findOne({ UserName: username , Password: password});
+      console.log(loguser);
+    
+      if (loguser) {
+        // Retrieve user's role based on username and ID
+        if (loguser.id === '6495dc17e83ddba6c27287f6') {
+          res.redirect('/admin'); // Redirect to admin index page
+        }
+        
+        else {
+          res.redirect('/customer'); // Redirect to customer index page
+        }
       } else {
-        res.redirect('/customer'); // Redirect to customer index page
+        console.log('No such user'); // Handle invalid credentials or other error
       }
-    } else {
-      console.log('No such user'); // Handle invalid credentials or other error
+    } catch (error) {
+      console.error('Error during login:', error);
+      res.send(error);
     }
   });
 
