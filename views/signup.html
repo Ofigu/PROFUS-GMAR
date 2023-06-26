@@ -27,8 +27,8 @@ body{
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
-    backdrop-filter: blur(25px); 
-    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(60px); 
+    -webkit-backdrop-filter: blur(60px);
     border-radius: 20px;
     border:1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
@@ -62,12 +62,12 @@ body{
     color: rgba(255, 255, 255, 0.9);
     font-size: 20px;
     height: 30px;
-    width: 100%;
+    width: 90%;
     padding-top: 4px;
     margin-top: 5px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-    backdrop-filter: blur(35px); 
-    -webkit-backdrop-filter: blur(35px);
+    backdrop-filter: blur(80px); 
+    -webkit-backdrop-filter: blur(80px);
     border-radius: 20px;
     border:1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
@@ -78,7 +78,6 @@ body{
 }
 
 .container input:focus{
-   scale: 1.1;
    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
 }
 input::placeholder{
@@ -95,6 +94,9 @@ input::placeholder{
     font-size: 20px;
     height: 35px;
     cursor: pointer;
+}
+#signup-button:focus{
+    background-color: rgb(84, 190, 84);
 }
 
 .container p{
@@ -113,7 +115,7 @@ input::placeholder{
 }
 
 #signup-button:hover{
-    width: 70%;
+    width: 65%;
     font-size: 27px;
     height: 45px;
     box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
