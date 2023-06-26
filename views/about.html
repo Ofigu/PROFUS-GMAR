@@ -3,113 +3,172 @@
 <head>
   <title>About Us</title>
   <style>
-    *{
-    font-family: sans-serif;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-body{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100vh;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    background: url('/resources/signup-background.jpg');
+    .image {
+      background-image: url('resources/signup-background.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-position: right;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    * {
+      font-family: sans-serif;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      color: white;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100vh;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      
+    }
+    ul {
+    list-style-position: inside;
+    padding-left: 0;
+  }
+
+  ul li {
+    margin-left: 250px;
+    text-align: left;
+    text-indent: -1em;
+    padding-left: 1em;
+  }
+
+    .team-contaner {
+      margin-top: 40px;
+      width: 55%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(160px);
+      -webkit-backdrop-filter: blur(160px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      padding-top: 80px;
+      box-shadow: 0 0 4px #ccc;
+    }
+
+    .tm-btn {
+      position: absolute;
+      top: -30px;
+      margin: 0 auto;
+      background: linear-gradient(45deg, rgb(0, 115, 255), rgb(0, 34, 255));
+      padding: 10px 20px;
+      border-radius: 5px;
+      color: white;
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: bold;
+      box-shadow: 0 0 3px #ccc;
+    }
+
+    .team-box {
+  width: 25%; /* Set a percentage value for the width */
+  height: 200px;
+  margin: 5px;
 }
 
-.team-contaner{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align:center ;
-    position: relative;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-        backdrop-filter: blur(35px); 
-        -webkit-backdrop-filter: blur(35px);
-        border-radius: 20px;
-        border:1px solid rgba(255, 255, 255, 0.05);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-    padding: 30px;
-    border-radius: 10px;
-    padding-top: 80px;
-    box-shadow: 0 0 4px #ccc;
-   
+    .team-box .team-img {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-
+    .team-box .team-img img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(160px);
+  -webkit-backdrop-filter: blur(160px);
+  border: 2px solid rgba(255, 255, 255, 1);
+  overflow: hidden;
 }
-
-.tm-btn{
-    position: absolute;
-    top: -30px;
-    margin: 0 auto;
-    background: linear-gradient(45deg, orange,yellow);
-    padding:10px 20px ;
-    border-radius: 5px;
-    color: #000;
-    font-size: 2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: bold;
-    box-shadow: 0 0 3px #ccc;
+    .team-img {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
 }
-.team-box{
-    width: 200px;
-    height: 200px;
-    margin: 5px;
-}
-.team-box .team-img{
-    width: 190px;
-    height: 190px;
-   
-   
-}
-.team-img img{
-    width: 100%;
-    border-radius: 50%;
-    border: solid 5px white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
+.team-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.team-box:hover .team-img img{
-    transform: scale(1.1);
-    transition: 0.5s;
-}
+    .team-box .team-name {
+      color: white;
+      margin-top: 10px;
+      font-size: 20px;
+    }
 
+    .text {
+      text-align: center;
+      padding: 40px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      width: 90%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(160px);
+      -webkit-backdrop-filter: blur(160px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    }
+    h2{
+      text-decoration: underline;
+    }
 
-.team-box .team-name{
-    color: #afafaf;
-    margin-top:-10px;
-}
+    .title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      width: 38%;
+      height: 50px;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(160px);
+      -webkit-backdrop-filter: blur(160px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+      font-size: 25px;
+    }
   </style>
 </head>
+<div class="image">
 <body>
-  <header>
-    <!-- Include your site's header/navigation here -->
-  </header>
-
-  <main>
-    <section>
-      <h1>About Kanoni Coin</h1>
+  <h1 class="title">About Kanoni Coin And The Kanoni-Coin Vision</h1>
+  <div class="text">
       <p>Welcome to Kanoni Coin, your trusted destination for all things related to cryptocurrencies and blockchain technology. We aim to provide a seamless and secure platform for buying, selling, and trading cryptocurrencies, as well as access to valuable information and resources for crypto enthusiasts.</p>
-
+      <br>
       <h2>Our Mission</h2>
       <p>At Kanoni Coin, our mission is to empower individuals and businesses to participate in the digital economy by offering a wide range of cryptocurrencies and services. We believe that cryptocurrencies and blockchain technology have the potential to revolutionize finance and various industries, and we are dedicated to helping our customers navigate this exciting and evolving landscape.</p>
-
-      <h2>Our Services</h2>
-      <ul>
-        <li>Buy and sell popular cryptocurrencies, including Bitcoin, Ethereum, and more.</li>
-        <li>Secure and user-friendly online wallet for storing and managing your digital assets.</li>
-        <li>Real-time market data and charts to keep you informed about the latest trends.</li>
-        <li>Educational resources, guides, and expert analysis to help you make informed investment decisions.</li>
-        <li>24/7 customer support to assist you with any inquiries or issues.</li>
-      </ul>
-
+      <br>
       <h2>Why Choose Kanoni Coin?</h2>
-      <p>When it comes to cryptocurrency transactions, security, reliability, and transparency are of utmost importance. Here's why you should choose Kanoni Coin:</p>
+      <h3>When it comes to cryptocurrency transactions, security, reliability, and transparency are of utmost importance. Here's why you should choose Kanoni Coin:</h3>
+      <br>
       <ul>
         <li><strong>Security:</strong> We employ industry-leading security measures to safeguard your funds and personal information.</li>
         <li><strong>User Experience:</strong> Our platform is designed with simplicity and ease of use in mind, ensuring a smooth and intuitive experience for our customers.</li>
@@ -117,38 +176,34 @@ body{
         <li><strong>Knowledge Hub:</strong> Access our educational resources and stay up-to-date with the latest trends and insights in the crypto industry.</li>
         <li><strong>Customer Support:</strong> Our dedicated support team is available around the clock to assist you with any questions or concerns.</li>
       </ul>
-
+      <br>
       <h2>Contact Us</h2>
       <p>Have a question or need assistance? Feel free to reach out to our customer support team.</p>
-      <p>Email: support@kanonicoin.com</p>
-      <p>Phone: +1 123-456-7890</p>
-    </section>
-  </main>
+      <p>Email: efiprofus@kanonicoin.com</p>
+      <p>Phone: 052-5381648</p>
+    </div>
   <div class="team-contaner">
 
-    <div class="tm-btn">Alfa Team</div>
+    <div class="tm-btn">Our Team Of Exprets</div>
 
     <div class="team-box">
         <div class="team-img"> <img src="resources/alon.jpg" ></div>
-        <div class="team-name">Alfres</div>
+        <div class="team-name">CEO</div>
     </div>
     <div class="team-box">
         <div class="team-img"> <img src="resources/ofir.jpg" ></div>
-        <div class="team-name">Georgi</div>
+        <div class="team-name">Chief Mongo Engineer</div>
     </div>
     <div class="team-box">
-        <div class="team-img"> <img src="resources/eliran.jpg" ></div>
-        <div class="team-name">Mario</div>
+        <div class="team-img"> <img src="resources/eliran.jpg"></div>
+        <div class="team-name">Head Of CSS</div>
     </div>
     <div class="team-box">
         <div class="team-img"> <img src="resources/chatgpt.jpg" ></div>
-        <div class="team-name">Perry</div>
+        <div class="team-name">QA Maneger</div>
     </div>
 
 </div>
-
-  <footer>
-    <!-- Include your site's footer here -->
-  </footer>
+</div>
 </body>
 </html>
