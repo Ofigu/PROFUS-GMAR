@@ -5,20 +5,122 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up</title>
-    <link rel="stylesheet" href="signup.css">
 </head>
-<body>
-    <h1>Sign up</h1>
+<style>
+*{
+   font-family: 'Poppins', sans-serif;
+   font-weight: 500;
+   box-sizing: border-box;
+   margin: 0;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+    margin: 18%;
+    margin-top: 16%;
+    width: 12%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border:1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    scale: 2;
+    padding: 30px;
+    text-align: center;
+}
+
+.container form{
+    padding: 20px;
+}
+.container input{
+    padding-top: 4px;
+    margin-top: 5px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
+    backdrop-filter: blur(25px); 
+    -webkit-backdrop-filter: blur(25px);
+    border-radius: 20px;
+    border:1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+    animation-duration: 2s;
+    transition: scale 0.3s ease;
+    text-align: center;
+    
+}
+/* .container input:hover{
+
+} */
+
+.container input:focus{
+   scale: 1.1;
+}
+input::placeholder{
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+}
+#signup-button{
+    color: white;
+    animation-duration: 2s;
+    transition: font-size 0.3s ease, box-shadow 0.3s ease;/* Add a transition for smooth animation */
+    border:1px solid rgba(255, 255, 255, 0.1);
+}
+
+.container p{
+    color: white;
+}
+.container a {
+    color: white;
+    text-decoration: underline;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+#signup-button:hover{
+    font-size: 16px;
+    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
+}
+.image{
+    background-image: url('resources/signup-background.jpg'); /* Specify the path to your image file */
+    background-size: cover;
+  background-repeat: no-repeat;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+</style>
+<div class="image">
     <div class="container">
-        <form action="http://localhost:3300/addUser" method="post">
-            <input type="text" name="FirstName" placeholder="First name" required><br><br>
-            <input type="text" name="LastName" placeholder="Last name" required><br><br>
+        <form action="http://localhost:3300/add" method="post">
+            <input type="text" name="First name" placeholder="First name" required><br><br>
+            <input type="text" name="Last name" placeholder="Last name" required><br><br>
             <input type="text" name="Username" placeholder="Username" required><br><br>
-            <input type="password" name="Password" placeholder="Password" required><br><br>
-            <input type="number" name="Balance" placeholder="Cash Balance" required><br><br>
-            <input type="submit" value="Sign Up">
+            <input type="password" name="password" placeholder="Password" required><br><br>
+            <input type="number" name="Balance" placeholder="    Cash Balance" required><br><br>
+            <input type="submit" value="Sign Up" id="signup-button">
         </form>
-        <p>Already have an account? <a href="/loginPage">log in here</a></p>
+        <p>Already have an account? <a href="/login">log in here</a></p>
     </div>
 </body>
+</div>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const inputFields = document.querySelectorAll('input[type="text"], input[type="password"], input[type="number"]');
+        
+        inputFields.forEach(field => {
+            field.addEventListener('focus', () => {
+                field.placeholder = '';
+            });
+            
+            field.addEventListener('blur', () => {
+                if (!field.value) {
+                    field.placeholder = field.name;
+                }
+            });
+        });
+    });
+</script>
 </html>
