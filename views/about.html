@@ -1,9 +1,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>About Us - Kanoni Coin</title>
+  <title>About Us</title>
   <style>
-    /* Add your custom CSS styles here */
+    *{
+    font-family: sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    background: url('/resources/signup-background.jpg');
+}
+
+.team-contaner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center ;
+    position: relative;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+        backdrop-filter: blur(35px); 
+        -webkit-backdrop-filter: blur(35px);
+        border-radius: 20px;
+        border:1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 10px;
+    padding-top: 80px;
+    box-shadow: 0 0 4px #ccc;
+   
+
+
+}
+
+.tm-btn{
+    position: absolute;
+    top: -30px;
+    margin: 0 auto;
+    background: linear-gradient(45deg, orange,yellow);
+    padding:10px 20px ;
+    border-radius: 5px;
+    color: #000;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    box-shadow: 0 0 3px #ccc;
+}
+.team-box{
+    width: 200px;
+    height: 200px;
+    margin: 5px;
+}
+.team-box .team-img{
+    width: 190px;
+    height: 190px;
+   
+   
+}
+.team-img img{
+    width: 100%;
+    border-radius: 50%;
+    border: solid 5px white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.team-box:hover .team-img img{
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+
+
+.team-box .team-name{
+    color: #afafaf;
+    margin-top:-10px;
+}
   </style>
 </head>
 <body>
@@ -44,6 +124,28 @@
       <p>Phone: +1 123-456-7890</p>
     </section>
   </main>
+  <div class="team-contaner">
+
+    <div class="tm-btn">Alfa Team</div>
+
+    <div class="team-box">
+        <div class="team-img"> <img src="resources/alon.jpg" ></div>
+        <div class="team-name">Alfres</div>
+    </div>
+    <div class="team-box">
+        <div class="team-img"> <img src="resources/ofir.jpg" ></div>
+        <div class="team-name">Georgi</div>
+    </div>
+    <div class="team-box">
+        <div class="team-img"> <img src="resources/eliran.jpg" ></div>
+        <div class="team-name">Mario</div>
+    </div>
+    <div class="team-box">
+        <div class="team-img"> <img src="resources/chatgpt.jpg" ></div>
+        <div class="team-name">Perry</div>
+    </div>
+
+</div>
 
   <footer>
     <!-- Include your site's footer here -->
