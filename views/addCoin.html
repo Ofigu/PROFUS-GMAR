@@ -50,6 +50,7 @@
    font-weight: 500;
    box-sizing: border-box;
    margin: 0;
+   color: white;
 }
 .container{
     display: flex;
@@ -58,7 +59,7 @@
     justify-content: left;
     margin: 18%;
     margin-top: 20%;
-    width: 10%;
+    width: 12%;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
     backdrop-filter: blur(10px); 
     -webkit-backdrop-filter: blur(10px);
@@ -74,6 +75,7 @@
     padding: 20px;
 }
 .container input{
+  width: 150%;
     padding-top: 4px;
     margin-top: 5px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
@@ -98,7 +100,7 @@ input::placeholder{
     color: rgba(255, 255, 255, 0.9);
     text-align: center;
 }
-#login-button{
+#add-coin-button{
     color: white;
     animation-duration: 2s;
     transition: font-size 0.3s ease, box-shadow 0.3s ease;/* Add a transition for smooth animation */
@@ -117,7 +119,7 @@ input::placeholder{
     justify-content: center;
 }
 
-#login-button:hover{
+#add-coin-button:hover{
     font-size: 16px;
     box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
 }
@@ -129,6 +131,21 @@ input::placeholder{
   width: 100%;
   height: 100%;
 }
+#altCoin{
+}
+#recommended{
+
+}
+#proofOfWork{
+
+  }
+  .form-group{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-grow: 1;
+    flex-direction: column;
+  }
 
   </style>
 </head>
@@ -146,15 +163,15 @@ input::placeholder{
       <input type="number" id="price" name="Price">
     </div>
     <div class="form-group">
-      <label for="recommended">Recommended:</label>
+      <label for="recommended" id="text-left">Recommended:</label>
       <input type="checkbox" id="recommended" name="Recommended" value="true">
     </div>
     <div class="form-group">
-      <label for="altCoin">Alt Coin:</label>
+      <label for="altCoin" id="text-left">Alt Coin:</label>
       <input type="checkbox" id="altCoin" name="AltCoin" value="true">
     </div>
     <div class="form-group">
-      <label for="proofOfWork">Proof of Work:</label>
+      <label for="proofOfWork" id="text-left">Proof of Work:</label>
       <input type="checkbox" id="proofOfWork" name="ProofOfWork" value="true">
     </div>
     <div class="form-group">
@@ -162,7 +179,7 @@ input::placeholder{
       <input type="text" id="imageOfCoin" name="ImageOfCoin" required>
     </div>
     <div class="form-group">
-      <input type="submit" value="Add Coin">
+      <input type="submit" value="Add Coin" id="add-coin-button">
     </div>
   </form>
 </div>
