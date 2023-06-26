@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Currency Converter</title>
+    <style>
+        body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: linear-gradient(to top left, #0f1113, #41464d, #161717);
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+h1 {
+    color: white;
+}
+form {
+    margin-top: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+.result {
+    margin-top: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+</style>
+</head>
+<body>
+    <h1>Currency Converter</h1>
+
+    <form onsubmit="event.preventDefault(); convertCurrency();">
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" required><br><br>
+
+        <label for="baseCurrency">Base Currency:</label>
+        <select id="baseCurrency" required>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="ILS">ILS</option>
+
+            
+        </select><br><br>
+
+        <label for="targetCurrency">Target Currency:</label>
+        <select id="targetCurrency" required>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="ILS">ILS</option>
+            
+        </select><br><br>
+
+        <button type="submit">Convert</button>
+    </form>
+    <script>
+        function convertCurrency() {
+    var amount = parseFloat(document.getElementById("amount").value);
+    var baseCurrency = document.getElementById("baseCurrency").value;
+    var targetCurrency = document.getElementById("targetCurrency").value;
+
+    // Make a request to the currency exchange rate API
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://api.exchangerate-api.com/v4/latest/" + baseCurrency, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+
+            if (targetCurrency in data.rates) {
+                var conversionRate = data.rates[targetCurrency];
+                var convertedAmount = amount * conversionRate;
+
+                document.getElementById("result").innerHTML = amount + " " + baseCurrency + " is equal to " + convertedAmount.toFixed(2) + " " + targetCurrency;
+            } else {
+                document.getElementById("result").innerHTML = "Conversion rate for " + targetCurrency + " not found.";
+            }
+        } else {
+            document.getElementById("result").innerHTML = "Failed to retrieve currency data.";
+        }
+    };
+    xhr.send();
+}
+    </script>
+    
+
+
+    <div id="result" class="result"></div>
+</body>
+</html>
+
+
+
+

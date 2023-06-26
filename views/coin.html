@@ -5,7 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Coin Price and Cryptocurrency Trading</title>
-    <link rel="stylesheet" href="coin.css">
+    <style>
+      *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+.container .coin-price{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px #ccc;
+    margin: 7px;
+}
+
+.container .coin-price .logo{
+    width: 70px;
+    margin-right: 10px;
+}
+.container .coin-price .logo img{
+    width: 100%;
+}
+.container .coin-price div{
+    display: block;
+}
+.container .coin-price div h1{
+    font-size: 20px;
+}
+.trading-section {
+    margin-top: 20px;
+}
+</style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -81,6 +126,71 @@
         </table>
     </div>
    
-    <script src="coin.js"></script>
+    <script>
+      var btc = document.getElementById("bitcoin");
+var ltc = document.getElementById("litecoin");
+var eth = document.getElementById("ethereum");
+var doge = document.getElementById("dogecoin");
+
+var liveprice = {
+    "async": true,
+    "scroosDomain": true,
+    "url": "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Clitecoin%2Cethereum%2Cdogecoin&vs_currencies=usd",
+
+    "method": "GET",
+    "headers": {}
+}
+
+$.ajax(liveprice).done(function (response){
+    btc.innerHTML = response.bitcoin.usd;
+    ltc.innerHTML = response.litecoin.usd;
+    eth.innerHTML = response.ethereum.usd;
+    doge.innerHTML = response.dogecoin.usd;
+
+});
+
+
+<!-- trading test -->
+function updateBalance(action, coin, amount) {
+    var balanceElement = document.getElementById('balance');
+    var currentBalance = parseFloat(balanceElement.innerText);
+    var coinPrice = parseFloat(document.getElementById(coin + 'Price').innerText);
+    
+    var tradeValue = coinPrice * amount;
+    
+    if (action === 'buy') {
+      if (tradeValue <= currentBalance) {
+        currentBalance -= tradeValue;
+      } else {
+        alert('Insufficient balance for buying ' + coin);
+      }
+    } else if (action === 'sell') {
+      currentBalance += tradeValue;
+    }
+    
+    balanceElement.innerText = currentBalance.toFixed(2);
+  }
+  
+  function fetchCoinData() {
+    var coins = ['bitcoin', 'ethereum']; // Add more coins as needed
+    
+    coins.forEach(function(coin) {
+      fetch('https://api.coingecko.com/api/v3/simple/price?ids=' + coin + '&vs_currencies=usd')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          var priceElement = document.getElementById(coin + 'Price');
+          priceElement.innerText = data[coin].usd.toFixed(2);
+        })
+        .catch(function(error) {
+          console.log('Error fetching ' + coin + ' price:', error);
+        });
+    });
+  }
+  
+  // Fetch coin data on page load
+  fetchCoinData();
+    </script>
 </body>
 </html>
