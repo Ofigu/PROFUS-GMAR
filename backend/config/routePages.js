@@ -50,7 +50,37 @@ router.post('/addUser', async (req, res) => {
     }
   });
 
-router.get('/login', function (req, res) {
+
+  router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+  
+    // Authenticate user credentials
+    const loguser = await db.collection('users').findOne({ username, password });
+  
+    if (loguser) {
+      // Retrieve user's role based on username and ID
+      if (loguser.id === '6495dc17e83ddba6c27287f6') {
+        res.redirect('/admin'); // Redirect to admin index page
+      } else {
+        res.redirect('/customer'); // Redirect to customer index page
+      }
+    } else {
+      console.log('No such user'); // Handle invalid credentials or other error
+    }
+  });
+
+  router.get('/admin', function (req, res) {
+    res.sendFile(path.join(__dirname, '../../views', 'indexAdmin.html'));
+});
+
+router.get('/customer', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../views', 'indexCustomer.html'));
+});
+  
+  
+
+
+router.get('/loginPage', function (req, res) {
     res.sendFile(path.join(__dirname, '../../views', 'login.html'));
 });
 
