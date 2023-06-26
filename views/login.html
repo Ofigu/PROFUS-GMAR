@@ -13,6 +13,12 @@
        font-weight: 500;
        margin: 0;
     }
+    .wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
     body{
         display: flex;
     }
@@ -28,9 +34,7 @@
         border:1px solid rgba(255, 255, 255, 0.05);
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
         text-align: center;
-        /* width: 25%; */
-        max-width: 400px;
-        margin-top:8%;
+        width: 400px;
         /* margin-left: 10%; */
         margin: 8% auto;
         height: 600px;
@@ -43,7 +47,7 @@
         margin-bottom: 50px;
         width: 90%;
     }
-    @media screen and (max-width: 768px) {
+    @media screen (max-width: 768px) {
         .container {
             width: 80%; /* Adjust the width for smaller screens */
             /* ... */
@@ -127,6 +131,7 @@
     </style>
     <div class="image">
         <body>
+            <div class="wrapper">
     <div class="container">
         <form action="http://localhost:3300/login" method="post">
             <input type="text" name="Username" placeholder="Username" required><br><br>
@@ -135,6 +140,7 @@
         </form>
         <p>Don't have an account yet? <a href="/signup" style="text-decoration: underline;">Sign up here</a></p>
     </div>
+</div>
 </body>
 </div>
 <script>
