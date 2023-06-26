@@ -107,6 +107,10 @@ router.get('/welcome', function (req, res) {
     res.sendFile(path.join(__dirname, '../../views', 'welcome.html'));
 });
 
+router.get('/about', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../views', 'about.html'));
+});
+
 router.get('/portfolio', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'portfolio.html'));
 });
