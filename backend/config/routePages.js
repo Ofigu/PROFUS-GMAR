@@ -3,18 +3,17 @@ const router = express.Router();
 const path = require('path'); // Add this line to include the path module
 const User = require('../models/user');
 const Coin = require('../models/coin');
-const { get } = require('http');
+// const { get } = require('http');
 
 
 router.post('/addUser', async (req, res) => {
     const user = new User({
       FirstName: req.body.FirstName,
       LastName: req.body.LastName,
-      UserName: req.body.UserName,
+      UserName: req.body.Username,
       Password: req.body.Password,
       Balance: req.body.Balance
     });
-  
     try {
       // Save the user to the database
       await user.save();
@@ -65,7 +64,7 @@ router.post('/addUser', async (req, res) => {
     
       if (loguser) {
         // Retrieve user's role based on username and ID
-        if (loguser.id === '6495dc17e83ddba6c27287f6') {
+        if (loguser.id === '6499aa757afcc808e265fd90' || loguser.id === '6499aace7afcc808e265fd92' || loguser.id === '6499aae87afcc808e265fd94' ) {
           res.redirect('/admin'); // Redirect to admin index page
         }
         
