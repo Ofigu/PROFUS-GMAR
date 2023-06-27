@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Manage Coins</title>
+  <title>Trade Coins</title>
   <style>
     /* Set a fixed width and height for the coin images */
     td img {
@@ -22,8 +22,8 @@
         <th>Recommended</th>
         <th>Alt Coin</th>
         <th>Proof of Work</th>
-        <th>Buy + Amount</th>
-        <th>Sell + Amount</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody id="coinTableBody">
@@ -31,7 +31,23 @@
     </tbody>
   </table>
 
+  <h2>Purchased Coins</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Coin Name</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody id="purchasedCoinsTableBody">
+      <!-- Purchased coins will be dynamically added here -->
+    </tbody>
+  </table>
+
   <script>
+    // Array to store purchased coins
+    const purchasedCoins = [];
+
     // Function to fetch coins from the backend and populate the table
     async function fetchCoins() {
       try {
@@ -68,23 +84,20 @@
     }
 
     // Function to perform the trade based on the selected action (buy/sell)
-// Function to perform the trade based on the selected action (buy/sell)
-function performTrade(button, coinId, action) {
-  const input = action === 'buy' ? button.parentNode.querySelector('.buy-input') : button.parentNode.querySelector('.sell-input');
-  const amount = parseFloat(input.value);
+    function performTrade(button, coinId, action) {
+      const input = action === 'buy' ? button.parentNode.querySelector('.buy-input') : button.parentNode.querySelector('.sell-input');
+      const amount = parseFloat(input.value);
 
-  if (!isNaN(amount) && amount > 0) {
-    const price = parseFloat(document.getElementById(`${coinId}Price`).innerText);
+      if (!isNaN(amount) && amount > 0) {
+        const price = parseFloat(document.getElementById(`${coinId}Price`).innerText);
 
-    if (action === 'buy') {
-      buyCoin(coinId, price, amount);
-    } else if (action === 'sell') {
-      sellCoin(coinId, price, amount);
+        if (action === 'buy') {
+          buyCoin(coinId, price, amount);
+        } else if (action === 'sell') {
+          sellCoin(coinId, price, amount);
+        }
+      }
     }
-  }
-}
-
-
 
     // Function to handle the buy action
     function buyCoin(coinId, price, amount) {
@@ -97,6 +110,26 @@ function performTrade(button, coinId, action) {
         const newBalance = balance - totalPrice;
         balanceElement.innerText = newBalance.toFixed(2);
         console.log(`Bought ${totalPrice.toFixed(2)} worth of ${coinId}`);
+
+        // Update the purchased coins table
+        const purchasedCoinsTableBody = document.getElementById('purchasedCoinsTableBody');
+        const existingRow = document.getElementById(`${coinId}Row`);
+
+        if (existingRow) {
+          // If the coin already exists in the table, update the amount
+          const existingAmount = parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
+          const newAmount = existingAmount + amount;
+          existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(2);
+        } else {
+          // If the coin is being bought for the first time, add a new row
+          const newRow = document.createElement('tr');
+          newRow.id = `${coinId}Row`;
+          newRow.innerHTML = `
+            <td>${coinId}</td>
+            <td class="purchased-coin-amount">${amount.toFixed(2)}</td>
+          `;
+          purchasedCoinsTableBody.appendChild(newRow);
+        }
       } else {
         alert('Insufficient balance for buying.');
       }
@@ -111,6 +144,24 @@ function performTrade(button, coinId, action) {
       const newBalance = balance + totalPrice;
       balanceElement.innerText = newBalance.toFixed(2);
       console.log(`Sold ${totalPrice.toFixed(2)} worth of ${coinId}`);
+
+      // Update the purchased coins table
+      const purchasedCoinsTableBody = document.getElementById('purchasedCoinsTableBody');
+      const existingRow = document.getElementById(`${coinId}Row`);
+
+      if (existingRow) {
+        // If the coin exists in the table, update the amount
+        const existingAmount = parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
+
+        if (existingAmount <= amount) {
+          // If the entire amount is being sold, remove the row
+          existingRow.remove();
+        } else {
+          // If only a portion is being sold, update the amount
+          const newAmount = existingAmount - amount;
+          existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(2);
+        }
+      }
     }
 
     // Call the fetchCoins function when the page loads
