@@ -2,6 +2,13 @@
 <html>
 <head>
   <title>Manage Coins</title>
+  <style>
+    /* Set a fixed width and height for the coin images */
+    td img {
+      width: 40px; /* Adjust the desired width */
+      height: 40px; /* Adjust the desired height */
+    }
+  </style>
 </head>
 <body>
   <h1>Coins List</h1>
@@ -22,8 +29,8 @@
   </table>
 
   <script>
-    // Function to fetch coins from the backend and populate the table
-    async function fetchCoins() {
+     // Function to fetch coins from the backend and populate the table
+     async function fetchCoins() {
       try {
         const response = await fetch('/coins'); // Replace '/coins' with your actual backend endpoint to retrieve the coin data
         const coins = await response.json();
@@ -34,12 +41,16 @@
         coins.forEach((coin) => {
           const row = document.createElement('tr');
           row.innerHTML = `
-            <td>${coin.CoinName}</td>
-            <td>${coin.Price}</td>
-            <td>${coin.Recommended}</td>
-            <td>${coin.AltCoin}</td>
-            <td>${coin.ProofOfWork}</td>
             <td><img src="${coin.ImageOfCoin}" alt="Coin Image"></td>
+            <td>${coin.CoinName}</td>
+            <td contenteditable>${coin.Price}</td>
+            <td contenteditable>${coin.Recommended}</td>
+            <td contenteditable>${coin.AltCoin}</td>
+            <td contenteditable>${coin.ProofOfWork}</td>
+            <td>
+              <button onclick="deleteCoin('${coin._id}')">Delete</button>
+              <button onclick="editCoin('${coin._id}')">Edit</button>
+            </td>
           `;
 
           coinTableBody.appendChild(row);
@@ -47,6 +58,18 @@
       } catch (error) {
         console.error('Error fetching coins:', error);
       }
+    }
+
+    // Function to handle delete coin action
+    function deleteCoin(coinId) {
+      // Implement the logic to delete the coin using the coinId
+      console.log('Delete coin:', coinId);
+    }
+
+    // Function to handle edit coin action
+    function editCoin(coinId) {
+      // Implement the logic to edit the coin using the coinId
+      console.log('Edit coin:', coinId);
     }
 
     // Call the fetchCoins function when the page loads
