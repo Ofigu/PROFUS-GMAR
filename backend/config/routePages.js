@@ -66,10 +66,6 @@ router.post('/addCoin', async (req, res) => {
   }
 });
 
-router.post('/sendEmail', (req, res) => {
-  const { name, email, message } = req.body;
-
-
 router.post('/login', async (req, res) => {
   const username = req.body.Username;
   const password = req.body.Password;
@@ -182,6 +178,4 @@ router.patch('/coins/:id', async (req, res) => {
   }
 });
 
-
 module.exports = router;
-
