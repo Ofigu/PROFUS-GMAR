@@ -1,202 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Crypto Portfolio</title>
-  <style>
-    /* General Styles */
-  
-  body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    
-    /* Header */
-    
-    header {
-      background-color: #333;
-      color: #fff;
-      padding: 20px;
-    }
-    
-    h1 {
-      margin: 0;
-      text-align: center;
-    }
-    
-    /* Portfolio */
-    
-    #portfolio {
-      padding: 40px 20px;
-      text-align: center;
-    }
-    
-    .portfolio-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    
-    .portfolio-item {
-      background-color: #f4f4f4;
-      border: 1px solid #ccc;
-      padding: 20px;
-      margin: 10px;
-      width: 300px;
-    }
-    
-    .portfolio-item h3 {
-      margin-top: 0;
-    }
-    
-    /* Footer */
-    
-    footer {
-      background-color: #333;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-    }
-    
-    .tradingview-widget-copyright {
-      font-size: 13px !important;
-      line-height: 32px !important;
-      text-align: center !important;
-      vertical-align: middle !important;
-      font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important;
-      color: #9db2bd !important;
-      display: none !important;
-  }
-  </style>
+  <title>Portfolio</title>
 </head>
-
 <body>
   <h1>Portfolio</h1>
-  
-    <!-- Header content here -->
-  
-  <section id="portfolio">
-    <div class="portfolio-container">
-      <table>
-        <tr>
-          <th>Coin</th>
-          <th>Quantity</th>
-          <th>Total Value</th>
-        </tr>
-        <tr>
-          <td>Bitcoin</td>
-          <td>100</td>
-          <td>$5,000</td>
-        </tr>
-        <tr>
-          <td>Ethereum</td>
-          <td>50</td>
-          <td>$4,000</td>
-        </tr>
-        <!-- Add more rows for additional stocks -->
-      </table>
-    </div>
-  </section>
-  <!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container">
-  <div class="tradingview-widget-container__widget"></div>
-  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
-  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
-  {
-  "symbols": [
-    [
-      "Apple",
-      "AAPL|1D"
-    ],
-    [
-      "Google",
-      "GOOGL|1D"
-    ],
-    [
-      "Microsoft",
-      "MSFT|1D"
-    ]
-  ],
-  "chartOnly": false,
-  "width": 1000,
-  "height": 500,
-  "locale": "en",
-  "colorTheme": "dark",
-  "autosize": false,
-  "showVolume": false,
-  "showMA": false,
-  "hideDateRanges": false,
-  "hideMarketStatus": false,
-  "hideSymbolLogo": false,
-  "scalePosition": "right",
-  "scaleMode": "Normal",
-  "fontFamily": "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
-  "fontSize": "10",
-  "noTimeScale": false,
-  "valuesTracking": "1",
-  "changeMode": "price-and-percent",
-  "chartType": "area",
-  "maLineColor": "#2962FF",
-  "maLineWidth": 1,
-  "maLength": 9,
-  "lineWidth": 2,
-  "lineType": 0,
-  "dateRanges": [
-    "1d|1",
-    "1m|30",
-    "3m|60",
-    "12m|1D",
-    "60m|1W",
-    "all|1M"
-  ]
-}
-  </script>
-</div>
-<!-- TradingView Widget END -->
-  <footer>
-    <!-- Footer content here -->
-  </footer>
+  <div id="portfolio">
+    <!-- Portfolio data will be dynamically added here -->
+  </div>
 
   <script>
-    // Assuming you have an array of crypto portfolio data
-const portfolioData = [
-    { name: "Bitcoin", quantity: 2.5, value: 50000 },
-    { name: "Ethereum", quantity: 10, value: 3000 },
-    // Add more crypto portfolio data as needed
-  ];
-  
-  // Get the portfolio container element
-  const portfolioContainer = document.querySelector(".portfolio-container");
-  
-  // Loop through the portfolio data and generate portfolio items dynamically
-  portfolioData.forEach((crypto) => {
-    const portfolioItem = document.createElement("div");
-    portfolioItem.classList.add("portfolio-item");
-    
-    const heading = document.createElement("h3");
-    heading.textContent = crypto.name;
-    
-    const quantity = document.createElement("p");
-    quantity.textContent = `Quantity: ${crypto.quantity}`;
-    
-    const value = document.createElement("p");
-    value.textContent = `Value: $${crypto.value}`;
-    
-    // Append the elements to the portfolio item
-    portfolioItem.appendChild(heading);
-    portfolioItem.appendChild(quantity);
-    portfolioItem.appendChild(value);
-    
-    // Append the portfolio item to the container
-    portfolioContainer.appendChild(portfolioItem);
-  });
-  
+    // Function to retrieve trade data from sessionStorage and update the portfolio
+    function updatePortfolio() {
+      const tradeData = JSON.parse(sessionStorage.getItem('tradeData'));
+
+      if (tradeData) {
+        const portfolioElement = document.getElementById('portfolio');
+
+        // Update the portfolio with the trade data
+        const tradeType = tradeData.type === 'buy' ? 'Bought' : 'Sold';
+        const tradeMessage = `${tradeType} ${tradeData.amount} coins with ID: ${tradeData.coinId}`;
+        const tradeElement = document.createElement('p');
+        tradeElement.textContent = tradeMessage;
+
+        portfolioElement.appendChild(tradeElement);
+
+        // Clear the trade data from sessionStorage
+        sessionStorage.removeItem('tradeData');
+      }
+    }
+
+    // Call the updatePortfolio function when the page loads
+    window.addEventListener('load', updatePortfolio);
   </script>
 </body>
 </html>
