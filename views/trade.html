@@ -8,11 +8,44 @@
       width: 40px; /* Adjust the desired width */
       height: 40px; /* Adjust the desired height */
     }
+    
+    .search-filters {
+      display: flex;
+      gap: 10px;
+    }
   </style>
 </head>
 <body>
   <h1>Coins List</h1>
   <p>Balance: $<span id="balance">1000.00</span></p>
+  
+  <div class="search-filters">
+    <div>
+      <label for="searchInput">Search:</label>
+      <input type="text" id="searchInput" oninput="filterCoins()" placeholder="Search by coin name">
+    </div>
+  
+    <div>
+      <label for="maxPriceInput">Max Price:</label>
+      <input type="number" id="maxPriceInput" oninput="filterCoins()" step="0.01" placeholder="Enter max price">
+    </div>
+  
+    <div>
+      <label for="recommendedInput">Recommended:</label>
+      <input type="checkbox" id="recommendedInput" onclick="filterCoins()">
+    </div>
+  
+    <div>
+      <label for="altCoinInput">Alt Coin:</label>
+      <input type="checkbox" id="altCoinInput" onclick="filterCoins()">
+    </div>
+  
+    <div>
+      <label for="proofOfWorkInput">Proof of Work:</label>
+      <input type="checkbox" id="proofOfWorkInput" onclick="filterCoins()">
+    </div>
+  </div>
+  
   <table>
     <thead>
       <tr>
@@ -53,6 +86,9 @@
       try {
         const response = await fetch('/coins'); // Replace '/coins' with your actual backend endpoint to retrieve the coin data
         const coins = await response.json();
+
+        // Sort the coins by largest price to lowest
+        coins.sort((a, b) => b.Price - a.Price);
 
         const coinTableBody = document.getElementById('coinTableBody');
 
@@ -149,23 +185,51 @@
       const purchasedCoinsTableBody = document.getElementById('purchasedCoinsTableBody');
       const existingRow = document.getElementById(`${coinId}Row`);
 
-      if (existingRow) {
-        // If the coin exists in the table, update the amount
-        const existingAmount = parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
+      const existingAmount = parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
 
-        if (existingAmount <= amount) {
-          // If the entire amount is being sold, remove the row
-          existingRow.remove();
-        } else {
-          // If only a portion is being sold, update the amount
-          const newAmount = existingAmount - amount;
-          existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(2);
-        }
+      if (amount >= existingAmount) {
+        // If the entire amount is being sold, remove the row from the table
+        purchasedCoinsTableBody.removeChild(existingRow);
+      } else {
+        // If only a portion of the amount is being sold, update the amount
+        const newAmount = existingAmount - amount;
+        existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(2);
       }
     }
 
-    // Call the fetchCoins function when the page loads
-    window.addEventListener('load', fetchCoins);
+    // Function to filter the coins based on user input
+    function filterCoins() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const maxPriceInput = parseFloat(document.getElementById('maxPriceInput').value);
+      const recommendedInput = document.getElementById('recommendedInput').checked;
+      const altCoinInput = document.getElementById('altCoinInput').checked;
+      const proofOfWorkInput = document.getElementById('proofOfWorkInput').checked;
+
+      const coinRows = document.querySelectorAll('#coinTableBody tr');
+
+      coinRows.forEach((row) => {
+        const coinName = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
+        const coinPrice = parseFloat(row.querySelector('td:nth-child(3)').innerText);
+        const coinRecommended = row.querySelector('td:nth-child(4)').innerText === 'true';
+        const coinAltCoin = row.querySelector('td:nth-child(5)').innerText === 'true';
+        const coinProofOfWork = row.querySelector('td:nth-child(6)').innerText === 'true';
+
+        const coinMatchesSearch = coinName.includes(searchInput);
+        const coinMatchesMaxPrice = isNaN(maxPriceInput) || coinPrice <= maxPriceInput;
+        const coinMatchesRecommended = !recommendedInput || coinRecommended;
+        const coinMatchesAltCoin = !altCoinInput || coinAltCoin;
+        const coinMatchesProofOfWork = !proofOfWorkInput || coinProofOfWork;
+
+        if (coinMatchesSearch && coinMatchesMaxPrice && coinMatchesRecommended && coinMatchesAltCoin && coinMatchesProofOfWork) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Fetch coins when the page loads
+    fetchCoins();
   </script>
 </body>
 </html>
