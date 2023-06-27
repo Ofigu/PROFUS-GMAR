@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const nodemailer = require('nodemailer');
 const path = require('path'); // Add this line to include the path module
 const User = require('../models/user');
 const Coin = require('../models/coin');
@@ -66,6 +67,41 @@ router.post('/addCoin', async (req, res) => {
   }
 });
 
+router.post('/sendEmail', (req, res) => {
+  const { name, email, message } = req.body;
+
+  // Create a Nodemailer transporter
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'kanonicoin@gmail.com', // Replace with your Gmail email address
+      pass: 'mongodb+srv://alon12c20:1111@alonvizniuk.ecefh5m.mongodb.net/' // Replace with your Gmail password or an application-specific password
+    }
+  });
+
+  // Set up email data
+  const mailOptions = {
+    from: 'kanonicoin@gmail.com', // Sender's email address
+    to: 'eliranovadia7@gmail.com', // Recipient's email address
+    subject: 'New Contact Form client ${name}',
+    text: `
+      Name: ${name}
+      Email: ${email}
+      Message: ${message}
+    `
+  };
+
+  // Send the email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+      res.status(500).json({ success: false, error: 'Failed to send email' });
+    } else {
+      console.log('Email sent:', info.response);
+      res.json({ success: true, message: 'Email sent successfully' });
+    }
+  });
+});
 
 
 router.post('/login', async (req, res) => {
