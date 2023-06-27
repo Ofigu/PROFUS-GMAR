@@ -3,8 +3,6 @@ const router = express.Router();
 const path = require('path'); // Add this line to include the path module
 const User = require('../models/user');
 const Coin = require('../models/coin');
-// const { get } = require('http');
-
 
 router.post('/addUser', async (req, res) => {
   const user = new User({
@@ -148,6 +146,25 @@ router.delete('/coins/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+router.patch('/coins/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+
+    const coin = await Coin.findByIdAndUpdate(id, updates, { new: true });
+
+    if (!coin) {
+      return res.status(404).json({ error: 'Coin not found' });
+    }
+
+    res.json(coin);
+  } catch (error) {
+    console.error('Error updating coin:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 module.exports = router;
 
