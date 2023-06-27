@@ -8,12 +8,6 @@
       width: 40px; /* Adjust the desired width */
       height: 40px; /* Adjust the desired height */
     }
-
-    .buy-button,
-    .sell-button,
-    .amount-input {
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -28,6 +22,8 @@
         <th>Recommended</th>
         <th>Alt Coin</th>
         <th>Proof of Work</th>
+        <th>Buy + Amount</th>
+        <th>Sell + Amount</th>
       </tr>
     </thead>
     <tbody id="coinTableBody">
@@ -49,15 +45,18 @@
           const row = document.createElement('tr');
           row.innerHTML = `
             <td><img src="${coin.ImageOfCoin}" alt="Coin Image"></td>
-            <td onclick="handleFieldClick(this)">${coin.CoinName}</td>
-            <td onclick="handleFieldClick(this)">${coin.Price}</td>
-            <td onclick="handleFieldClick(this)">${coin.Recommended}</td>
-            <td onclick="handleFieldClick(this)">${coin.AltCoin}</td>
-            <td onclick="handleFieldClick(this)">${coin.ProofOfWork}</td>
-            <td id="${coin._id}">
-              <button class="buy-button" onclick="toggleBuyAmountInput(this, '${coin._id}')">Buy</button>
-              <button class="sell-button" onclick="toggleSellAmountInput(this, '${coin._id}')">Sell</button>
-              <input class="amount-input" type="text" placeholder="Amount" style="display: none;">
+            <td>${coin.CoinName}</td>
+            <td id="${coin._id}Price">${coin.Price}</td>
+            <td>${coin.Recommended}</td>
+            <td>${coin.AltCoin}</td>
+            <td>${coin.ProofOfWork}</td>
+            <td>
+              <input class="buy-input" type="text" placeholder="Amount">
+              <button class="buy-button" onclick="performTrade(this, '${coin._id}', 'buy')">Buy</button>
+            </td>
+            <td>
+              <input class="sell-input" type="text" placeholder="Amount">
+              <button class="sell-button" onclick="performTrade(this, '${coin._id}', 'sell')">Sell</button>
             </td>
           `;
 
@@ -68,80 +67,50 @@
       }
     }
 
-    // Function to handle the click event on any field in the coin row
-    function handleFieldClick(field) {
-      const buttons = field.parentNode.querySelectorAll('.buy-button, .sell-button');
-      const amountInput = field.parentNode.querySelector('.amount-input');
+    // Function to perform the trade based on the selected action (buy/sell)
+// Function to perform the trade based on the selected action (buy/sell)
+function performTrade(button, coinId, action) {
+  const input = action === 'buy' ? button.parentNode.querySelector('.buy-input') : button.parentNode.querySelector('.sell-input');
+  const amount = parseFloat(input.value);
 
-      buttons.forEach((button) => {
-        if (button.style.display === 'block') {
-          button.style.display = 'none';
-        } else {
-          button.style.display = 'block';
-        }
-      });
+  if (!isNaN(amount) && amount > 0) {
+    const price = parseFloat(document.getElementById(`${coinId}Price`).innerText);
 
-      if (amountInput.style.display === 'block') {
-        amountInput.style.display = 'none';
-      }
+    if (action === 'buy') {
+      buyCoin(coinId, price, amount);
+    } else if (action === 'sell') {
+      sellCoin(coinId, price, amount);
     }
+  }
+}
 
-    // Function to toggle the visibility of the buy amount input
-    function toggleBuyAmountInput(button, coinId) {
-      const amountInput = button.parentNode.querySelector('.amount-input');
-      if (amountInput.style.display === 'block') {
-        amountInput.style.display = 'none';
+
+
+    // Function to handle the buy action
+    function buyCoin(coinId, price, amount) {
+      const balanceElement = document.getElementById('balance');
+      const balance = parseFloat(balanceElement.innerText);
+
+      const totalPrice = price * amount;
+
+      if (totalPrice <= balance) {
+        const newBalance = balance - totalPrice;
+        balanceElement.innerText = newBalance.toFixed(2);
+        console.log(`Bought ${totalPrice.toFixed(2)} worth of ${coinId}`);
       } else {
-        amountInput.style.display = 'block';
+        alert('Insufficient balance for buying.');
       }
     }
 
-    // Function to toggle the visibility of the sell amount input
-    function toggleSellAmountInput(button, coinId) {
-      const amountInput = button.parentNode.querySelector('.amount-input');
-      if (amountInput.style.display === 'block') {
-        amountInput.style.display = 'none';
-      } else {
-        amountInput.style.display = 'block';
-      }
-    }
+    // Function to handle the sell action
+    function sellCoin(coinId, price, amount) {
+      const balanceElement = document.getElementById('balance');
+      const balance = parseFloat(balanceElement.innerText);
 
-    // Function to buy coins
-    function buyCoin(coinId) {
-      const amountInput = document.getElementById(coinId).querySelector('.amount-input');
-      const amount = amountInput.value;
-      if (amount) {
-        const balance = parseFloat(document.getElementById('balance').innerText);
-        const price = parseFloat(document.getElementById(coinId).previousElementSibling.innerText);
-        const totalPrice = amount * price;
-
-        if (balance >= totalPrice) {
-          document.getElementById('balance').innerText = (balance - totalPrice).toFixed(2);
-          console.log(`Bought ${amount} coins of ${coinId} for $${totalPrice}`);
-          amountInput.value = '';
-          amountInput.style.display = 'none';
-          toggleBuyAmountInput(null, coinId);
-        } else {
-          alert('Insufficient balance!');
-        }
-      }
-    }
-
-    // Function to sell coins
-    function sellCoin(coinId) {
-      const amountInput = document.getElementById(coinId).querySelector('.amount-input');
-      const amount = amountInput.value;
-      if (amount) {
-        const balance = parseFloat(document.getElementById('balance').innerText);
-        const price = parseFloat(document.getElementById(coinId).previousElementSibling.innerText);
-        const totalPrice = amount * price;
-
-        document.getElementById('balance').innerText = (balance + totalPrice).toFixed(2);
-        console.log(`Sold ${amount} coins of ${coinId} for $${totalPrice}`);
-        amountInput.value = '';
-        amountInput.style.display = 'none';
-        toggleSellAmountInput(null, coinId);
-      }
+      const totalPrice = price * amount;
+      const newBalance = balance + totalPrice;
+      balanceElement.innerText = newBalance.toFixed(2);
+      console.log(`Sold ${totalPrice.toFixed(2)} worth of ${coinId}`);
     }
 
     // Call the fetchCoins function when the page loads
