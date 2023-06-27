@@ -15,6 +15,7 @@
     }
     .wrapper {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
@@ -33,15 +34,14 @@
       text-align: center;
       width: 400px;
       margin: 8% auto;
-      height: 570px;
+      height: 600px;
     }
 
     .container form {
-      margin-top: -160px;
+      margin-top: -250px;
       padding: 6px;
       width: 60%;
       height: 300px;
-      margin-bottom: 10px;
       width: 90%;
     }
 
@@ -93,7 +93,7 @@
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.05);
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-      margin-top: 27px;
+      margin-top: 10px;
       width: 50%;
       color: rgba(255, 255, 255, 0.9);
       animation-duration: 2s;
@@ -191,6 +191,19 @@
       margin-left: 70px;
       transform: scale(1.7);
     }
+    .conformation{
+      border: solid 2px greenyellow;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction:column;
+      z-index: 1;
+    }
+    .conformation p{
+      color: rgb(84, 190, 84);
+      font-weight: 700;
+      font-size: 25px;
+    }
   </style>
 </head>
 
@@ -224,6 +237,10 @@
           <input type="text" id="imageOfCoin" name="ImageOfCoin" placeholder="Coin Picture" required><br><br>
           <input type="submit" value="Add Coin" id="add-coin-button">
         </form>
+      </div>
+      <div class="conformation">
+        <p>Coin Added Seccesfully</p>
+        <button id="">Tweet it</button>
       </div>
     </div>
   </body>
