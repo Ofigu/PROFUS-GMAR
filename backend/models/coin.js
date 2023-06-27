@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const coinSchema = new mongoose.Schema({
   CoinName: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   Price: {
     type: Number
