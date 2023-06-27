@@ -1,85 +1,151 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Trade - Kanoni Coin</title>
+  <title>Manage Coins</title>
   <style>
-    /* Add your custom CSS styles here */
+    /* Set a fixed width and height for the coin images */
+    td img {
+      width: 40px; /* Adjust the desired width */
+      height: 40px; /* Adjust the desired height */
+    }
+
+    .buy-button,
+    .sell-button,
+    .amount-input {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <!-- Include your site's header/navigation here -->
-  </header>
-
-  <main>
-    <section>
-      <h1>Trade Cryptocurrencies</h1>
-      <p>Buy your favorite cryptocurrencies securely and conveniently.</p>
-
-      <div>
-        <h2>Available Coins</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Coin Name</th>
-              <th>Price</th>
-              <th>Buy Quantity</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Dynamically generate the table rows based on the coins in the database -->
-            <% coins.forEach(function(coin) { %>
-            <tr>
-              <td><%= coin.CoinName %></td>
-              <td><%= coin.Price %></td>
-              <td>
-                <input type="number" name="quantity-<%= coin._id %>" min="0" step="1">
-              </td>
-              <td>
-                <button onclick="buyCoin('<%= coin._id %>')">Buy</button>
-              </td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <!-- Include your site's footer here -->
-  </footer>
+  <h1>Coins List</h1>
+  <p>Balance: $<span id="balance">1000.00</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Coin Name</th>
+        <th>Price</th>
+        <th>Recommended</th>
+        <th>Alt Coin</th>
+        <th>Proof of Work</th>
+      </tr>
+    </thead>
+    <tbody id="coinTableBody">
+      <!-- Coins will be dynamically added here -->
+    </tbody>
+  </table>
 
   <script>
-    // JavaScript function to handle the buy button click event
-    function buyCoin(coinId) {
-      const quantity = document.querySelector(`input[name="quantity-${coinId}"]`).value;
-      
-      // Perform the necessary logic to handle the buy action
-      // You can use JavaScript frameworks or make AJAX requests to the server for processing the purchase
+    // Function to fetch coins from the backend and populate the table
+    async function fetchCoins() {
+      try {
+        const response = await fetch('/coins'); // Replace '/coins' with your actual backend endpoint to retrieve the coin data
+        const coins = await response.json();
 
-      // Example AJAX request using Fetch API
-      fetch('/buyCoin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          coinId: coinId,
-          quantity: quantity
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        // Handle the response from the server
-        // You can display a success message or update the UI accordingly
-      })
-      .catch(error => {
-        // Handle any errors that occurred during the request
-        console.error('Error:', error);
-      });
+        const coinTableBody = document.getElementById('coinTableBody');
+
+        // Iterate over the coins and create table rows dynamically
+        coins.forEach((coin) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><img src="${coin.ImageOfCoin}" alt="Coin Image"></td>
+            <td onclick="handleFieldClick(this)">${coin.CoinName}</td>
+            <td onclick="handleFieldClick(this)">${coin.Price}</td>
+            <td onclick="handleFieldClick(this)">${coin.Recommended}</td>
+            <td onclick="handleFieldClick(this)">${coin.AltCoin}</td>
+            <td onclick="handleFieldClick(this)">${coin.ProofOfWork}</td>
+            <td id="${coin._id}">
+              <button class="buy-button" onclick="toggleBuyAmountInput(this, '${coin._id}')">Buy</button>
+              <button class="sell-button" onclick="toggleSellAmountInput(this, '${coin._id}')">Sell</button>
+              <input class="amount-input" type="text" placeholder="Amount" style="display: none;">
+            </td>
+          `;
+
+          coinTableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error fetching coins:', error);
+      }
     }
+
+    // Function to handle the click event on any field in the coin row
+    function handleFieldClick(field) {
+      const buttons = field.parentNode.querySelectorAll('.buy-button, .sell-button');
+      const amountInput = field.parentNode.querySelector('.amount-input');
+
+      buttons.forEach((button) => {
+        if (button.style.display === 'block') {
+          button.style.display = 'none';
+        } else {
+          button.style.display = 'block';
+        }
+      });
+
+      if (amountInput.style.display === 'block') {
+        amountInput.style.display = 'none';
+      }
+    }
+
+    // Function to toggle the visibility of the buy amount input
+    function toggleBuyAmountInput(button, coinId) {
+      const amountInput = button.parentNode.querySelector('.amount-input');
+      if (amountInput.style.display === 'block') {
+        amountInput.style.display = 'none';
+      } else {
+        amountInput.style.display = 'block';
+      }
+    }
+
+    // Function to toggle the visibility of the sell amount input
+    function toggleSellAmountInput(button, coinId) {
+      const amountInput = button.parentNode.querySelector('.amount-input');
+      if (amountInput.style.display === 'block') {
+        amountInput.style.display = 'none';
+      } else {
+        amountInput.style.display = 'block';
+      }
+    }
+
+    // Function to buy coins
+    function buyCoin(coinId) {
+      const amountInput = document.getElementById(coinId).querySelector('.amount-input');
+      const amount = amountInput.value;
+      if (amount) {
+        const balance = parseFloat(document.getElementById('balance').innerText);
+        const price = parseFloat(document.getElementById(coinId).previousElementSibling.innerText);
+        const totalPrice = amount * price;
+
+        if (balance >= totalPrice) {
+          document.getElementById('balance').innerText = (balance - totalPrice).toFixed(2);
+          console.log(`Bought ${amount} coins of ${coinId} for $${totalPrice}`);
+          amountInput.value = '';
+          amountInput.style.display = 'none';
+          toggleBuyAmountInput(null, coinId);
+        } else {
+          alert('Insufficient balance!');
+        }
+      }
+    }
+
+    // Function to sell coins
+    function sellCoin(coinId) {
+      const amountInput = document.getElementById(coinId).querySelector('.amount-input');
+      const amount = amountInput.value;
+      if (amount) {
+        const balance = parseFloat(document.getElementById('balance').innerText);
+        const price = parseFloat(document.getElementById(coinId).previousElementSibling.innerText);
+        const totalPrice = amount * price;
+
+        document.getElementById('balance').innerText = (balance + totalPrice).toFixed(2);
+        console.log(`Sold ${amount} coins of ${coinId} for $${totalPrice}`);
+        amountInput.value = '';
+        amountInput.style.display = 'none';
+        toggleSellAmountInput(null, coinId);
+      }
+    }
+
+    // Call the fetchCoins function when the page loads
+    window.addEventListener('load', fetchCoins);
   </script>
 </body>
 </html>
