@@ -1,37 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Portfolio</title>
+  <title>My Portfolio</title>
+  <style>
+    /* Add your custom styles for the portfolio page here */
+  </style>
 </head>
 <body>
-  <h1>Portfolio</h1>
-  <div id="portfolio">
-    <!-- Portfolio data will be dynamically added here -->
-  </div>
+  <h1>My Portfolio</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Coin Name</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody id="coinTableBody">
+      <!-- Coin rows will be dynamically added here -->
+    </tbody>
+  </table>
 
   <script>
-    // Function to retrieve trade data from sessionStorage and update the portfolio
-    function updatePortfolio() {
-      const tradeData = JSON.parse(sessionStorage.getItem('tradeData'));
+    // Function to fetch the portfolio data and populate the table
+    async function fetchPortfolio() {
+      try {
+        const response = await fetch('/portfolio'); // Replace '/portfolio' with your actual backend endpoint to retrieve the portfolio data
+        const portfolio = await response.json();
 
-      if (tradeData) {
-        const portfolioElement = document.getElementById('portfolio');
+        const coinTableBody = document.getElementById('coinTableBody');
 
-        // Update the portfolio with the trade data
-        const tradeType = tradeData.type === 'buy' ? 'Bought' : 'Sold';
-        const tradeMessage = `${tradeType} ${tradeData.amount} coins with ID: ${tradeData.coinId}`;
-        const tradeElement = document.createElement('p');
-        tradeElement.textContent = tradeMessage;
+        // Clear existing rows
+        coinTableBody.innerHTML = '';
 
-        portfolioElement.appendChild(tradeElement);
+        // Iterate over the portfolio data and create table rows dynamically
+        portfolio.forEach((coin) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${coin.name}</td>
+            <td>${coin.amount}</td>
+          `;
 
-        // Clear the trade data from sessionStorage
-        sessionStorage.removeItem('tradeData');
+          coinTableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error fetching portfolio:', error);
       }
     }
 
-    // Call the updatePortfolio function when the page loads
-    window.addEventListener('load', updatePortfolio);
+    // Call the fetchPortfolio function when the page loads
+    window.addEventListener('load', fetchPortfolio);
   </script>
 </body>
 </html>
