@@ -123,6 +123,9 @@ router.get('/portfolio', function (req, res) {
 router.get('/ManageCoins', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'manageCoins.html'));
 });
+router.get('/deleteCoins', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../views', 'deleteCoins.html'));
+});
 
 router.get('/coins', async (req, res) => {
   try {
@@ -138,5 +141,16 @@ router.get('/coins', async (req, res) => {
   }
 });
 
+router.delete('/coins/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Coin.findByIdAndDelete(id);
+    res.sendStatus(204); // No content
+  } catch (error) {
+    console.error('Error deleting coin:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 module.exports = router;
+
