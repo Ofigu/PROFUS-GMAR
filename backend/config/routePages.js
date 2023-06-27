@@ -92,9 +92,6 @@ router.get('/admin', function (req, res) {
 });
 
 
-
-
-
 router.get('/loginPage', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'login.html'));
 });
