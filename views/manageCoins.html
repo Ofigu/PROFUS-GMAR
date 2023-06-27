@@ -21,7 +21,7 @@
         <th>Alt Coin</th>
         <th>Proof of Work</th>
         <th>Image</th>
-        <th>Actions</th>
+        <th>Actions</th> <!-- Added Actions column -->
       </tr>
     </thead>
     <tbody id="coinTableBody">
@@ -29,7 +29,12 @@
     </tbody>
   </table>
 
+  <button onclick="saveChanges()">Save Changes</button>
+
   <script>
+    // Array to store the updated coins
+    let updatedCoins = [];
+
     // Function to fetch coins from the backend and populate the table
     async function fetchCoins() {
       try {
@@ -51,7 +56,6 @@
             <td><img src="${coin.ImageOfCoin}" alt="Coin Image"></td>
             <td>
               <button onclick="deleteCoin('${coin._id}')">Delete</button>
-              <button onclick="saveCoin('${coin._id}')">Save</button>
             </td>
           `;
 
@@ -72,6 +76,37 @@
       }
     }
 
+    // Function to handle changes and add them to the updatedCoins array
+    function handleChanges(row) {
+      const coinId = row.id;
+      const fields = row.querySelectorAll('[contenteditable]');
+      const updates = {};
+
+      fields.forEach((field) => {
+        const fieldName = field.dataset.field;
+        const fieldValue = field.textContent;
+        updates[fieldName] = fieldValue;
+      });
+
+      // Update boolean fields from checkboxes
+      const recommendedCheckbox = row.querySelector('[data-field="Recommended"] input');
+      updates.Recommended = recommendedCheckbox.checked;
+
+      const altCoinCheckbox = row.querySelector('[data-field="AltCoin"] input');
+      updates.AltCoin = altCoinCheckbox.checked;
+
+      const proofOfWorkCheckbox = row.querySelector('[data-field="ProofOfWork"] input');
+      updates.ProofOfWork = proofOfWorkCheckbox.checked;
+
+      const existingCoin = updatedCoins.find((coin) => coin.id === coinId);
+
+      if (existingCoin) {
+        existingCoin.updates = updates;
+      } else {
+        updatedCoins.push({ id: coinId, updates });
+      }
+    }
+
     // Function to handle delete coin action
     async function deleteCoin(coinId) {
       // Ask for confirmation before deleting the coin
@@ -79,8 +114,10 @@
         try {
           const response = await fetch(`/coins/${coinId}`, { method: 'DELETE' }); // Replace '/coins/:id' with your actual backend endpoint to delete a coin
           if (response.ok) {
-            // Refresh the page to reflect the deleted coin
-            location.reload();
+            // Remove the deleted coin from the table
+            const coinRow = document.getElementById(coinId);
+            coinRow.remove();
+            console.log('Coin deleted successfully');
           } else {
             console.error('Error deleting coin:', response.status);
           }
@@ -90,50 +127,54 @@
       }
     }
 
-    // Function to handle save coin action
-    async function saveCoin(coinId) {
+    // Function to handle save changes action
+    async function saveChanges() {
       try {
-        const coinRow = document.getElementById(coinId); // Add this line to get the coin row by ID
-        const fields = coinRow.querySelectorAll('[contenteditable]');
-        const updates = {};
+        for (const coin of updatedCoins) {
+          const { id, updates } = coin;
 
-        fields.forEach((field) => {
-          const fieldName = field.dataset.field;
-          const fieldValue = field.textContent;
-          updates[fieldName] = fieldValue;
-        });
+          const response = await fetch(`/coins/${id}`, {
+            method: 'PATCH', // Use the appropriate HTTP method for updating the coin data
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updates)
+          });
 
-        // Update boolean fields from checkboxes
-        const recommendedCheckbox = coinRow.querySelector('[data-field="Recommended"] input');
-        updates.Recommended = recommendedCheckbox.checked;
-
-        const altCoinCheckbox = coinRow.querySelector('[data-field="AltCoin"] input');
-        updates.AltCoin = altCoinCheckbox.checked;
-
-        const proofOfWorkCheckbox = coinRow.querySelector('[data-field="ProofOfWork"] input');
-        updates.ProofOfWork = proofOfWorkCheckbox.checked;
-
-        const response = await fetch(`/coins/${coinId}`, {
-          method: 'PATCH', // Use the appropriate HTTP method for updating the coin data
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(updates)
-        });
-
-        if (response.ok) {
-          console.log('Coin updated successfully');
-          location.reload(); // Refresh the page to reflect the updated coin data
-        } else {
-          console.error('Error updating coin:', response.status);
+          if (response.ok) {
+            console.log(`Coin with ID ${id} updated successfully`);
+          } else {
+            console.error(`Error updating coin with ID ${id}:`, response.status);
+          }
         }
+
+        console.log('All changes saved successfully');
+        location.reload(); // Refresh the page to reflect the updated coin data
       } catch (error) {
-        console.error('Error updating coin:', error);
+        console.error('Error saving changes:', error);
       }
     }
 
     // Call the fetchCoins function when the page loads
     window.addEventListener('load', fetchCoins);
+
+    // Event delegation to handle changes made in the table
+    document.addEventListener('input', (event) => {
+      const target = event.target;
+      if (target.matches('[contenteditable]')) {
+        const row = target.closest('tr');
+        handleChanges(row);
+      }
+    });
+
+    // Event delegation to handle changes made in the checkboxes
+    document.addEventListener('change', (event) => {
+      const target = event.target;
+      if (target.matches('input[type="checkbox"]')) {
+        const row = target.closest('tr');
+        handleChanges(row);
+      }
+    });
   </script>
 </body>
 </html>
