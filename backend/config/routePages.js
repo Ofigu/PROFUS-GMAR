@@ -20,8 +20,16 @@ router.post('/addUser', async (req, res) => {
     // Redirect the user to another page
     res.redirect('/welcome');
   } catch (error) {
-    console.error('Error adding user:', error);
-    res.send(error);
+    if (error.code === 11000 && error.keyPattern && error.keyValue && error.keyValue.UserName) {
+      // Duplicate username error
+      const errorMessage = 'Username already exists. Please choose a different username.';
+      console.error(errorMessage);
+      // Display an alert with the error message
+      res.send(`<script>alert('${errorMessage}'); window.location.href='/signup'</script>`);
+    } else {
+      console.error('Error adding user:', error);
+      res.send(error);
+    }
   }
 });
 
@@ -36,12 +44,22 @@ router.post('/addCoin', async (req, res) => {
   });
 
   try {
-    // Save the user to the database
-    await coin.save();
-    console.log('Coin added successfully');
+    // Check if a coin with the same name already exists
+    const existingCoin = await Coin.findOne({ CoinName: req.body.CoinName });
 
-    // Redirect the user to another page
-    res.redirect('/welcome');
+    if (existingCoin) {
+      // Display an alert for an existing coin
+      const errorMessage = 'A coin with the same name already exists.';
+      console.error(errorMessage);
+      res.send(`<script>alert('${errorMessage}'); window.location.href='/Coin'</script>`);
+    } else {
+      // Save the coin to the database
+      await coin.save();
+      console.log('Coin added successfully');
+
+      // Redirect the user to another page
+      res.redirect('/welcome');
+    }
   } catch (error) {
     console.error('Error adding coin:', error);
     res.send(error);
@@ -49,30 +67,27 @@ router.post('/addCoin', async (req, res) => {
 });
 
 
+
 router.post('/login', async (req, res) => {
   const username = req.body.Username;
   const password = req.body.Password;
-  console.log(username);
-  console.log(password);
-
   try {
-    // Find the user in the database based on the provided username
+    // Find the user in the database based on the provided username and password
     const loguser = await User.findOne({ UserName: username, Password: password });
-    console.log(loguser);
 
     if (loguser) {
       // Retrieve user's role based on username and ID
       if (loguser.id === '6499aa757afcc808e265fd90' || loguser.id === '6499aace7afcc808e265fd92' || loguser.id === '6499aae87afcc808e265fd94') {
         res.redirect('/admin?firstName=' + loguser.UserName);
-      }
-
-      else {
-        // res.redirect('/customer'); // Redirect to customer index page
-        res.redirect('/customer?firstName=' + loguser.UserName); // Pass the first name as a query parameter in the URL
-
+      } else {
+        // Redirect to the customer index page and pass the first name as a query parameter in the URL
+        res.redirect('/customer?firstName=' + loguser.UserName);
       }
     } else {
-      console.log('No such user'); // Handle invalid credentials or other error
+      // Display an alert for no such user
+      const errorMessage = 'No user found with the provided username and password.';
+      console.error(errorMessage);
+      res.send(`<script>alert('${errorMessage}'); window.location.href='/loginPage'</script>`);
     }
   } catch (error) {
     console.error('Error during login:', error);
