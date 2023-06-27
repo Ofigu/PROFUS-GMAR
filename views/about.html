@@ -27,17 +27,18 @@
   background-attachment: fixed;
 }
 .content {
-  max-width: 800px;
+  /* max-width: 800px; */
   margin: 0 auto;
   padding: 20px;
   margin-top: -15px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-  backdrop-filter: blur(140px);
-  -webkit-backdrop-filter: blur(140px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
   height: 100vh; /* Added to make the content div take up the full viewport height */
   overflow-y: auto; /* Added to enable vertical scrolling */
+  padding-left: 20px;
 }
 .content::-webkit-scrollbar {
   display: none; /* Hide the scroll bar */
@@ -168,7 +169,7 @@
         <li><strong>Customer Support:</strong> Our dedicated support team is available around the clock to assist you with any questions or concerns.</li>
       </ul>
 
-      <h2>Our Team Of Experts</h2>
+      <h2 style="text-align: center;">Our Team Of Experts</h2>
     <div class="team-container">
       <div class="team-box">
         <div class="team-img">
