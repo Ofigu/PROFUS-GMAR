@@ -22,32 +22,35 @@
   </table>
 
   <script>
-    // Fetch coins data from the server
-    fetch('/coins')
-      .then(response => response.json())
-      .then(coins => {
-        const coinTableBody = document.getElementById('coinTableBody');
-        coins.forEach(coin => {
-          // Create a new row for each coin
-          const row = document.createElement('tr');
+    // Function to fetch coins from the backend and populate the table
+    async function fetchCoins() {
+      try {
+        const response = await fetch('/coins'); // Replace '/coins' with your actual backend endpoint to retrieve the coin data
+        const coins = await response.json();
 
-          // Populate the row with coin data
+        const coinTableBody = document.getElementById('coinTableBody');
+
+        // Iterate over the coins and create table rows dynamically
+        coins.forEach((coin) => {
+          const row = document.createElement('tr');
           row.innerHTML = `
             <td>${coin.CoinName}</td>
             <td>${coin.Price}</td>
             <td>${coin.Recommended}</td>
             <td>${coin.AltCoin}</td>
             <td>${coin.ProofOfWork}</td>
-            <td><img src="${coin.ImageOfCoin}" alt="${coin.CoinName}" height="50"></td>
+            <td><img src="${coin.ImageOfCoin}" alt="Coin Image"></td>
           `;
 
-          // Append the row to the table body
           coinTableBody.appendChild(row);
         });
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error fetching coins:', error);
-      });
+      }
+    }
+
+    // Call the fetchCoins function when the page loads
+    window.addEventListener('load', fetchCoins);
   </script>
 </body>
 </html>

@@ -120,7 +120,23 @@ router.get('/portfolio', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'portfolio.html'));
 });
 
+router.get('/ManageCoins', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../views', 'manageCoins.html'));
+});
 
+router.get('/coins', async (req, res) => {
+  try {
+    // Retrieve all coins from the database
+    const coins = await Coin.find();
+    console.log(coins)
+
+    // Send the coins as a JSON response
+    res.json(coins);
+  } catch (error) {
+    console.error('Error fetching coins:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 module.exports = router;
