@@ -123,9 +123,6 @@ router.get('/portfolio', function (req, res) {
 router.get('/ManageCoins', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'manageCoins.html'));
 });
-router.get('/deleteCoins', function (req, res) {
-  res.sendFile(path.join(__dirname, '../../views', 'deleteCoins.html'));
-});
 
 router.get('/coins', async (req, res) => {
   try {

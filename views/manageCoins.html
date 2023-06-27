@@ -60,11 +60,25 @@
       }
     }
 
-    // Function to handle delete coin action
-    function deleteCoin(coinId) {
-      // Implement the logic to delete the coin using the coinId
-      console.log('Delete coin:', coinId);
+   // Function to handle delete coin action
+// Function to handle delete coin action
+async function deleteCoin(coinId) {
+  // Ask for confirmation before deleting the coin
+  if (confirm('Are you sure you want to delete this coin?')) {
+    try {
+      const response = await fetch(`/coins/${coinId}`, { method: 'DELETE' }); // Replace '/coins/:id' with your actual backend endpoint to delete a coin
+      if (response.ok) {
+        // Refresh the page to reflect the deleted coin
+        location.reload();
+      } else {
+        console.error('Error deleting coin:', response.status);
+      }
+    } catch (error) {
+      console.error('Error deleting coin:', error);
     }
+  }
+}
+
 
     // Function to handle edit coin action
     function editCoin(coinId) {
