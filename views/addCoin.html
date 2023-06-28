@@ -219,39 +219,89 @@
   <body>
     <div class="wrapper">
       <div class="container">
-        <form action="/addCoin" method="POST">
+        <form id="coinForm" action="/addCoin" method="POST">
           <input type="text" id="coinName" name="CoinName" placeholder="Coin Name" required><br><br>
           <input type="text" id="price" name="Price" placeholder="Coin Price In USD" required><br><br>
-          <!-- <div class="buttons"> -->
-            <div class="button">
-              <label for="recommended">
-                Recommended:
-                <input type="checkbox" id="recommended" name="Recommended" value="true">
-              </label><br><br>
-            </div>
-            <div class="button">
-              <label for="altCoin">
-                Alt Coin:
-                <input type="checkbox" id="altCoin" name="AltCoin" value="true">
-              </label><br><br>
-            </div>
-            <div class="button">
-              <label for="proofOfWork">
-                Proof of Work:
-                <input type="checkbox" id="proofOfWork" name="ProofOfWork" value="true">
-              </label><br><br>
-            </div>
-          <!-- </div> -->
+          <div class="button">
+            <label for="recommended">
+              Recommended:
+              <input type="checkbox" id="recommended" name="Recommended" value="true">
+            </label><br><br>
+          </div>
+          <div class="button">
+            <label for="altCoin">
+              Alt Coin:
+              <input type="checkbox" id="altCoin" name="AltCoin" value="true">
+            </label><br><br>
+          </div>
+          <div class="button">
+            <label for="proofOfWork">
+              Proof of Work:
+              <input type="checkbox" id="proofOfWork" name="ProofOfWork" value="true">
+            </label><br><br>
+          </div>
           <input type="text" id="imageOfCoin" name="ImageOfCoin" placeholder="Coin Picture" required><br><br>
           <input type="submit" value="Add Coin" id="add-coin-button">
         </form>
       </div>
-      <div class="conformation">
+      <div class="conformation" style="display: none;">
         <p>Coin Added Successfully</p>
-        <button id="">Tweet it</button>
+        <button id="tweet-button">Tweet it</button>
+        <button id="not-this-time-button">Not this time</button>
       </div>
     </div>
   </body>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Handle tweeting about the new coin
+   function tweetAboutCoin() {
+  // Replace this with your tweet functionality
+  console.log('Tweet about the new coin');
+}
+
+// Clear all input fields
+function clearFields() {
+  $('#coinName').val('');
+  $('#price').val('');
+  $('#recommended').prop('checked', false);
+  $('#altCoin').prop('checked', false);
+  $('#proofOfWork').prop('checked', false);
+  $('#imageOfCoin').val('');
+}
+
+// Event listener for the form submission
+$('#coinForm').submit(function(e) {
+  e.preventDefault();
+
+  // Get the form data
+  var formData = $(this).serialize();
+
+  // Send a POST request to the server
+  $.post('/addCoin', formData, function(response) {
+    if (response.coinAdded) {
+      // Show the confirmation message
+      // $('.container').hide();
+      $('.conformation').show();
+
+      // Event listener for the tweet button
+      $('#tweet-button').click(function() {
+        tweetAboutCoin();
+      });
+
+      // Event listener for the "Not this time" button
+      $('#not-this-time-button').click(function() {
+        $('.container').show();
+        $('.conformation').hide();
+        clearFields();
+      });
+    }
+  }).fail(function(error) {
+    console.error('Error adding coin:', error);
+  });
+});
+  </script>
+  
 </div>
 
 </html>

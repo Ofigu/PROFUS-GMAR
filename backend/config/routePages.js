@@ -85,12 +85,15 @@ router.post('/addCoin', async (req, res) => {
       await coin.save();
       console.log('Coin added successfully');
 
+      // Send a response back to the client-side to handle the confirmation
+      res.send({ coinAdded: true });
     }
   } catch (error) {
     console.error('Error adding coin:', error);
-    res.send(error);
+    res.status(500).send('Error adding coin.');
   }
 });
+
 
 router.post('/login', async (req, res) => {
   const username = req.body.Username;
@@ -172,14 +175,12 @@ router.get('/trade', async (req, res) => {
 
   try {
     const userObject = JSON.parse(decodeURIComponent(userCookie));
-    balance = userObject.Balance || 0;
+    console.log('User Cookie:', userObject);
   } catch (error) {
     console.error('Error parsing user cookie:', error);
   }
 
-  res.render('trade', { userCookie, balance: balance.toFixed(2) });
 });
-
 
 
 
