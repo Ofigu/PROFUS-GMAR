@@ -1,26 +1,102 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Manage Coins</title>
   <style>
+    /* Table Styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
     /* Set a fixed width and height for the coin images */
-    td img {
-      width: 40px; /* Adjust the desired width */
-      height: 40px; /* Adjust the desired height */
+    td.coin-image img {
+      width: 40px;
+      /* Adjust the desired width */
+      height: 40px;
+      /* Adjust the desired height */
+    }
+
+    /* Button Styling */
+    button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    /* Page Styling */
+    body {
+      padding: 20px;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      margin-right: 10px;
+    }
+
+    .search-checkbox {
+      margin-left: 10px;
     }
   </style>
 </head>
+
 <body>
   <h1>Coins List</h1>
+
+  <div class="page-header">
+    <div>
+      <label for="searchInput">Search:</label>
+      <input type="text" id="searchInput" oninput="filterCoins()" placeholder="Search by coin name">
+    </div>
+
+    <div>
+      <label for="maxPriceInput">Max Price:</label>
+      <input type="number" id="maxPriceInput" oninput="filterCoins()" step="0.01" placeholder="Enter max price">
+    </div>
+    <div class="search-checkbox">
+      <label for="recommendedCheckbox">Recommended</label>
+      <input type="checkbox" id="recommendedCheckbox" onchange="filterCoins()">
+    </div>
+    <div class="search-checkbox">
+      <label for="altCoinCheckbox">Alt Coin</label>
+      <input type="checkbox" id="altCoinCheckbox" onchange="filterCoins()">
+    </div>
+    <div class="search-checkbox">
+      <label for="proofOfWorkCheckbox">Proof of Work</label>
+      <input type="checkbox" id="proofOfWorkCheckbox" onchange="filterCoins()">
+    </div>
+  </div>
+
   <table>
     <thead>
       <tr>
+        <th>Image</th>
         <th>Coin Name</th>
         <th>Price</th>
         <th>Recommended</th>
         <th>Alt Coin</th>
         <th>Proof of Work</th>
-        <th>Image</th>
         <th>Actions</th> <!-- Added Actions column -->
       </tr>
     </thead>
@@ -29,7 +105,7 @@
     </tbody>
   </table>
 
-  <button onclick="saveChanges()">Save Changes</button>
+  <button id="saveButton" onclick="saveChanges()">Save Changes</button>
 
   <script>
     // Array to store the updated coins
@@ -43,17 +119,20 @@
 
         const coinTableBody = document.getElementById('coinTableBody');
 
+        // Sort coins by price in descending order
+        coins.sort((a, b) => b.Price - a.Price);
+
         // Iterate over the coins and create table rows dynamically
         coins.forEach((coin) => {
           const row = document.createElement('tr');
           row.id = coin._id; // Add this line to set the id attribute of the row
           row.innerHTML = `
+            <td><img src="${coin.ImageOfCoin}" alt="Coin Image"></td>
             <td>${coin.CoinName}</td>
             <td contenteditable data-field="Price">${coin.Price}</td>
             <td contenteditable data-field="Recommended">${coin.Recommended}</td>
             <td contenteditable data-field="AltCoin">${coin.AltCoin}</td>
             <td contenteditable data-field="ProofOfWork">${coin.ProofOfWork}</td>
-            <td><img src="${coin.ImageOfCoin}" alt="Coin Image"></td>
             <td>
               <button onclick="deleteCoin('${coin._id}')">Delete</button>
             </td>
@@ -155,6 +234,47 @@
       }
     }
 
+    // Function to search coins by name
+    function filterCoins() {
+      const searchInput = document.getElementById('searchInput');
+      const maxPriceInput = document.getElementById('maxPriceInput');
+      const recommendedCheckbox = document.getElementById('recommendedCheckbox');
+      const altCoinCheckbox = document.getElementById('altCoinCheckbox');
+      const proofOfWorkCheckbox = document.getElementById('proofOfWorkCheckbox');
+
+      const coins = Array.from(document.getElementById('coinTableBody').getElementsByTagName('tr'));
+
+      coins.forEach((coin) => {
+        const coinName = coin.children[1].innerText;
+        const price = parseFloat(coin.children[2].innerText);
+        const recommended = coin.querySelector('[data-field="Recommended"] input').checked;
+        const altCoin = coin.querySelector('[data-field="AltCoin"] input').checked;
+        const proofOfWork = coin.querySelector('[data-field="ProofOfWork"] input').checked;
+
+        coin.style.display = '';
+
+        if (searchInput.value && !coinName.toLowerCase().includes(searchInput.value.toLowerCase())) {
+          coin.style.display = 'none';
+        }
+
+        if (maxPriceInput.value && price > parseFloat(maxPriceInput.value)) {
+          coin.style.display = 'none';
+        }
+
+        if (recommendedCheckbox.checked && !recommended) {
+          coin.style.display = 'none';
+        }
+
+        if (altCoinCheckbox.checked && !altCoin) {
+          coin.style.display = 'none';
+        }
+
+        if (proofOfWorkCheckbox.checked && !proofOfWork) {
+          coin.style.display = 'none';
+        }
+      });
+    }
+
     // Call the fetchCoins function when the page loads
     window.addEventListener('load', fetchCoins);
 
@@ -177,4 +297,5 @@
     });
   </script>
 </body>
+
 </html>
