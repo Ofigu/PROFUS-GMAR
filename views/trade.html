@@ -78,14 +78,6 @@
   </table>
 
   <script>
-    // Retrieve the customer's first name from the URL query parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const firstName = urlParams.get('firstName');
-  
-    // Update the HTML content with the customer's first name
-    const customerNameElement = document.getElementById('customer-name');
-    customerNameElement.textContent = firstName;
-
     // Array to store purchased coins
     const purchasedCoins = [];
 
@@ -270,14 +262,6 @@
 
     // Fetch coins when the page loads
     fetchCoins();
-
-    // Retrieve the customer's first name from the URL query parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const firstName = urlParams.get('firstName');
-  
-    // Update the HTML content with the customer's first name
-    const customerNameElement = document.getElementById('customer-name');
-    customerNameElement.textContent = firstName;
   </script>
 </body>
 </html>
