@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require('path'); // Add this line to include the path module
 const User = require('../models/user');
 const Coin = require('../models/coin');
+const Trade = require('../models/trades');
 
 router.post('/addUser', async (req, res) => {
   const user = new User({
@@ -32,6 +33,32 @@ router.post('/addUser', async (req, res) => {
     }
   }
 });
+
+router.post('/addTrade', async (req, res) => {
+  try {
+    // Extract the trade data from the request body
+    const { CoinName, Amount, Value, UserName } = req.body;
+
+    // Create a new trade object with the current date
+    const newTrade = new Trade({
+      CoinName,
+      Amount,
+      Value,
+      UserName,
+      Date: new Date() // Set the Date field to the current date and time
+    });
+
+    // Save the trade to the database
+    const savedTrade = await newTrade.save();
+    console.log(savedTrade);
+
+    res.status(200).json(savedTrade);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while adding the trade.' });
+  }
+});
+
+
 
 router.post('/addCoin', async (req, res) => {
   const coin = new Coin({
