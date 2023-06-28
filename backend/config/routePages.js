@@ -17,9 +17,7 @@ router.post('/addUser', async (req, res) => {
     // Save the user to the database
     await user.save();
     console.log('User added successfully');
-
-    // Redirect the user to another page
-    res.redirect('/welcome');
+    
   } catch (error) {
     if (error.code === 11000 && error.keyPattern && error.keyValue && error.keyValue.UserName) {
       // Duplicate username error
