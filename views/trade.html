@@ -78,8 +78,19 @@
   </table>
 
   <script>
+    // Retrieve the customer's first name from the URL query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const firstName = urlParams.get('firstName');
+  
+    // Update the HTML content with the customer's first name
+    const customerNameElement = document.getElementById('customer-name');
+    customerNameElement.textContent = firstName;
+
     // Array to store purchased coins
     const purchasedCoins = [];
+
+    // Object to store coin names by ID
+    const coinNames = {};
 
     // Function to fetch coins from the backend and populate the table
     async function fetchCoins() {
@@ -113,6 +124,9 @@
           `;
 
           coinTableBody.appendChild(row);
+
+          // Store coin names by ID for reference in purchased coins table
+          coinNames[coin._id] = coin.CoinName;
         });
       } catch (error) {
         console.error('Error fetching coins:', error);
@@ -130,9 +144,26 @@
         if (action === 'buy') {
           buyCoin(coinId, price, amount);
         } else if (action === 'sell') {
-          sellCoin(coinId, price, amount);
+          const ownedAmount = getPurchasedCoinAmount(coinId);
+          if (amount <= ownedAmount) {
+            sellCoin(coinId, price, amount);
+          } else {
+            alert('You do not own enough coins to sell.');
+          }
         }
+
+        // Clear the amount input field
+        input.value = '';
       }
+    }
+
+    // Function to get the amount of a purchased coin
+    function getPurchasedCoinAmount(coinId) {
+      const existingRow = document.getElementById(`${coinId}Row`);
+      if (existingRow) {
+        return parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
+      }
+      return 0;
     }
 
     // Function to handle the buy action
@@ -161,13 +192,13 @@
           const newRow = document.createElement('tr');
           newRow.id = `${coinId}Row`;
           newRow.innerHTML = `
-            <td>${coinId}</td>
+            <td>${coinNames[coinId]}</td>
             <td class="purchased-coin-amount">${amount.toFixed(2)}</td>
           `;
           purchasedCoinsTableBody.appendChild(newRow);
         }
       } else {
-        alert('Insufficient balance for buying.');
+        alert('Insufficient balance to perform the purchase.');
       }
     }
 
@@ -177,59 +208,76 @@
       const balance = parseFloat(balanceElement.innerText);
 
       const totalPrice = price * amount;
+
       const newBalance = balance + totalPrice;
       balanceElement.innerText = newBalance.toFixed(2);
       console.log(`Sold ${totalPrice.toFixed(2)} worth of ${coinId}`);
 
       // Update the purchased coins table
-      const purchasedCoinsTableBody = document.getElementById('purchasedCoinsTableBody');
       const existingRow = document.getElementById(`${coinId}Row`);
-
       const existingAmount = parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
+      const newAmount = existingAmount - amount;
 
-      if (amount >= existingAmount) {
-        // If the entire amount is being sold, remove the row from the table
-        purchasedCoinsTableBody.removeChild(existingRow);
-      } else {
-        // If only a portion of the amount is being sold, update the amount
-        const newAmount = existingAmount - amount;
+      if (newAmount > 0) {
+        // If there are still remaining coins, update the amount
         existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(2);
+      } else {
+        // If all coins are sold, remove the row
+        existingRow.remove();
       }
     }
 
-    // Function to filter the coins based on user input
+    // Function to filter coins based on search criteria
     function filterCoins() {
-      const searchInput = document.getElementById('searchInput').value.toLowerCase();
-      const maxPriceInput = parseFloat(document.getElementById('maxPriceInput').value);
-      const recommendedInput = document.getElementById('recommendedInput').checked;
-      const altCoinInput = document.getElementById('altCoinInput').checked;
-      const proofOfWorkInput = document.getElementById('proofOfWorkInput').checked;
+      const searchInput = document.getElementById('searchInput');
+      const maxPriceInput = document.getElementById('maxPriceInput');
+      const recommendedInput = document.getElementById('recommendedInput');
+      const altCoinInput = document.getElementById('altCoinInput');
+      const proofOfWorkInput = document.getElementById('proofOfWorkInput');
 
-      const coinRows = document.querySelectorAll('#coinTableBody tr');
+      const coins = Array.from(document.getElementById('coinTableBody').getElementsByTagName('tr'));
 
-      coinRows.forEach((row) => {
-        const coinName = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
-        const coinPrice = parseFloat(row.querySelector('td:nth-child(3)').innerText);
-        const coinRecommended = row.querySelector('td:nth-child(4)').innerText === 'true';
-        const coinAltCoin = row.querySelector('td:nth-child(5)').innerText === 'true';
-        const coinProofOfWork = row.querySelector('td:nth-child(6)').innerText === 'true';
+      coins.forEach((coin) => {
+        const coinName = coin.children[1].innerText;
+        const price = parseFloat(coin.children[2].innerText);
+        const recommended = coin.children[3].innerText === 'true';
+        const altCoin = coin.children[4].innerText === 'true';
+        const proofOfWork = coin.children[5].innerText === 'true';
 
-        const coinMatchesSearch = coinName.includes(searchInput);
-        const coinMatchesMaxPrice = isNaN(maxPriceInput) || coinPrice <= maxPriceInput;
-        const coinMatchesRecommended = !recommendedInput || coinRecommended;
-        const coinMatchesAltCoin = !altCoinInput || coinAltCoin;
-        const coinMatchesProofOfWork = !proofOfWorkInput || coinProofOfWork;
+        coin.style.display = '';
 
-        if (coinMatchesSearch && coinMatchesMaxPrice && coinMatchesRecommended && coinMatchesAltCoin && coinMatchesProofOfWork) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
+        if (searchInput.value && !coinName.toLowerCase().includes(searchInput.value.toLowerCase())) {
+          coin.style.display = 'none';
+        }
+
+        if (maxPriceInput.value && price > parseFloat(maxPriceInput.value)) {
+          coin.style.display = 'none';
+        }
+
+        if (recommendedInput.checked && !recommended) {
+          coin.style.display = 'none';
+        }
+
+        if (altCoinInput.checked && !altCoin) {
+          coin.style.display = 'none';
+        }
+
+        if (proofOfWorkInput.checked && !proofOfWork) {
+          coin.style.display = 'none';
         }
       });
     }
 
     // Fetch coins when the page loads
     fetchCoins();
+
+    // Retrieve the customer's first name from the URL query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const firstName = urlParams.get('firstName');
+  
+    // Update the HTML content with the customer's first name
+    const customerNameElement = document.getElementById('customer-name');
+    customerNameElement.textContent = firstName;
   </script>
 </body>
 </html>
