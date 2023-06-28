@@ -85,12 +85,15 @@ router.post('/addCoin', async (req, res) => {
       await coin.save();
       console.log('Coin added successfully');
 
+      // Send a response back to the client-side to handle the confirmation
+      res.send({ coinAdded: true });
     }
   } catch (error) {
     console.error('Error adding coin:', error);
-    res.send(error);
+    res.status(500).send('Error adding coin.');
   }
 });
+
 
 router.post('/login', async (req, res) => {
   const username = req.body.Username;
