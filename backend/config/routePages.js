@@ -17,7 +17,7 @@ router.post('/addUser', async (req, res) => {
     // Save the user to the database
     await user.save();
     console.log('User added successfully');
-    
+
   } catch (error) {
     if (error.code === 11000 && error.keyPattern && error.keyValue && error.keyValue.UserName) {
       // Duplicate username error
@@ -82,8 +82,6 @@ router.post('/addCoin', async (req, res) => {
       await coin.save();
       console.log('Coin added successfully');
 
-      // Redirect the user to another page
-      res.redirect('/welcome');
     }
   } catch (error) {
     console.error('Error adding coin:', error);
