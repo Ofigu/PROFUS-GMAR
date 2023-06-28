@@ -172,14 +172,12 @@ router.get('/trade', async (req, res) => {
 
   try {
     const userObject = JSON.parse(decodeURIComponent(userCookie));
-    balance = userObject.Balance || 0;
+    console.log('User Cookie:', userObject);
   } catch (error) {
     console.error('Error parsing user cookie:', error);
   }
 
-  res.render('trade', { userCookie, balance: balance.toFixed(2) });
 });
-
 
 
 
