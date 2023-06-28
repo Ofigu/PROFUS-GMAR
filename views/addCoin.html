@@ -32,9 +32,9 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
       text-align: center;
-      width: 400px;
-      margin: 8% auto;
-      height: 600px;
+      max-width: 700px;
+      padding: 27px;
+      padding-top: 80px;
     }
 
     .container form {
@@ -103,11 +103,6 @@
       height: 35px;
       cursor: pointer;
     }
-
-    #add-coin-button:focus {
-      background-color: rgb(84, 190, 84);
-    }
-
     .container p {
       margin-top: 10px;
       color: rgba(255, 255, 255, 0.9);
@@ -124,7 +119,7 @@
       justify-content: center;
     }
 
-    #add-coin-button:hover {
+    #add-coin-button:active {
       width: 65%;
       font-size: 27px;
       height: 45px;
@@ -192,7 +187,6 @@
       transform: scale(1.7);
     }
     .conformation{
-      border: solid 2px greenyellow;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -200,9 +194,8 @@
       z-index: 1;
     }
     .conformation p{
-      color: rgb(84, 190, 84);
       font-weight: 700;
-      font-size: 25px;
+      font-size: 28px;
     }
   </style>
 </head>
@@ -212,6 +205,9 @@
     <div class="wrapper">
       <div class="container">
         <form action="/addCoin" method="POST">
+          <div class="conformation" id="conformation">
+            <br><br><br><br><br><br><br><br><br><br>
+          </div>
           <input type="text" id="coinName" name="CoinName" placeholder="Coin Name" required><br><br>
           <input type="text" id="price" name="Price" placeholder="Coin Price In USD" required><br><br>
           <!-- <div class="buttons"> -->
@@ -237,10 +233,11 @@
           <input type="text" id="imageOfCoin" name="ImageOfCoin" placeholder="Coin Picture" required><br><br>
           <input type="submit" value="Add Coin" id="add-coin-button">
         </form>
-      </div>
-      <div class="conformation">
-        <p>Coin Added Seccesfully</p>
-        <button id="">Tweet it</button>
+        <div class="conformation" id="conformation">
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <p>Coin Added Seccesfully</p>
+          <button id="tweet">Tweet it</button>
+        </div>
       </div>
     </div>
   </body>
