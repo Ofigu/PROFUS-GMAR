@@ -1,4 +1,3 @@
-const { Binary } = require('mongodb');
 const mongoose = require('mongoose');
 
 const coinSchema = new mongoose.Schema({
