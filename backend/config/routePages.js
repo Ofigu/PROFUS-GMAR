@@ -4,6 +4,9 @@ const path = require('path'); // Add this line to include the path module
 const User = require('../models/user');
 const Coin = require('../models/coin');
 const Trade = require('../models/trades');
+const cookieParser = require('cookie-parser'); // Add this line to include the cookie-parser middleware
+
+router.use(cookieParser());
 
 router.post('/addUser', async (req, res) => {
   const user = new User({
@@ -100,6 +103,9 @@ router.post('/login', async (req, res) => {
     const loguser = await User.findOne({ UserName: username, Password: password });
 
     if (loguser) {
+      // Set a cookie containing the user data
+      res.cookie('user', loguser, { maxAge: 86400000 }); // Cookie expires in 24 hours (86400000 milliseconds)
+
       // Retrieve user's role based on username and ID
       if (loguser.id === '6499aa757afcc808e265fd90' || loguser.id === '6499aace7afcc808e265fd92' || loguser.id === '6499aae87afcc808e265fd94') {
         res.redirect('/admin?firstName=' + loguser.UserName);
@@ -121,12 +127,25 @@ router.post('/login', async (req, res) => {
 
 
 router.get('/customer', function (req, res) {
-  res.sendFile(path.join(__dirname, '../../views', 'indexCustomer.html')); // Send the HTML file
+  const user = req.cookies.user;
+  if (!user) {
+    // Handle the case where the user cookie is not set
+    res.redirect('/loginPage');
+    return;
+  }
+  res.sendFile(path.join(__dirname, '../../views', 'indexCustomer.html'));
 });
 
 router.get('/admin', function (req, res) {
+  const user = req.cookies.user;
+  if (!user) {
+    // Handle the case where the user cookie is not set
+    res.redirect('/loginPage');
+    return;
+  }
   res.sendFile(path.join(__dirname, '../../views', 'indexAdmin.html'));
 });
+
 
 
 router.get('/loginPage', function (req, res) {
@@ -145,9 +164,29 @@ router.get('/welcome', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'welcome.html'));
 });
 
-router.get('/trade', function (req, res) {
-  res.sendFile(path.join(__dirname, '../../views', 'trade.html'));
+router.get('/trade', async (req, res) => {
+  const userCookie = req.cookies.user;
+  if (!userCookie) {
+    res.redirect('/loginPage');
+    return;
+  }
+
+  let balance = 0;
+
+  try {
+    const userObject = JSON.parse(decodeURIComponent(userCookie));
+    balance = userObject.Balance || 0;
+  } catch (error) {
+    console.error('Error parsing user cookie:', error);
+  }
+
+  res.render('trade', { userCookie, balance: balance.toFixed(2) });
 });
+
+
+
+
+
 
 router.get('/about', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'about.html'));
