@@ -20,6 +20,7 @@ router.post('/addUser', async (req, res) => {
     // Save the user to the database
     await user.save();
     console.log('User added successfully');
+    res.redirect('/welcome');
 
   } catch (error) {
     if (error.code === 11000 && error.keyPattern && error.keyValue && error.keyValue.UserName) {
@@ -182,6 +183,10 @@ router.get('/trade', async (req, res) => {
 
   // Assuming you have an HTML file named "trade.html" in a public directory
   res.sendFile(path.join(__dirname, '../../views', 'trade.html'));
+});
+
+router.get('/editBalance', async (req, res) => {
+  res.sendFile(path.join(__dirname, '../../views', 'editbalance.html'));
 });
 
 
