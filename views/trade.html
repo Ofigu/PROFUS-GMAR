@@ -104,7 +104,7 @@
       const balanceElement = document.getElementById('balance');
       const balance = await fetchUserBalance(username);
       if (balance !== null) {
-        balanceElement.innerText = balance.toFixed(2);
+        balanceElement.innerText = balance.toFixed(5);
       } else {
         balanceElement.innerText = 'N/A';
       }
@@ -198,13 +198,13 @@
 
       if (totalPrice <= balance) {
         const newBalance = balance - totalPrice;
-        balanceElement.innerText = newBalance.toFixed(2);
+        balanceElement.innerText = newBalance.toFixed(5);
 
         // Update the user's balance in MongoDB
         const username = urlParams.get('firstName');
         await updateBalance(username, newBalance);
 
-        console.log(`Bought ${totalPrice.toFixed(2)} worth of ${coinId}`);
+        console.log(`Bought ${totalPrice.toFixed(5)} worth of ${coinId}`);
 
 
         // Update the purchased coins table
@@ -215,14 +215,14 @@
           // If the coin already exists in the table, update the amount
           const existingAmount = parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
           const newAmount = existingAmount + amount;
-          existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(2);
+          existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(5);
         } else {
           // If the coin is being bought for the first time, add a new row
           const newRow = document.createElement('tr');
           newRow.id = `${coinId}Row`;
           newRow.innerHTML = `
             <td>${coinNames[coinId]}</td>
-            <td class="purchased-coin-amount">${amount.toFixed(2)}</td>
+            <td class="purchased-coin-amount">${amount.toFixed(5)}</td>
           `;
           purchasedCoinsTableBody.appendChild(newRow);
         }
@@ -238,13 +238,13 @@
   const totalPrice = price * amount;
 
   const newBalance = balance + totalPrice;
-  balanceElement.innerText = newBalance.toFixed(2);
+  balanceElement.innerText = newBalance.toFixed(5);
 
   // Update the user's balance in MongoDB
   const username = urlParams.get('firstName');
   await updateBalance(username, newBalance);
 
-  console.log(`Sold ${totalPrice.toFixed(2)} worth of ${coinId}`);
+  console.log(`Sold ${totalPrice.toFixed(5)} worth of ${coinId}`);
 
       // Update the purchased coins table
       const existingRow = document.getElementById(`${coinId}Row`);
@@ -253,7 +253,7 @@
 
       if (newAmount > 0) {
         // If there are still remaining coins, update the amount
-        existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(2);
+        existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(5);
       } else {
         // If all coins are sold, remove the row
         existingRow.remove();
