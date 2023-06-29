@@ -383,6 +383,7 @@
       <nav>
         <div class="nav-bar">
           <a href="/about">About us</a>
+          <a href="/editBalance?firstName=" id="editBalance-link">Transactions</a>
           <a href="/trade?firstName=" id="trade-link">Trade</a>
           <a href="/portfolio">Portfolio</a>
           <a href="/">Log Out</a>
@@ -402,6 +403,8 @@
         // Update the "Trade" link's href attribute with the customer's first name
         const tradeLink = document.getElementById('trade-link');
         tradeLink.href += firstName;
+        const balanceLink = document.getElementById('editBalance-link');
+        balanceLink.href += firstName;
       </script>
       
 
