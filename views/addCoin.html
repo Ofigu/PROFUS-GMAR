@@ -26,7 +26,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: space-evenly;
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
       backdrop-filter: blur(60px);
       -webkit-backdrop-filter: blur(60px);
@@ -39,16 +39,15 @@
     }
 
     .container form {
-    margin-top: -200px; /* Adjust this value as needed */
+      margin-bottom: 200px;
     padding: 6px;
     width: 60%;
     height: 300px;
     width: 90%;
+
   }
 
-    .container form .conformation { /* Added */
-      margin-top: 30px;
-    }
+    
 
     @media screen (max-width: 768px) {
       .container {
@@ -146,15 +145,6 @@
       background-position: right;
     }
 
-    .buttons {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 21px;
-      border: solid 2px red;
-      display: flex;
-      flex-direction: column;
-      justify-content: left;
-    }
-
     .button {
       margin-left: 15px;
       color: rgba(255, 255, 255, 0.9);
@@ -197,63 +187,24 @@
       transform: scale(1.7);
     }
     .conformation{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction:column;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
+      backdrop-filter: blur(60px);
+      -webkit-backdrop-filter: blur(60px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+      text-align: center;
       z-index: 1;
-      margin-top: -120px;
+      margin-top: -50px;
+      padding: 7px;
+      padding-top: 0px;
+      padding-left: 11px;
+      padding-right: 11px;
     }
     .conformation p{
-      color: white;
+      color: rgba(255, 179, 0, 0.9);
       font-weight: 700;
       font-size: 25px;
-    }
-    #tweet-button{
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-      backdrop-filter: blur(80px);
-      -webkit-backdrop-filter: blur(80px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-      margin-top: 10px;
-      width: 50%;
-      color: rgba(255, 255, 255, 0.9);
-      animation-duration: 2s;
-      transition: font-size 0.3s ease, box-shadow 0.2s ease, width 0.2s ease, height 0.2s ease;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 20px;
-      height: 35px;
-      cursor: pointer;
-    }
-    #tweet-button:hover {
-      width: 60%;
-      font-size: 25px;
-      height: 40px;
-      box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
-    }
-    #tweet-button:active{
-     background-color: rgb(0, 149, 255); 
-    }
-    #not-this-time-button{
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-      backdrop-filter: blur(80px);
-      -webkit-backdrop-filter: blur(80px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-      margin-top: 10px;
-      width: 45%;
-      color: rgba(255, 255, 255, 0.9);
-      animation-duration: 2s;
-      transition: font-size 0.3s ease, box-shadow 0.2s ease, width 0.2s ease, height 0.2s ease;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 16px;
-      height: 30px;
-      cursor: pointer;
-    }
-    #not-this-time-button:active{
-     background-color: rgb(255, 0, 0); 
     }
   </style>
 </head>
@@ -286,22 +237,16 @@
           <input type="text" id="imageOfCoin" name="ImageOfCoin" placeholder="Coin Picture" required><br><br>
           <input type="submit" value="Add Coin" id="add-coin-button">
         </form>
+        <div class="conformation" style="display: none;">
+          <p>Coin Added Successfully<br>and <span style="color: blue; font-weight: 700;">Tweeted</span> to customers.</p>
+
+        </div>
       </div>
-      <div class="conformation" style="display: none;">
-        <p>Coin Added Successfully</p>
-        <button id="tweet-button">Tweet it</button>
-        <button id="not-this-time-button">Not this time</button>
-      </div>
+      
     </div>
   </body>
-
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    // Handle tweeting about the new coin
-   function tweetAboutCoin() {
-  // Replace this with your tweet functionality
-  console.log('Tweet about the new coin');
-}
 
 // Clear all input fields
 function clearFields() {
@@ -327,17 +272,7 @@ $('#coinForm').submit(function(e) {
       // $('.container').hide();
       $('.conformation').show();
 
-      // Event listener for the tweet button
-      $('#tweet-button').click(function() {
-        tweetAboutCoin();
-      });
-
-      // Event listener for the "Not this time" button
-      $('#not-this-time-button').click(function() {
-        $('.container').show();
-        $('.conformation').hide();
-        clearFields();
-      });
+      clearFields();
     }
   }).fail(function(error) {
     console.error('Error adding coin:', error);
