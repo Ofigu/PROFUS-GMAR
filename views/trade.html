@@ -8,27 +8,16 @@
       width: 40px; /* Adjust the desired width */
       height: 40px; /* Adjust the desired height */
     }
-
-    /* Increase spacing between table cells */
-    td, th {
-      padding: 10px;
-    }
     
-    /* Increase spacing between table rows */
-    tbody tr {
-      margin-bottom: 10px;
-    }
-
     .search-filters {
       display: flex;
       gap: 10px;
-      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
   <h1>Coins List</h1>
-  <p>Balance: $<span id="balance"></span></p>
+  <p>Balance: $<span id="balance">-</span></p>
   
   <div class="search-filters">
     <div>
@@ -63,6 +52,9 @@
         <th>Image</th>
         <th>Coin Name</th>
         <th>Price</th>
+        <th>Recommended</th>
+        <th>Alt Coin</th>
+        <th>Proof of Work</th>
         <th></th>
         <th></th>
       </tr>
@@ -86,6 +78,7 @@
   </table>
 
   <script>
+    
     // Array to store purchased coins
     const purchasedCoins = [];
 
@@ -94,71 +87,140 @@
 
     // Function to fetch coins from the backend and populate the table
     async function fetchCoins() {
-  try {
-    const response = await fetch('/coins');
-    const coins = await response.json();
+      try {
+        const response = await fetch('/coins'); 
+        const coins = await response.json();
 
-    // Sort the coins by largest price to lowest
-    coins.sort((a, b) => b.Price - a.Price);
+        // Sort the coins by largest price to lowest
+        coins.sort((a, b) => b.Price - a.Price);
 
-    const coinTableBody = document.getElementById('coinTableBody');
+        const coinTableBody = document.getElementById('coinTableBody');
 
-    // Clear existing table rows
-    coinTableBody.innerHTML = '';
+        // Iterate over the coins and create table rows dynamically
+        coins.forEach((coin) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><img src="${coin.ImageOfCoin}" alt="Coin Image"></td>
+            <td>${coin.CoinName}</td>
+            <td id="${coin._id}Price">${coin.Price}</td>
+            <td>${coin.Recommended}</td>
+            <td>${coin.AltCoin}</td>
+            <td>${coin.ProofOfWork}</td>
+            <td>
+              <input class="buy-input" type="text" placeholder="Amount">
+              <button class="buy-button" onclick="performTrade(this, '${coin._id}', 'buy')">Buy</button>
+            </td>
+            <td>
+              <input class="sell-input" type="text" placeholder="Amount">
+              <button class="sell-button" onclick="performTrade(this, '${coin._id}', 'sell')">Sell</button>
+            </td>
+          `;
 
-    // Populate the table with coins
-    coins.forEach((coin) => {
-      const row = document.createElement('tr');
+          coinTableBody.appendChild(row);
 
-      const coinImageCell = document.createElement('td');
-      const coinImage = document.createElement('img');
-      coinImage.src = coin.ImageOfCoin; // Update the image source property to match your coin data structure
-      coinImageCell.appendChild(coinImage);
-      row.appendChild(coinImageCell);
+          // Store coin names by ID for reference in purchased coins table
+          coinNames[coin._id] = coin.CoinName;
+        });
+      } catch (error) {
+        console.error('Error fetching coins:', error);
+      }
+    }
 
-      const coinNameCell = document.createElement('td');
-      coinNameCell.textContent = coin.CoinName; // Update the coin name property to match your coin data structure
-      row.appendChild(coinNameCell);
+    // Function to perform the trade based on the selected action (buy/sell)
+    function performTrade(button, coinId, action) {
+      const input = action === 'buy' ? button.parentNode.querySelector('.buy-input') : button.parentNode.querySelector('.sell-input');
+      const amount = parseFloat(input.value);
 
-      const priceCell = document.createElement('td');
-      priceCell.textContent = coin.Price;
-      row.appendChild(priceCell);
+      if (!isNaN(amount) && amount > 0) {
+        const price = parseFloat(document.getElementById(`${coinId}Price`).innerText);
 
-      const recommendedCell = document.createElement('td');
-      recommendedCell.textContent = coin.Recommended ? 'Yes' : 'No';
-      // row.appendChild(recommendedCell);
+        if (action === 'buy') {
+          buyCoin(coinId, price, amount);
+        } else if (action === 'sell') {
+          const ownedAmount = getPurchasedCoinAmount(coinId);
+          if (amount <= ownedAmount) {
+            sellCoin(coinId, price, amount);
+          } else {
+            alert('You do not own enough coins to sell.');
+          }
+        }
 
-      const altCoinCell = document.createElement('td');
-      altCoinCell.textContent = coin.AltCoin ? 'Yes' : 'No';
-      // row.appendChild(altCoinCell);
+        // Clear the amount input field
+        input.value = '';
+      }
+    }
 
-      const proofOfWorkCell = document.createElement('td');
-      proofOfWorkCell.textContent = coin.ProofOfWork ? 'Yes' : 'No';
-      // row.appendChild(proofOfWorkCell);
+    // Function to get the amount of a purchased coin
+    function getPurchasedCoinAmount(coinId) {
+      const existingRow = document.getElementById(`${coinId}Row`);
+      if (existingRow) {
+        return parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
+      }
+      return 0;
+    }
 
-      const buyCell = document.createElement('td');
-      const buyButton = document.createElement('button');
-      buyButton.textContent = 'Buy';
-      buyButton.onclick = () => buyCoin(coin);
-      buyCell.appendChild(buyButton);
-      row.appendChild(buyCell);
+    // Function to handle the buy action
+    function buyCoin(coinId, price, amount) {
+      const balanceElement = document.getElementById('balance');
+      const balance = parseFloat(balanceElement.innerText);
 
-      const sellCell = document.createElement('td');
-      const sellButton = document.createElement('button');
-      sellButton.textContent = 'Sell';
-      sellButton.onclick = () => sellCoin(coin);
-      sellCell.appendChild(sellButton);
-      row.appendChild(sellCell);
+      const totalPrice = price * amount;
 
-      coinTableBody.appendChild(row);
-    });
-  } catch (error) {
-    console.error('Failed to fetch coins:', error);
-  }
-}
+      if (totalPrice <= balance) {
+        const newBalance = balance - totalPrice;
+        balanceElement.innerText = newBalance.toFixed(2);
+        console.log(`Bought ${totalPrice.toFixed(2)} worth of ${coinId}`);
 
+        // Update the purchased coins table
+        const purchasedCoinsTableBody = document.getElementById('purchasedCoinsTableBody');
+        const existingRow = document.getElementById(`${coinId}Row`);
 
-    // Function to filter coins based on search input, max price, and checkboxes
+        if (existingRow) {
+          // If the coin already exists in the table, update the amount
+          const existingAmount = parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
+          const newAmount = existingAmount + amount;
+          existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(2);
+        } else {
+          // If the coin is being bought for the first time, add a new row
+          const newRow = document.createElement('tr');
+          newRow.id = `${coinId}Row`;
+          newRow.innerHTML = `
+            <td>${coinNames[coinId]}</td>
+            <td class="purchased-coin-amount">${amount.toFixed(2)}</td>
+          `;
+          purchasedCoinsTableBody.appendChild(newRow);
+        }
+      } else {
+        alert('Insufficient balance to perform the purchase.');
+      }
+    }
+
+    // Function to handle the sell action
+    function sellCoin(coinId, price, amount) {
+      const balanceElement = document.getElementById('balance');
+      const balance = parseFloat(balanceElement.innerText);
+
+      const totalPrice = price * amount;
+
+      const newBalance = balance + totalPrice;
+      balanceElement.innerText = newBalance.toFixed(2);
+      console.log(`Sold ${totalPrice.toFixed(2)} worth of ${coinId}`);
+
+      // Update the purchased coins table
+      const existingRow = document.getElementById(`${coinId}Row`);
+      const existingAmount = parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
+      const newAmount = existingAmount - amount;
+
+      if (newAmount > 0) {
+        // If there are still remaining coins, update the amount
+        existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(2);
+      } else {
+        // If all coins are sold, remove the row
+        existingRow.remove();
+      }
+    }
+
+    // Function to filter coins based on search criteria
     function filterCoins() {
       const searchInput = document.getElementById('searchInput');
       const maxPriceInput = document.getElementById('maxPriceInput');
@@ -166,91 +228,37 @@
       const altCoinInput = document.getElementById('altCoinInput');
       const proofOfWorkInput = document.getElementById('proofOfWorkInput');
 
-      const searchQuery = searchInput.value.toLowerCase();
-      const maxPrice = parseFloat(maxPriceInput.value) || Infinity;
-      const recommended = recommendedInput.checked;
-      const altCoin = altCoinInput.checked;
-      const proofOfWork = proofOfWorkInput.checked;
+      const coins = Array.from(document.getElementById('coinTableBody').getElementsByTagName('tr'));
 
-      const coinTableBody = document.getElementById('coinTableBody');
+      coins.forEach((coin) => {
+        const coinName = coin.children[1].innerText;
+        const price = parseFloat(coin.children[2].innerText);
+        const recommended = coin.children[3].innerText === 'true';
+        const altCoin = coin.children[4].innerText === 'true';
+        const proofOfWork = coin.children[5].innerText === 'true';
 
-      const rows = coinTableBody.getElementsByTagName('tr');
+        coin.style.display = '';
 
-      for (let i = 0; i < rows.length; i++) {
-        const row = rows[i];
-        const coinName = row.getElementsByTagName('td')[1].textContent.toLowerCase();
-        const price = parseFloat(row.getElementsByTagName('td')[2].textContent);
-        const isRecommended = row.getElementsByTagName('td')[3].textContent.toLowerCase() === 'yes';
-        const isAltCoin = row.getElementsByTagName('td')[4].textContent.toLowerCase() === 'yes';
-        const isProofOfWork = row.getElementsByTagName('td')[5].textContent.toLowerCase() === 'yes';
+        if (searchInput.value && !coinName.toLowerCase().includes(searchInput.value.toLowerCase())) {
+          coin.style.display = 'none';
+        }
 
-        row.style.display =
-          coinName.includes(searchQuery) &&
-          price <= maxPrice &&
-          (!recommended || isRecommended) &&
-          (!altCoin || isAltCoin) &&
-          (!proofOfWork || isProofOfWork)
-            ? ''
-            : 'none';
-      }
-    }
+        if (maxPriceInput.value && price > parseFloat(maxPriceInput.value)) {
+          coin.style.display = 'none';
+        }
 
-    // Function to buy a coin
-    function buyCoin(coin) {
-      const balanceElement = document.getElementById('balance');
-      const balance = parseFloat(balanceElement.textContent);
+        if (recommendedInput.checked && !recommended) {
+          coin.style.display = 'none';
+        }
 
-      if (balance >= coin.Price) {
-        // Reduce the balance
-        const newBalance = balance - coin.Price;
-        balanceElement.textContent = newBalance.toFixed(2);
+        if (altCoinInput.checked && !altCoin) {
+          coin.style.display = 'none';
+        }
 
-        // Add the purchased coin to the table
-        const purchasedCoinsTableBody = document.getElementById('purchasedCoinsTableBody');
-
-        const row = document.createElement('tr');
-
-        const coinNameCell = document.createElement('td');
-        coinNameCell.textContent = coin.Name;
-        row.appendChild(coinNameCell);
-
-        const amountCell = document.createElement('td');
-        const coinAmount = purchasedCoins.filter((c) => c.ID === coin.ID).length + 1;
-        amountCell.textContent = coinAmount;
-        row.appendChild(amountCell);
-
-        purchasedCoinsTableBody.appendChild(row);
-
-        // Add the purchased coin to the purchasedCoins array
-        purchasedCoins.push(coin);
-      } else {
-        alert('Insufficient balance to buy this coin.');
-      }
-    }
-
-    // Function to sell a coin
-    function sellCoin(coin) {
-      const balanceElement = document.getElementById('balance');
-      const balance = parseFloat(balanceElement.textContent);
-
-      // Check if the user has the coin in the purchasedCoins array
-      const index = purchasedCoins.findIndex((c) => c.ID === coin.ID);
-      if (index !== -1) {
-        // Increase the balance
-        const newBalance = balance + coin.Price;
-        balanceElement.textContent = newBalance.toFixed(2);
-
-        // Remove the sold coin from the table
-        const purchasedCoinsTableBody = document.getElementById('purchasedCoinsTableBody');
-        const rows = purchasedCoinsTableBody.getElementsByTagName('tr');
-        const rowToRemove = rows[index];
-        rowToRemove.parentNode.removeChild(rowToRemove);
-
-        // Remove the sold coin from the purchasedCoins array
-        purchasedCoins.splice(index, 1);
-      } else {
-        alert('You do not own this coin to sell.');
-      }
+        if (proofOfWorkInput.checked && !proofOfWork) {
+          coin.style.display = 'none';
+        }
+      });
     }
 
     // Fetch coins when the page loads
