@@ -41,22 +41,38 @@ router.post('/addTrade', async (req, res) => {
     // Extract the trade data from the request body
     const { CoinName, Amount, Value, UserName } = req.body;
 
-    // Create a new trade object with the current date
-    const newTrade = new Trade({
-      CoinName,
-      Amount,
-      Value,
-      UserName,
-      Date: new Date() // Set the Date field to the current date and time
-    });
+    // Check if a trade with the same coin and username exists
+    const existingTrade = await Trade.findOne({ CoinName, UserName });
 
-    // Save the trade to the database
-    const savedTrade = await newTrade.save();
-    console.log(savedTrade);
+    if (existingTrade) {
+      // If a trade exists, update its properties
+      existingTrade.Amount = Amount;
+      existingTrade.Value = Value;
+      existingTrade.LastDate = new Date();
 
-    res.status(200).json(savedTrade);
+      // Save the updated trade
+      const updatedTrade = await existingTrade.save();
+      console.log(updatedTrade);
+
+      res.status(200).json(updatedTrade);
+    } else {
+      // If no trade exists, create a new trade object with the current date
+      const newTrade = new Trade({
+        CoinName,
+        Amount,
+        Value,
+        UserName,
+        LastDate: new Date() // Set the Date field to the current date and time
+      });
+
+      // Save the new trade to the database
+      const savedTrade = await newTrade.save();
+      console.log(savedTrade);
+
+      res.status(200).json(savedTrade);
+    }
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred while adding the trade.' });
+    res.status(500).json({ error: 'An error occurred while adding/updating the trade.' });
   }
 });
 
