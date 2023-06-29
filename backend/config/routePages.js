@@ -5,6 +5,8 @@ const User = require('../models/user');
 const Coin = require('../models/coin');
 const Trade = require('../models/trades');
 const cookieParser = require('cookie-parser'); // Add this line to include the cookie-parser middleware
+require("dotenv").config({ path: __dirname + "../../.env" });
+const { twitterClient } = require("../../twitterClient");
 
 router.use(cookieParser());
 
@@ -78,6 +80,19 @@ router.post('/addTrade', async (req, res) => {
 
 
 
+// router.post('/' , async (req,res) => {
+//   const tweet = async () => {
+//     try {
+//       await twitterClient.v2.tweet("ssuusususususususus");
+//       console.log("activated the tweet function-tweeted the tweet");
+//     } catch (e) {
+//       console.log(e)
+//     }
+//   }
+//   tweet();
+// })
+
+
 router.post('/addCoin', async (req, res) => {
   const coin = new Coin({
     CoinName: req.body.CoinName,
@@ -87,6 +102,7 @@ router.post('/addCoin', async (req, res) => {
     ProofOfWork: req.body.ProofOfWork || false,
     ImageOfCoin: req.body.ImageOfCoin
   });
+  const tweetContent = `Just added a new coin called ${coin.CoinName} for the price of ${coin.Price}.\n\nGood Luck Trading!`;
 
   try {
     // Check if a coin with the same name already exists
@@ -101,7 +117,16 @@ router.post('/addCoin', async (req, res) => {
       // Save the coin to the database
       await coin.save();
       console.log('Coin added successfully');
-
+      
+      const tweet = async () => {
+        try {
+          await twitterClient.v2.tweet(tweetContent);
+          console.log("activated the tweet function-tweeted the tweet");
+        } catch (e) {
+          console.log(e)
+        }
+      }
+      tweet();
       // Send a response back to the client-side to handle the confirmation
       res.send({ coinAdded: true });
     }

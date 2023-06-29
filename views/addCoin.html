@@ -294,7 +294,6 @@
       </div>
     </div>
   </body>
-  <script src="../tweet.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
 
@@ -322,11 +321,6 @@ $('#coinForm').submit(function(e) {
       // $('.container').hide();
       $('.conformation').show();
 
-      // Event listener for the tweet button
-      $('#tweet-button').click(function() {
-        tweet();
-      });
-
       // Event listener for the "Not this time" button
       $('#not-this-time-button').click(function() {
         $('.container').show();
@@ -338,6 +332,15 @@ $('#coinForm').submit(function(e) {
     console.error('Error adding coin:', error);
   });
 });
+
+
+// const button = document.getElementById("tweet-button");
+
+// function handleClick() {
+  
+// }
+
+// button.addEventListener("click", handleClick);
 
   </script>
   
