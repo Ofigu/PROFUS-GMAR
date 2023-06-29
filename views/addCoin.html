@@ -197,20 +197,63 @@
       transform: scale(1.7);
     }
     .conformation{
-      border: solid 2px greenyellow;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction:column;
       z-index: 1;
-      position: relative;
-      margin-top: -100px;
-      padding: 20px;
+      margin-top: -120px;
     }
     .conformation p{
-      color: rgb(84, 190, 84);
+      color: white;
       font-weight: 700;
       font-size: 25px;
+    }
+    #tweet-button{
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(80px);
+      -webkit-backdrop-filter: blur(80px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      margin-top: 10px;
+      width: 50%;
+      color: rgba(255, 255, 255, 0.9);
+      animation-duration: 2s;
+      transition: font-size 0.3s ease, box-shadow 0.2s ease, width 0.2s ease, height 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 20px;
+      height: 35px;
+      cursor: pointer;
+    }
+    #tweet-button:hover {
+      width: 60%;
+      font-size: 25px;
+      height: 40px;
+      box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
+    }
+    #tweet-button:active{
+     background-color: rgb(0, 149, 255); 
+    }
+    #not-this-time-button{
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(80px);
+      -webkit-backdrop-filter: blur(80px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      margin-top: 10px;
+      width: 45%;
+      color: rgba(255, 255, 255, 0.9);
+      animation-duration: 2s;
+      transition: font-size 0.3s ease, box-shadow 0.2s ease, width 0.2s ease, height 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 16px;
+      height: 30px;
+      cursor: pointer;
+    }
+    #not-this-time-button:active{
+     background-color: rgb(255, 0, 0); 
     }
   </style>
 </head>
