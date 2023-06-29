@@ -17,11 +17,14 @@ const tradeSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  Date: {
-    type: Date, // Use the Date data type for the Date field
+  LastDate: {
+    type: Date, // Last date that this customer bought or sold this coin
     required: true
   }
 });
+
+// Define a unique compound index on CoinName and UserName
+tradeSchema.index({ CoinName: 1, UserName: 1 }, { unique: true });
 
 const Trade = mongoose.model('Trade', tradeSchema);
 
