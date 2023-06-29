@@ -219,7 +219,6 @@ router.get('/coins', async (req, res) => {
   try {
     // Retrieve all coins from the database
     const coins = await Coin.find();
-    console.log(coins)
 
     // Send the coins as a JSON response
     res.json(coins);
@@ -257,5 +256,28 @@ router.patch('/coins/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// Route to update user balance
+router.patch('/user/balance', async (req, res) => {
+  const { username, balance } = req.body;
+  try {
+    // Retrieve the user from the database
+    const user = await User.findOne({ UserName: username });
+
+    if (user) {
+      // Update the user's balance
+      user.Balance = balance;
+      await user.save();
+
+      res.json({ message: 'User balance updated successfully' });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error updating user balance:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 module.exports = router;
