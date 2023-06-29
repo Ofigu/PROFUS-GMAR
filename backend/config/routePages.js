@@ -38,6 +38,8 @@ router.post('/addUser', async (req, res) => {
   }
 });
 
+
+// Add or update a trade
 router.post('/addTrade', async (req, res) => {
   try {
     // Extract the trade data from the request body
@@ -45,16 +47,20 @@ router.post('/addTrade', async (req, res) => {
 
     // Check if a trade with the same coin and username exists
     const existingTrade = await Trade.findOne({ CoinName, UserName });
+    const theUser = await User.findOne({UserName}) 
+    const theCoin = await Coin.findOne({CoinName})
 
-    if (existingTrade) {
+    if (existingTrade && theUser) {
       // If a trade exists, update its properties
-      existingTrade.Amount = Amount;
-      existingTrade.Value = Value;
+      existingTrade.Amount += Amount;
+      existingTrade.Value = (existingTrade.Amount * theCoin.Price);
       existingTrade.LastDate = new Date();
+      theUser.Balance -= Value;
 
-      // Save the updated trade
+      // Save the updated trade and Balance of User
       const updatedTrade = await existingTrade.save();
-      console.log(updatedTrade);
+      await theUser.save()
+
 
       res.status(200).json(updatedTrade);
     } else {
@@ -66,11 +72,12 @@ router.post('/addTrade', async (req, res) => {
         UserName,
         LastDate: new Date() // Set the Date field to the current date and time
       });
-
+      const theSameUser = await User.findOne({UserName}) 
+      theSameUser.Balance -= Value;
       // Save the new trade to the database
       const savedTrade = await newTrade.save();
-      console.log(savedTrade);
-
+      await theSameUser.save()
+   
       res.status(200).json(savedTrade);
     }
   } catch (error) {
@@ -78,7 +85,68 @@ router.post('/addTrade', async (req, res) => {
   }
 });
 
+router.post('/reduceTrade', async (req, res) => {
+  try {
+    // Extract the trade data from the request body
+    const { CoinName, Amount, Value, UserName } = req.body;
+    console.log(Amount);
+    console.log(Value);
 
+    // Find the trade with the given coin and username
+    const existingTrade = await Trade.findOne({ CoinName, UserName });
+    const theUser = await User.findOne({UserName})
+    const theCoin =await Coin.findOne({CoinName})
+
+    if (existingTrade) {
+      if (Amount < existingTrade.Amount) {
+        // If the new amount is less than the current amount, update the trade
+        existingTrade.Amount -= Amount;
+        existingTrade.Value = (existingTrade.Amount * theCoin.Price);
+        existingTrade.LastDate = new Date();
+        theUser.Balance += Value;
+
+        // Save the updated trade
+        const updatedTrade = await existingTrade.save();
+        await theUser.save();
+
+        res.status(200).json(updatedTrade);
+      } 
+      else if (Amount === existingTrade.Amount) {
+
+        theUser.Balance += Value;
+        await theUser.save();
+        existingTrade.deleteOne();
+        res.status(200).json({ message: 'Trade deleted successfully.' });
+      } else {
+        // If the new amount is greater than the current amount, it is not a possible action
+        res.status(400).json({ error: 'Invalid action. The requested amount is greater than the current amount.' });
+      }
+    } else {
+      res.status(404).json({ error: 'Trade not found.' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while reducing/deleting the trade.' });
+  }
+});
+
+router.post('/getOwnedAmount', async (req, res) => {
+  try {
+    const { CoinName, UserName } = req.body;
+
+    // Find the trade with the specified coin name and user name
+    const trade = await Trade.findOne({ CoinName, UserName });
+
+    if (trade) {
+      // Return the owned amount for the coin
+      res.status(200).json({ amount: trade.Amount });
+    } else {
+      // If no trade exists for the coin and user, return 0 as the owned amount
+      res.status(200).json({ amount: 0 });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while retrieving the owned amount.' });
+  }
+});
 
 // router.post('/' , async (req,res) => {
 //   const tweet = async () => {
@@ -207,22 +275,6 @@ router.get('/welcome', function (req, res) {
 });
 
 router.get('/trade', async (req, res) => {
-  const userCookie = req.cookies.user;
-  if (!userCookie) {
-    res.redirect('/loginPage');
-    return;
-  }
-
-  let balance = 0;
-
-  try {
-    const userObject = JSON.parse(decodeURIComponent(userCookie));
-    console.log('User Cookie:', userObject);
-  } catch (error) {
-    console.error('Error parsing user cookie:', error);
-  }
-
-  // Assuming you have an HTML file named "trade.html" in a public directory
   res.sendFile(path.join(__dirname, '../../views', 'trade.html'));
 });
 

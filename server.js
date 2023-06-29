@@ -23,7 +23,7 @@ mongoose.connect('mongodb+srv://alon12c20:1111@alonvizniuk.ecefh5m.mongodb.net/U
 
 // Parse JSON data
 app.use(bodyParser.json());
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./views'));
 
 // Set folders

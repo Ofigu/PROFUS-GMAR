@@ -68,18 +68,7 @@
     </tbody>
   </table>
 
-  <h2>Purchased Coins</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Coin Name</th>
-        <th>Amount</th>
-      </tr>
-    </thead>
-    <tbody id="purchasedCoinsTableBody">
-      <!-- Purchased coins will be dynamically added here -->
-    </tbody>
-  </table>
+
 
   <script>
 
@@ -110,12 +99,8 @@
       }
     }
 
-    // Array to store purchased coins
-    const purchasedCoins = [];
-
     // Object to store coin names by ID
     const coinNames = {};
-
     // Function to fetch coins from the backend and populate the table
     async function fetchCoins() {
       try {
@@ -158,7 +143,7 @@
     }
 
     // Function to perform the trade based on the selected action (buy/sell)
-    function performTrade(button, coinId, action) {
+    async function performTrade(button, coinId, action) {
       const input = action === 'buy' ? button.parentNode.querySelector('.buy-input') : button.parentNode.querySelector('.sell-input');
       const amount = parseFloat(input.value);
 
@@ -166,13 +151,43 @@
         const price = parseFloat(document.getElementById(`${coinId}Price`).innerText);
 
         if (action === 'buy') {
-          buyCoin(coinId, price, amount);
-        } else if (action === 'sell') {
-          const ownedAmount = getPurchasedCoinAmount(coinId);
-          if (amount <= ownedAmount) {
-            sellCoin(coinId, price, amount);
+          const balanceElement = document.getElementById('balance');
+          const balance = parseFloat(balanceElement.innerText);
+          const totalPrice = price * amount;
+
+          if (totalPrice <= balance) {
+            buyCoin(coinId, price, amount);
           } else {
-            alert('You do not own enough coins to sell.');
+            alert('Insufficient balance to perform the purchase.');
+          }
+        } else if (action === 'sell') {
+          try {
+            const response = await fetch('/getOwnedAmount', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                CoinName: coinNames[coinId],
+                UserName: urlParams.get('firstName'),
+              }),
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              const ownedAmount = data.amount;
+
+              if (amount <= ownedAmount) {
+                sellCoin(coinId, price, amount);
+              } else {
+                alert('You do not own enough coins to sell.');
+              }
+            } else {
+              throw new Error('Failed to retrieve owned amount.');
+            }
+          } catch (error) {
+            console.error('Error retrieving owned amount:', error);
+            alert('An error occurred while retrieving your owned amount. Please try again later.');
           }
         }
 
@@ -181,104 +196,86 @@
       }
     }
 
-    // Function to get the amount of a purchased coin
-    function getPurchasedCoinAmount(coinId) {
-      const existingRow = document.getElementById(`${coinId}Row`);
-      if (existingRow) {
-        return parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
-      }
-      return 0;
-    }
-
     async function buyCoin(coinId, price, amount) {
-      const balanceElement = document.getElementById('balance');
-      const balance = parseFloat(balanceElement.innerText);
-
       const totalPrice = price * amount;
+      const username = urlParams.get('firstName');
 
-      if (totalPrice <= balance) {
-        const newBalance = balance - totalPrice;
-        balanceElement.innerText = newBalance.toFixed(5);
+      if (confirm('Are you sure you want to buy?')) {
+        const response = await fetch('/addTrade', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            CoinName: coinNames[coinId],
+            Amount: amount,
+            Value: totalPrice,
+            UserName: username,
+          }),
+        });
 
-        // Update the user's balance in MongoDB
-        const username = urlParams.get('firstName');
-        await updateBalance(username, newBalance);
-
-        console.log(`Bought ${totalPrice.toFixed(5)} worth of ${coinId}`);
-
-
-        // Update the purchased coins table
-        const purchasedCoinsTableBody = document.getElementById('purchasedCoinsTableBody');
-        const existingRow = document.getElementById(`${coinId}Row`);
-
-        if (existingRow) {
-          // If the coin already exists in the table, update the amount
-          const existingAmount = parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
-          const newAmount = existingAmount + amount;
-          existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(5);
+        if (response.ok) {
+          alert('Trade confirmed.');
+          location.reload(); // Refresh the page
         } else {
-          // If the coin is being bought for the first time, add a new row
-          const newRow = document.createElement('tr');
-          newRow.id = `${coinId}Row`;
-          newRow.innerHTML = `
-            <td>${coinNames[coinId]}</td>
-            <td class="purchased-coin-amount">${amount.toFixed(5)}</td>
-          `;
-          purchasedCoinsTableBody.appendChild(newRow);
+          alert('Failed to perform the purchase.');
         }
       } else {
-        alert('Insufficient balance to perform the purchase.');
+        // User canceled the trade
+        alert('Trade canceled.');
       }
     }
 
     async function sellCoin(coinId, price, amount) {
-  const balanceElement = document.getElementById('balance');
-  const balance = parseFloat(balanceElement.innerText);
+      const totalPrice = price * amount;
+      const username = urlParams.get('firstName');
 
-  const totalPrice = price * amount;
+      if (confirm('Are you sure you want to sell?')) {
+        const response = await fetch('/reduceTrade', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            CoinName: coinNames[coinId],
+            Amount: amount,
+            Value: totalPrice,
+            UserName: username,
+          }),
+        });
 
-  const newBalance = balance + totalPrice;
-  balanceElement.innerText = newBalance.toFixed(5);
-
-  // Update the user's balance in MongoDB
-  const username = urlParams.get('firstName');
-  await updateBalance(username, newBalance);
-
-  console.log(`Sold ${totalPrice.toFixed(5)} worth of ${coinId}`);
-
-      // Update the purchased coins table
-      const existingRow = document.getElementById(`${coinId}Row`);
-      const existingAmount = parseFloat(existingRow.querySelector('.purchased-coin-amount').innerText);
-      const newAmount = existingAmount - amount;
-
-      if (newAmount > 0) {
-        // If there are still remaining coins, update the amount
-        existingRow.querySelector('.purchased-coin-amount').innerText = newAmount.toFixed(5);
+        if (response.ok) {
+          alert('Trade confirmed.');
+          location.reload(); // Refresh the page
+        } else {
+          alert('Failed to perform the sale.');
+        }
       } else {
-        // If all coins are sold, remove the row
-        existingRow.remove();
+        // User canceled the trade
+        alert('Trade canceled.');
       }
     }
-    async function updateBalance(username, balance) {
-  try {
-    const response = await fetch('/user/balance', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-        balance: balance,
-      }),
-    });
 
-    if (!response.ok) {
-      throw new Error('Failed to update user balance');
+    async function updateBalance(username, balance) {
+      try {
+        const response = await fetch('/user/balance', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username,
+            balance: balance,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to update user balance');
+        }
+      } catch (error) {
+        console.error('Error updating user balance:', error);
+      }
     }
-  } catch (error) {
-    console.error('Error updating user balance:', error);
-  }
-}
 
     // Function to filter coins based on search criteria
     function filterCoins() {
