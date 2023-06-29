@@ -101,7 +101,6 @@
 
     // Object to store coin names by ID
     const coinNames = {};
-
     // Function to fetch coins from the backend and populate the table
     async function fetchCoins() {
       try {
@@ -196,8 +195,6 @@
         input.value = '';
       }
     }
-
-    
 
     async function buyCoin(coinId, price, amount) {
       const totalPrice = price * amount;
