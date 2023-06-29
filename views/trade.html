@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Trade Coins</title>
   <style>
     /* Set a fixed width and height for the coin images */
     td img {
-      width: 40px; /* Adjust the desired width */
-      height: 40px; /* Adjust the desired height */
+      width: 40px;
+      /* Adjust the desired width */
+      height: 40px;
+      /* Adjust the desired height */
     }
-    
+
     .search-filters {
       display: flex;
       gap: 10px;
     }
   </style>
 </head>
+
 <body>
   <h1>Coins List</h1>
   <p>Balance: $<span id="balance">-</span></p>
-  
+
   <div class="search-filters">
     <div>
       <label for="searchInput">Search:</label>
       <input type="text" id="searchInput" oninput="filterCoins()" placeholder="Search by coin name">
     </div>
-  
+
     <div>
       <label for="maxPriceInput">Max Price:</label>
       <input type="number" id="maxPriceInput" oninput="filterCoins()" step="0.01" placeholder="Enter max price">
     </div>
-  
+
     <div>
       <label for="recommendedInput">Recommended:</label>
       <input type="checkbox" id="recommendedInput" onclick="filterCoins()">
     </div>
-  
+
     <div>
       <label for="altCoinInput">Alt Coin:</label>
       <input type="checkbox" id="altCoinInput" onclick="filterCoins()">
     </div>
-  
+
     <div>
       <label for="proofOfWorkInput">Proof of Work:</label>
       <input type="checkbox" id="proofOfWorkInput" onclick="filterCoins()">
     </div>
   </div>
-  
+
   <table>
     <thead>
       <tr>
@@ -78,7 +82,34 @@
   </table>
 
   <script>
-    
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const firstName = urlParams.get('firstName');
+
+    // Call the updateBalanceDisplay function with the username
+    updateBalanceDisplay(firstName);
+
+    async function fetchUserBalance(username) {
+      try {
+        const response = await fetch(`/user/balance?username=${username}`);
+        const balance = await response.json();
+        return balance;
+      } catch (error) {
+        console.error('Error fetching user balance:', error);
+        return null;
+      }
+    }
+    // Update the balance display
+    async function updateBalanceDisplay(username) {
+      const balanceElement = document.getElementById('balance');
+      const balance = await fetchUserBalance(username);
+      if (balance !== null) {
+        balanceElement.innerText = balance.toFixed(2);
+      } else {
+        balanceElement.innerText = 'N/A';
+      }
+    }
+
     // Array to store purchased coins
     const purchasedCoins = [];
 
@@ -88,7 +119,7 @@
     // Function to fetch coins from the backend and populate the table
     async function fetchCoins() {
       try {
-        const response = await fetch('/coins'); 
+        const response = await fetch('/coins');
         const coins = await response.json();
 
         // Sort the coins by largest price to lowest
@@ -265,4 +296,5 @@
     fetchCoins();
   </script>
 </body>
+
 </html>
