@@ -272,27 +272,12 @@ $('#coinForm').submit(function(e) {
       // $('.container').hide();
       $('.conformation').show();
 
-      // Event listener for the "Not this time" button
-      $('#not-this-time-button').click(function() {
-        $('.container').show();
-        $('.conformation').hide();
-        clearFields();
-      });
+      clearFields();
     }
   }).fail(function(error) {
     console.error('Error adding coin:', error);
   });
 });
-
-
-// const button = document.getElementById("tweet-button");
-
-// function handleClick() {
-  
-// }
-
-// button.addEventListener("click", handleClick);
-
   </script>
   
 </div>
