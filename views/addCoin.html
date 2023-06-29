@@ -294,14 +294,9 @@
       </div>
     </div>
   </body>
-
+  <script src="../tweet.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    // Handle tweeting about the new coin
-   function tweetAboutCoin() {
-  // Replace this with your tweet functionality
-  console.log('Tweet about the new coin');
-}
 
 // Clear all input fields
 function clearFields() {
@@ -329,7 +324,7 @@ $('#coinForm').submit(function(e) {
 
       // Event listener for the tweet button
       $('#tweet-button').click(function() {
-        tweetAboutCoin();
+        tweet();
       });
 
       // Event listener for the "Not this time" button
@@ -343,6 +338,7 @@ $('#coinForm').submit(function(e) {
     console.error('Error adding coin:', error);
   });
 });
+
   </script>
   
 </div>

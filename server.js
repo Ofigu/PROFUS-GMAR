@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
-
+require('./tweet.js');
 // const User = require('./backend/models/user');
 
 const app = express();
@@ -41,3 +41,4 @@ const port = 3300;
 app.listen(port, function () {
     console.log("Server started on port", port);
 });
+
