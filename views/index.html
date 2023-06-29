@@ -575,7 +575,7 @@ input::placeholder , textarea::placeholder{
           </div>
           <div class="contact-form">
             <h3>Contact Us</h3>
-            <form class="footer-form" aonsubmit="sendEmail(event)">
+            <form class="footer-form">
               <input type="text" name="name" placeholder="Name" required>
               <input type="email" name="email" placeholder="Email" required>
               <textarea name="message" placeholder="Message" required></textarea>
@@ -624,22 +624,6 @@ window.addEventListener('DOMContentLoaded', function() {
     }, 10); // Adjust the interval (in milliseconds) between opacity changes here
   }
 /*top section opacity-------------*/
-function sendEmail(event) {
-    event.preventDefault(); // Prevent the form from submitting
-
-    // Retrieve form values
-    var name = document.querySelector('input[name="name"]').value;
-    var email = document.querySelector('input[name="email"]').value;
-    var message = document.querySelector('textarea[name="message"]').value;
-
-    // Construct the email link
-    var subject = "New contact form submission";
-    var emailBody = "Name: " + name + "\nEmail: " + email + "\nMessage: " + message;
-    var mailtoLink = "mailto:kanonicoin@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(emailBody);
-
-    // Open the user's default email client
-    window.location.href = mailtoLink;
-  }
 </script>
 </body>
 </html>
