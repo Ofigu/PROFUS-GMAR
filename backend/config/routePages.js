@@ -185,7 +185,22 @@ router.get('/trade', async (req, res) => {
 });
 
 
-
+router.get('/user/balance', async (req, res) => {
+  const username = req.query.username;
+  try {
+    // Retrieve the user's balance from the database or any other data source
+    const user = await User.findOne({ UserName: username });
+    if (user) {
+      const balance = user.Balance;
+      res.json(balance);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching user balance:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 router.get('/about', function (req, res) {
