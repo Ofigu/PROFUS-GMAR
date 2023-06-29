@@ -383,9 +383,9 @@
       <nav>
         <div class="nav-bar">
           <a href="/about">About us</a>
-          <a href="/trade">Trade</a>                                   
+          <a href="/trade?firstName=" id="trade-link">Trade</a>
           <a href="/portfolio">Portfolio</a>
-          <a href="/"">Log Out</a>
+          <a href="/">Log Out</a>
           <a style="text-decoration: none;" id="welcome-message">Welcome, <span id="customer-name"></span></a>
         </div>
       </nav>
@@ -398,7 +398,12 @@
         // Update the HTML content with the customer's first name
         const customerNameElement = document.getElementById('customer-name');
         customerNameElement.textContent = firstName;
+      
+        // Update the "Trade" link's href attribute with the customer's first name
+        const tradeLink = document.getElementById('trade-link');
+        tradeLink.href += firstName;
       </script>
+      
 
 
     <!-- TradingView Widget BEGIN -->
