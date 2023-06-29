@@ -180,7 +180,8 @@ router.get('/trade', async (req, res) => {
     console.error('Error parsing user cookie:', error);
   }
 
-  res.render('trade', { userCookie, balance: balance.toFixed(2) });
+  // Assuming you have an HTML file named "trade.html" in a public directory
+  res.sendFile(path.join(__dirname, '../../views', 'trade.html'));
 });
 
 
