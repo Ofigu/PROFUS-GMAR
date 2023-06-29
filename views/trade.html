@@ -190,8 +190,7 @@
       return 0;
     }
 
-    // Function to handle the buy action
-    function buyCoin(coinId, price, amount) {
+    async function buyCoin(coinId, price, amount) {
       const balanceElement = document.getElementById('balance');
       const balance = parseFloat(balanceElement.innerText);
 
@@ -200,7 +199,13 @@
       if (totalPrice <= balance) {
         const newBalance = balance - totalPrice;
         balanceElement.innerText = newBalance.toFixed(2);
+
+        // Update the user's balance in MongoDB
+        const username = urlParams.get('firstName');
+        await updateBalance(username, newBalance);
+
         console.log(`Bought ${totalPrice.toFixed(2)} worth of ${coinId}`);
+
 
         // Update the purchased coins table
         const purchasedCoinsTableBody = document.getElementById('purchasedCoinsTableBody');
@@ -226,16 +231,20 @@
       }
     }
 
-    // Function to handle the sell action
-    function sellCoin(coinId, price, amount) {
-      const balanceElement = document.getElementById('balance');
-      const balance = parseFloat(balanceElement.innerText);
+    async function sellCoin(coinId, price, amount) {
+  const balanceElement = document.getElementById('balance');
+  const balance = parseFloat(balanceElement.innerText);
 
-      const totalPrice = price * amount;
+  const totalPrice = price * amount;
 
-      const newBalance = balance + totalPrice;
-      balanceElement.innerText = newBalance.toFixed(2);
-      console.log(`Sold ${totalPrice.toFixed(2)} worth of ${coinId}`);
+  const newBalance = balance + totalPrice;
+  balanceElement.innerText = newBalance.toFixed(2);
+
+  // Update the user's balance in MongoDB
+  const username = urlParams.get('firstName');
+  await updateBalance(username, newBalance);
+
+  console.log(`Sold ${totalPrice.toFixed(2)} worth of ${coinId}`);
 
       // Update the purchased coins table
       const existingRow = document.getElementById(`${coinId}Row`);
@@ -250,6 +259,26 @@
         existingRow.remove();
       }
     }
+    async function updateBalance(username, balance) {
+  try {
+    const response = await fetch('/user/balance', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        balance: balance,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update user balance');
+    }
+  } catch (error) {
+    console.error('Error updating user balance:', error);
+  }
+}
 
     // Function to filter coins based on search criteria
     function filterCoins() {
