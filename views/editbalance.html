@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 24px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      color: #555;
+      font-size: 16px;
+    }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      color: #333;
+    }
+
+    input[type="number"] {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #666;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #555;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    button:active {
+      background-color: #111;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Hello <span id="userName"></span>,</h1>
+  <p>Your current balance is: $<span id="balance"></span></p>
+
+  <label for="addAmount">Add Amount:</label>
+  <input type="number" id="addAmount" step="0.01">
+  <button id="addMoney">Add Money</button>
+
+  <br><br>
+
+  <label for="withdrawAmount">Withdraw Amount:</label>
+  <input type="number" id="withdrawAmount" step="0.01">
+  <button id="withdrawMoney">Withdraw Money</button>
+
+  <script>
+    $(document).ready(function() {
+      // Retrieve the customer's first name from the URL query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const firstName = urlParams.get('firstName');
+
+      updateBalanceDisplay(firstName);
+
+      async function fetchUserBalance(username) {
+        try {
+          const response = await fetch(`/user/balance?username=${username}`);
+          const data = await response.json();
+          if (response.ok) {
+            return data;
+          } else {
+            console.error('Error fetching user balance:', data.error);
+            return null;
+          }
+        } catch (error) {
+          console.error('Error fetching user balance:', error);
+          return null;
+        }
+      }
+
+      // Update the balance display
+      async function updateBalanceDisplay(username) {
+        const balanceElement = document.getElementById('balance');
+        const response = await fetchUserBalance(username);
+        if (response !== null) {
+          if (response.error) {
+            console.error('Error fetching user balance:', response.error);
+            balanceElement.innerText = 'N/A';
+          } else {
+            balanceElement.innerText = response.toFixed(2);
+          }
+        } else {
+          balanceElement.innerText = 'N/A';
+        }
+      }
+
+      // Update the HTML content with the customer's first name
+      $('#userName').text(firstName);
+
+      // Add event listener for "Add Money" button click
+      $('#addMoney').click(function() {
+        const addAmount = parseFloat($('#addAmount').val());
+        if (!isNaN(addAmount) && addAmount > 0) {
+          const newBalance = getCurrentBalance() + addAmount;
+          updateBalance(firstName, newBalance);
+        } else {
+          console.error('Invalid amount');
+        }
+      });
+
+      // Add event listener for "Withdraw Money" button click
+      $('#withdrawMoney').click(function() {
+        const withdrawAmount = parseFloat($('#withdrawAmount').val());
+        if (!isNaN(withdrawAmount) && withdrawAmount > 0) {
+          const currentBalance = getCurrentBalance();
+          if (withdrawAmount <= currentBalance) {
+            const newBalance = currentBalance - withdrawAmount;
+            updateBalance(firstName, newBalance);
+          } else {
+            console.error('Insufficient balance');
+          }
+        } else {
+          console.error('Invalid amount');
+        }
+      });
+
+      // Helper function to retrieve the current balance from the UI
+      function getCurrentBalance() {
+        const balanceElement = document.getElementById('balance');
+        return parseFloat(balanceElement.innerText);
+      }
+
+      // Helper function to show a success message
+      function showSuccessMessage(message) {
+        alert(message);
+        clearInputFields();
+      }
+
+      // Helper function to clear the input fields
+      function clearInputFields() {
+        $('#addAmount').val('');
+        $('#withdrawAmount').val('');
+      }
+
+      // Helper function to update the balance
+      async function updateBalance(username, balance) {
+        try {
+          const response = await fetch('/user/balance', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, balance }),
+          });
+          const data = await response.json();
+          if (response.ok) {
+            console.log('User balance updated successfully');
+            updateBalanceDisplay(username);
+            showSuccessMessage('Balance updated successfully');
+          } else {
+            console.error('Error updating user balance:', data.error);
+          }
+        } catch (error) {
+          console.error('Error updating user balance:', error);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
