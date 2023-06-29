@@ -102,7 +102,7 @@ router.post('/addCoin', async (req, res) => {
     ProofOfWork: req.body.ProofOfWork || false,
     ImageOfCoin: req.body.ImageOfCoin
   });
-  const tweetContent = `Just added a new coin called ${coin.CoinName} for the price of ${coin.Price}.\n\nGood Luck Trading!`;
+  const tweetContent = `We are accited to announe\n that we Just added a new coin by the name ${coin.CoinName} to our trading platform!\n for the price of just ${coin.Price}!.\n\nGood Luck Trading!`;
 
   try {
     // Check if a coin with the same name already exists
