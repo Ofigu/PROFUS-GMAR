@@ -20,6 +20,7 @@ router.post('/addUser', async (req, res) => {
     // Save the user to the database
     await user.save();
     console.log('User added successfully');
+    res.redirect('/welcome');
 
   } catch (error) {
     if (error.code === 11000 && error.keyPattern && error.keyValue && error.keyValue.UserName) {
@@ -40,22 +41,38 @@ router.post('/addTrade', async (req, res) => {
     // Extract the trade data from the request body
     const { CoinName, Amount, Value, UserName } = req.body;
 
-    // Create a new trade object with the current date
-    const newTrade = new Trade({
-      CoinName,
-      Amount,
-      Value,
-      UserName,
-      Date: new Date() // Set the Date field to the current date and time
-    });
+    // Check if a trade with the same coin and username exists
+    const existingTrade = await Trade.findOne({ CoinName, UserName });
 
-    // Save the trade to the database
-    const savedTrade = await newTrade.save();
-    console.log(savedTrade);
+    if (existingTrade) {
+      // If a trade exists, update its properties
+      existingTrade.Amount = Amount;
+      existingTrade.Value = Value;
+      existingTrade.LastDate = new Date();
 
-    res.status(200).json(savedTrade);
+      // Save the updated trade
+      const updatedTrade = await existingTrade.save();
+      console.log(updatedTrade);
+
+      res.status(200).json(updatedTrade);
+    } else {
+      // If no trade exists, create a new trade object with the current date
+      const newTrade = new Trade({
+        CoinName,
+        Amount,
+        Value,
+        UserName,
+        LastDate: new Date() // Set the Date field to the current date and time
+      });
+
+      // Save the new trade to the database
+      const savedTrade = await newTrade.save();
+      console.log(savedTrade);
+
+      res.status(200).json(savedTrade);
+    }
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred while adding the trade.' });
+    res.status(500).json({ error: 'An error occurred while adding/updating the trade.' });
   }
 });
 
@@ -184,6 +201,10 @@ router.get('/trade', async (req, res) => {
   res.sendFile(path.join(__dirname, '../../views', 'trade.html'));
 });
 
+router.get('/editBalance', async (req, res) => {
+  res.sendFile(path.join(__dirname, '../../views', 'editbalance.html'));
+});
+
 
 router.get('/user/balance', async (req, res) => {
   const username = req.query.username;
@@ -219,7 +240,6 @@ router.get('/coins', async (req, res) => {
   try {
     // Retrieve all coins from the database
     const coins = await Coin.find();
-    console.log(coins)
 
     // Send the coins as a JSON response
     res.json(coins);
@@ -257,5 +277,28 @@ router.patch('/coins/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// Route to update user balance
+router.patch('/user/balance', async (req, res) => {
+  const { username, balance } = req.body;
+  try {
+    // Retrieve the user from the database
+    const user = await User.findOne({ UserName: username });
+
+    if (user) {
+      // Update the user's balance
+      user.Balance = balance;
+      await user.save();
+
+      res.json({ message: 'User balance updated successfully' });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error updating user balance:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 module.exports = router;
