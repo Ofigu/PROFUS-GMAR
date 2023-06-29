@@ -182,22 +182,6 @@ router.get('/welcome', function (req, res) {
 });
 
 router.get('/trade', async (req, res) => {
-  const userCookie = req.cookies.user;
-  if (!userCookie) {
-    res.redirect('/loginPage');
-    return;
-  }
-
-  let balance = 0;
-
-  try {
-    const userObject = JSON.parse(decodeURIComponent(userCookie));
-    console.log('User Cookie:', userObject);
-  } catch (error) {
-    console.error('Error parsing user cookie:', error);
-  }
-
-  // Assuming you have an HTML file named "trade.html" in a public directory
   res.sendFile(path.join(__dirname, '../../views', 'trade.html'));
 });
 
