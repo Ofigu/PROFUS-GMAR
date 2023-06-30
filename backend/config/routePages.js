@@ -262,6 +262,19 @@ router.get('/trade', async (req, res) => {
   res.sendFile(path.join(__dirname, '../../views', 'trade.html'));
 });
 
+
+router.get('/alltrades', async (req, res) => {
+  try {
+    // Retrieve all trades from the database
+    const trades = await Trade.find({}, { _id: 0, __v: 0 }).sort({ Value: -1 });
+    res.json(trades);
+  } catch (error) {
+    console.error('Error retrieving trades:', error);
+    res.status(500).json({ error: 'Failed to retrieve trades' });
+  }
+});
+
+
 router.get('/editBalance', async (req, res) => {
   res.sendFile(path.join(__dirname, '../../views', 'editbalance.html'));
 });
@@ -308,6 +321,11 @@ router.get('/user/coin-amounts', async (req, res) => {
     console.error('Error fetching coin amounts:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
+});
+
+
+router.get('/trades', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../views', 'allTrades.html'));
 });
 
 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trades Table</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 8px;
+    }
+
+    thead {
+      background-color: #f2f2f2;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Trades Table</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>CoinName</th>
+        <th>Amount</th>
+        <th>Value</th>
+        <th>UserName</th>
+        <th>LastDate</th>
+      </tr>
+    </thead>
+    <tbody id="tradeTableBody">
+      <!-- Trades will be dynamically added here -->
+    </tbody>
+  </table>
+
+  <script>
+    // Make a request to the server and fetch the trades data
+    fetch('/alltrades')
+      .then(response => response.json())
+      .then(data => {
+        // Sort the trades by Value in descending order
+        data.sort((a, b) => b.Value - a.Value);
+
+        const tradeTableBody = document.getElementById('tradeTableBody');
+        data.forEach(trade => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${trade.CoinName}</td>
+            <td>${trade.Amount}</td>
+            <td>${trade.Value}</td>
+            <td>${trade.UserName}</td>
+            <td>${trade.LastDate}</td>
+          `;
+          tradeTableBody.appendChild(row);
+        });
+      })
+      .catch(error => console.error('Error:', error));
+  </script>
+</body>
+
+</html>
