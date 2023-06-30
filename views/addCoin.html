@@ -268,7 +268,6 @@ $('#coinForm').submit(function(e) {
   // Send a POST request to the server
   $.post('/addCoin', formData, function(response) {
     if (response.coinAdded) {
-      // Show the confirmation message
       // $('.container').hide();
       $('.conformation').show();
 
