@@ -371,9 +371,15 @@ router.patch('/coins/:id', async (req, res) => {
     const updates = req.body;
 
     const coin = await Coin.findByIdAndUpdate(id, updates, { new: true });
-
     if (!coin) {
       return res.status(404).json({ error: 'Coin not found' });
+    }
+
+    const trades = await Trade.find({ CoinName: coin.CoinName });
+    for (let i = 0; i < trades.length; i++) {
+      const trade = trades[i];
+      trade.Value = trade.Amount * coin.Price;
+      await trade.save();
     }
 
     res.json(coin);
@@ -382,6 +388,7 @@ router.patch('/coins/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 // Route to update user balance
 router.patch('/user/balance', async (req, res) => {
