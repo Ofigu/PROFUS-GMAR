@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Add Coin</title>
   <style>
@@ -8,13 +9,17 @@
       font-weight: 500;
       margin: 0;
     }
+
     .image {
       background-attachment: fixed;
       width: 100%;
       height: 100%;
-      position: relative; /* Added */
-      z-index: -1; /* Added */
+      position: relative;
+      /* Added */
+      z-index: -1;
+      /* Added */
     }
+
     .wrapper {
       display: flex;
       flex-direction: column;
@@ -22,6 +27,7 @@
       justify-content: center;
       height: 100vh;
     }
+
     .container {
       display: flex;
       flex-direction: column;
@@ -40,14 +46,14 @@
 
     .container form {
       margin-bottom: 200px;
-    padding: 6px;
-    width: 60%;
-    height: 300px;
-    width: 90%;
+      padding: 6px;
+      width: 60%;
+      height: 300px;
+      width: 90%;
 
-  }
+    }
 
-    
+
 
     @media screen (max-width: 768px) {
       .container {
@@ -163,7 +169,7 @@
       animation-duration: 2s;
       transition: scale 0.3s ease, box-shadow 0.3s ease;
       text-align: center;
-      
+
     }
 
     .button label {
@@ -174,19 +180,23 @@
       order: 2;
       margin-left: 10px;
     }
-    #proofOfWork{
+
+    #proofOfWork {
       margin-left: 80px;
       transform: scale(1.7);
     }
-    #altCoin{
+
+    #altCoin {
       margin-left: 133px;
       transform: scale(1.7);
     }
-    #recommended{
+
+    #recommended {
       margin-left: 70px;
       transform: scale(1.7);
     }
-    .conformation{
+
+    .conformation {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
       backdrop-filter: blur(60px);
       -webkit-backdrop-filter: blur(60px);
@@ -201,7 +211,8 @@
       padding-left: 11px;
       padding-right: 11px;
     }
-    .conformation p{
+
+    .conformation p {
       color: rgba(255, 179, 0, 0.9);
       font-weight: 700;
       font-size: 25px;
@@ -210,6 +221,7 @@
 </head>
 
 <div class="image">
+
   <body>
     <div class="wrapper">
       <div class="container">
@@ -238,36 +250,38 @@
           <input type="submit" value="Add Coin" id="add-coin-button">
         </form>
         <div class="conformation" style="display: none;">
-          <p>Coin Added Successfully<br>and <span style="color: blue; font-weight: 700;">Tweeted</span> to customers.</p>
+          <p>Coin Added Successfully<br>and <span style="color: blue; font-weight: 700;">Tweeted</span> to customers.
+          </p>
 
         </div>
       </div>
-      
+
     </div>
   </body>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
 
-// Clear all input fields
-function clearFields() {
-  $('#coinName').val('');
-  $('#price').val('');
-  $('#recommended').prop('checked', false);
-  $('#altCoin').prop('checked', false);
-  $('#proofOfWork').prop('checked', false);
-  $('#imageOfCoin').val('');
-}
+    // Clear all input fields
+    function clearFields() {
+      $('#coinName').val('');
+      $('#price').val('');
+      $('#recommended').prop('checked', false);
+      $('#altCoin').prop('checked', false);
+      $('#proofOfWork').prop('checked', false);
+      $('#imageOfCoin').val('');
+    }
 
-// Event listener for the form submission
-$('#coinForm').submit(function(e) {
-  e.preventDefault();
+    // Event listener for the form submission
+    $('#coinForm').submit(function (e) {
+      e.preventDefault();
 
-  // Get the form data
-  var formData = $(this).serialize();
+      // Get the form data
+      var formData = $(this).serialize();
 
   // Send a POST request to the server
   $.post('/addCoin', formData, function(response) {
     if (response.coinAdded) {
+      // Show the confirmation message
       // $('.container').hide();
       $('.conformation').show();
 
@@ -278,7 +292,7 @@ $('#coinForm').submit(function(e) {
   });
 });
   </script>
-  
+
 </div>
 
 </html>
