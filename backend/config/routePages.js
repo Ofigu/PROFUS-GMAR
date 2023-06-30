@@ -328,6 +328,18 @@ router.get('/trades', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'allTrades.html'));
 });
 
+router.get('/trades/:username', async (req, res) => {
+  try {
+    const { username } = req.params;
+    console.log(username)
+    const trades = await Trade.find({ UserName: username }, '-_id CoinName Amount Value LastDate');
+    res.json(trades);
+  } catch (error) {
+    console.error('Error fetching trades:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 router.get('/about', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'about.html'));
