@@ -385,7 +385,7 @@
           <a href="/about">About us</a>
           <a href="/editBalance?firstName=" id="editBalance-link">Transactions</a>
           <a href="/trade?firstName=" id="trade-link">Trade</a>
-          <a href="/portfolio">Portfolio</a>
+          <a href="/portfolio?firstName=" id="portfolio-link">Portfolio</a>
           <a href="/">Log Out</a>
           <a style="text-decoration: none;" id="welcome-message">Welcome, <span id="customer-name"></span></a>
         </div>
@@ -405,6 +405,8 @@
         tradeLink.href += firstName;
         const balanceLink = document.getElementById('editBalance-link');
         balanceLink.href += firstName;
+        const portfolioLink = document.getElementById('portfolio-link')
+        portfolioLink.href += firstName
       </script>
       
 

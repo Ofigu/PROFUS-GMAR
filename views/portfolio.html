@@ -1,54 +1,244 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>My Portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
-    /* Add your custom styles for the portfolio page here */
-  </style>
-</head>
-<body>
-  <h1>My Portfolio</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Coin Name</th>
-        <th>Amount</th>
-      </tr>
-    </thead>
-    <tbody id="coinTableBody">
-      <!-- Coin rows will be dynamically added here -->
-    </tbody>
-  </table>
-
-  <script>
-    // Function to fetch the portfolio data and populate the table
-    async function fetchPortfolio() {
-      try {
-        const response = await fetch('/portfolio'); // Replace '/portfolio' with your actual backend endpoint to retrieve the portfolio data
-        const portfolio = await response.json();
-
-        const coinTableBody = document.getElementById('coinTableBody');
-
-        // Clear existing rows
-        coinTableBody.innerHTML = '';
-
-        // Iterate over the portfolio data and create table rows dynamically
-        portfolio.forEach((coin) => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${coin.name}</td>
-            <td>${coin.amount}</td>
-          `;
-
-          coinTableBody.appendChild(row);
-        });
-      } catch (error) {
-        console.error('Error fetching portfolio:', error);
-      }
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
 
-    // Call the fetchPortfolio function when the page loads
-    window.addEventListener('load', fetchPortfolio);
+    h1 {
+      color: #333;
+      font-size: 24px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-container {
+      margin-top: 20px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input {
+      padding: 5px;
+      margin-left: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #333;
+      color: #fff;
+    }
+
+    td {
+      border-bottom: 1px solid #ddd;
+    }
+
+    #totalValue {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Hello <span id="userName"></span>,</h1>
+    <p>Your current balance is: $<span id="balance"></span></p>
+    <p id="totalValue">The total value of coins in your possession: </p>
+
+    <div class="search-container">
+      <label for="searchInput">Search by coin name: </label>
+      <input type="text" id="searchInput" class="search-input" placeholder="Enter coin name">
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Coin Name</th>
+          <th>Amount</th>
+          <th>Value</th>
+          <th>Last Change</th>
+        </tr>
+      </thead>
+      <tbody id="tradeTableBody">
+        <!-- Trades will be dynamically added here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      // Retrieve the customer's first name from the URL query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const firstName = urlParams.get('firstName');
+
+      updateBalanceDisplay(firstName);
+      fetchUserTrades(firstName);
+
+      async function fetchUserBalance(username) {
+        try {
+          const response = await fetch(`/user/balance?username=${username}`);
+          const data = await response.json();
+          if (response.ok) {
+            return data;
+          } else {
+            console.error('Error fetching user balance:', data.error);
+            return null;
+          }
+        } catch (error) {
+          console.error('Error fetching user balance:', error);
+          return null;
+        }
+      }
+
+      async function fetchUserTrades(username) {
+        try {
+          const response = await fetch(`/trades/${username}`);
+          const trades = await response.json();
+          if (response.ok) {
+            if (trades.length === 0) {
+              alert("You don't have any coins yet, it's time to visit the Trade page");
+            } else {
+              displayTrades(trades);
+              calculateTotalValue(trades);
+            }
+          } else {
+            console.error('Error fetching user trades:', trades.error);
+          }
+        } catch (error) {
+          console.error('Error fetching user trades:', error);
+        }
+      }
+
+
+      function displayTrades(trades) {
+        const tradeTableBody = document.getElementById('tradeTableBody');
+        tradeTableBody.innerHTML = ''; // Clear existing rows
+
+        // Sort trades by value in descending order
+        trades.sort((a, b) => b.Value - a.Value);
+
+        trades.forEach(trade => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+        <td>${trade.CoinName}</td>
+        <td>${trade.Amount}</td>
+        <td>${formatNumber(trade.Value)}</td>
+        <td>${formatDateTime(trade.LastDate)}</td>
+      `;
+          tradeTableBody.appendChild(row);
+        });
+      }
+
+      function formatNumber(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
+      function formatDateTime(dateTime) {
+        const options = {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+          timeZone: 'UTC'
+        };
+        return new Date(dateTime).toLocaleString('en-US', options);
+      }
+
+      function calculateTotalValue(trades) {
+        const totalValueElement = document.getElementById('totalValue');
+        const totalValue = trades.reduce((sum, trade) => sum + trade.Value, 0);
+        totalValueElement.innerText += ` $${formatNumber(totalValue.toFixed(2))}`;
+      }
+
+      async function updateBalanceDisplay(username) {
+        const balanceElement = document.getElementById('balance');
+        const response = await fetchUserBalance(username);
+        if (response !== null) {
+          if (response.error) {
+            console.error('Error fetching user balance:', response.error);
+            balanceElement.innerText = 'N/A';
+          } else {
+            balanceElement.innerText = formatNumber(response.toFixed(2));
+          }
+        } else {
+          balanceElement.innerText = 'N/A';
+        }
+      }
+
+      // Update the HTML content with the customer's first name
+      $('#userName').text(firstName);
+
+      // Filter trades based on search input
+      $('#searchInput').on('input', function () {
+        const searchTerm = $(this).val().trim().toLowerCase();
+        filterTrades(searchTerm);
+      });
+
+      function filterTrades(searchTerm) {
+        const tradeRows = document.querySelectorAll('#tradeTableBody tr');
+        tradeRows.forEach(row => {
+          const coinName = row.querySelector('td:first-child').innerText.toLowerCase();
+          if (coinName.includes(searchTerm)) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      }
+
+      // Format numbers with commas
+      function formatNumber(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+    });
   </script>
 </body>
+
 </html>

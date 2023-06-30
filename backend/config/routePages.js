@@ -4,11 +4,9 @@ const path = require('path'); // Add this line to include the path module
 const User = require('../models/user');
 const Coin = require('../models/coin');
 const Trade = require('../models/trades');
-const cookieParser = require('cookie-parser'); // Add this line to include the cookie-parser middleware
 require("dotenv").config({ path: __dirname + "../../.env" });
 const { twitterClient } = require("../../twitterClient");
 
-router.use(cookieParser());
 
 router.post('/addUser', async (req, res) => {
   const user = new User({
@@ -47,8 +45,8 @@ router.post('/addTrade', async (req, res) => {
 
     // Check if a trade with the same coin and username exists
     const existingTrade = await Trade.findOne({ CoinName, UserName });
-    const theUser = await User.findOne({UserName}) 
-    const theCoin = await Coin.findOne({CoinName})
+    const theUser = await User.findOne({ UserName })
+    const theCoin = await Coin.findOne({ CoinName })
 
     if (existingTrade && theUser) {
       // If a trade exists, update its properties
@@ -72,12 +70,12 @@ router.post('/addTrade', async (req, res) => {
         UserName,
         LastDate: new Date() // Set the Date field to the current date and time
       });
-      const theSameUser = await User.findOne({UserName}) 
+      const theSameUser = await User.findOne({ UserName })
       theSameUser.Balance -= Value;
       // Save the new trade to the database
       const savedTrade = await newTrade.save();
       await theSameUser.save()
-   
+
       res.status(200).json(savedTrade);
     }
   } catch (error) {
@@ -94,8 +92,8 @@ router.post('/reduceTrade', async (req, res) => {
 
     // Find the trade with the given coin and username
     const existingTrade = await Trade.findOne({ CoinName, UserName });
-    const theUser = await User.findOne({UserName})
-    const theCoin =await Coin.findOne({CoinName})
+    const theUser = await User.findOne({ UserName })
+    const theCoin = await Coin.findOne({ CoinName })
 
     if (existingTrade) {
       if (Amount < existingTrade.Amount) {
@@ -110,7 +108,7 @@ router.post('/reduceTrade', async (req, res) => {
         await theUser.save();
 
         res.status(200).json(updatedTrade);
-      } 
+      }
       else if (Amount === existingTrade.Amount) {
 
         theUser.Balance += Value;
@@ -185,7 +183,7 @@ router.post('/addCoin', async (req, res) => {
       // Save the coin to the database
       await coin.save();
       console.log('Coin added successfully');
-      
+
       const tweet = async () => {
         try {
           await twitterClient.v2.tweet(tweetContent);
@@ -213,8 +211,6 @@ router.post('/login', async (req, res) => {
     const loguser = await User.findOne({ UserName: username, Password: password });
 
     if (loguser) {
-      // Set a cookie containing the user data
-      res.cookie('user', loguser, { maxAge: 86400000 }); // Cookie expires in 24 hours (86400000 milliseconds)
 
       // Retrieve user's role based on username and ID
       if (loguser.id === '6499aa757afcc808e265fd90' || loguser.id === '6499aace7afcc808e265fd92' || loguser.id === '6499aae87afcc808e265fd94') {
@@ -237,22 +233,10 @@ router.post('/login', async (req, res) => {
 
 
 router.get('/customer', function (req, res) {
-  const user = req.cookies.user;
-  if (!user) {
-    // Handle the case where the user cookie is not set
-    res.redirect('/loginPage');
-    return;
-  }
   res.sendFile(path.join(__dirname, '../../views', 'indexCustomer.html'));
 });
 
 router.get('/admin', function (req, res) {
-  const user = req.cookies.user;
-  if (!user) {
-    // Handle the case where the user cookie is not set
-    res.redirect('/loginPage');
-    return;
-  }
   res.sendFile(path.join(__dirname, '../../views', 'indexAdmin.html'));
 });
 
@@ -278,6 +262,19 @@ router.get('/trade', async (req, res) => {
   res.sendFile(path.join(__dirname, '../../views', 'trade.html'));
 });
 
+
+router.get('/alltrades', async (req, res) => {
+  try {
+    // Retrieve all trades from the database
+    const trades = await Trade.find({}, { _id: 0, __v: 0 }).sort({ Value: -1 });
+    res.json(trades);
+  } catch (error) {
+    console.error('Error retrieving trades:', error);
+    res.status(500).json({ error: 'Failed to retrieve trades' });
+  }
+});
+
+
 router.get('/editBalance', async (req, res) => {
   res.sendFile(path.join(__dirname, '../../views', 'editbalance.html'));
 });
@@ -296,6 +293,49 @@ router.get('/user/balance', async (req, res) => {
     }
   } catch (error) {
     console.error('Error fetching user balance:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Add a route handler for fetching coin amounts for a user
+router.get('/user/coin-amounts', async (req, res) => {
+  const username = req.query.username;
+  try {
+    // Find all trades for the specified user
+    const trades = await Trade.find({ UserName: username });
+
+    // Create an object to store the coin amounts
+    const coinAmounts = {};
+
+    // Iterate over the trades and calculate the total amount for each coin
+    for (const trade of trades) {
+      const coinName = trade.CoinName;
+      const amount = trade.Amount;
+
+      // Update the coin amount in the object
+      coinAmounts[coinName] = (coinAmounts[coinName] || 0) + amount;
+    }
+    console.log(coinAmounts);
+    res.json(coinAmounts);
+  } catch (error) {
+    console.error('Error fetching coin amounts:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+router.get('/trades', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../views', 'allTrades.html'));
+});
+
+router.get('/trades/:username', async (req, res) => {
+  try {
+    const { username } = req.params;
+    console.log(username)
+    const trades = await Trade.find({ UserName: username }, '-_id CoinName Amount Value LastDate');
+    res.json(trades);
+  } catch (error) {
+    console.error('Error fetching trades:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -343,9 +383,15 @@ router.patch('/coins/:id', async (req, res) => {
     const updates = req.body;
 
     const coin = await Coin.findByIdAndUpdate(id, updates, { new: true });
-
     if (!coin) {
       return res.status(404).json({ error: 'Coin not found' });
+    }
+
+    const trades = await Trade.find({ CoinName: coin.CoinName });
+    for (let i = 0; i < trades.length; i++) {
+      const trade = trades[i];
+      trade.Value = trade.Amount * coin.Price;
+      await trade.save();
     }
 
     res.json(coin);
@@ -354,6 +400,7 @@ router.patch('/coins/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 // Route to update user balance
 router.patch('/user/balance', async (req, res) => {
