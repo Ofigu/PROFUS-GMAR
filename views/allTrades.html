@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trades Table</title>
+  <title>All holdings of coins by customers</title>
   <style>
     table {
       border-collapse: collapse;
@@ -13,7 +13,7 @@
 
     th,
     td {
-      text-align: left;
+      text-align: center;
       padding: 8px;
     }
 
@@ -32,31 +32,40 @@
     .search-container input {
       margin-right: 10px;
     }
+
+    .formatted-date {
+      white-space: nowrap;
+    }
+
+    .formatted-number {
+      display: inline-block;
+    }
+
   </style>
 </head>
 
 <body>
-  <h1>Trades Table</h1>
+  <h1>All Holdings of Coins by Customers</h1>
 
   <div class="search-container">
-    <label for="searchName">Search by Coin Name:</label>
-    <input type="text" id="searchName" placeholder="Enter coin name...">
-    
-    <label for="searchValue">Search by Value:</label>
-    <input type="number" id="searchValue" placeholder="Enter value...">
-    
     <label for="searchUser">Search by User Name:</label>
     <input type="text" id="searchUser" placeholder="Enter user name...">
+    
+    <label for="searchName">Search by Coin Name:</label>
+    <input type="text" id="searchName" placeholder="Enter coin name...">
+
+    <label for="searchValue">Search by Value:</label>
+    <input type="number" id="searchValue" placeholder="Enter value...">
   </div>
 
   <table>
     <thead>
       <tr>
+        <th>User Name</th>
         <th>Coin Name</th>
         <th>Amount</th>
         <th>Value</th>
-        <th>User Name</th>
-        <th>Last Change</th>
+        <th>Date</th>
       </tr>
     </thead>
     <tbody id="tradeTableBody">
@@ -99,12 +108,16 @@
           tradeTableBody.innerHTML = '';
           trades.forEach(trade => {
             const row = document.createElement('tr');
+            const formattedDate = new Date(trade.LastDate).toLocaleString();
+            const parts = parseFloat(trade.Value).toFixed(2).split(".");
+            const formattedValue = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
+
             row.innerHTML = `
+              <td>${trade.UserName}</td>
               <td>${trade.CoinName}</td>
               <td>${trade.Amount}</td>
-              <td>${trade.Value}</td>
-              <td>${trade.UserName}</td>
-              <td>${trade.LastDate}</td>
+              <td><span class="formatted-number">${formattedValue}</span></td>
+              <td><span class="formatted-date">${formattedDate}</span></td>
             `;
             tradeTableBody.appendChild(row);
           });
