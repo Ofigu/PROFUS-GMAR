@@ -4,8 +4,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trades Table</title>
+  <title>Client Assets</title>
   <style>
+
+.image{
+  background: linear-gradient(135deg, #050093, #020070);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: scroll;
+}
+      
+    *{
+      font-family: sans-serif, 'popins';
+      font-weight: 500;
+    }
+    body {
+      font-size: 22px;
+      margin: 0;
+      padding: 0;
+      color: white;
+    }
+
+    h1 {
+      text-align: center;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(60px);
+  -webkit-backdrop-filter: blur(60px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  border-radius: 0 0 20px 20px;
+    }
+
+    .search-container {
+      font-size: 25px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    .search-container input {
+      color: white;
+      font-size: 22px;
+      background-color: transparent;
+      border-radius: 20px;
+      padding: 6px;
+      padding-left: 5px;
+      padding-right: 5px;
+      padding-top: 3px;
+      text-align: center;
+      box-shadow: none;
+      border: solid 2px white;
+      animation-duration: 2s;
+      transition: all 0.3s ease;
+      margin-left: 10px;
+    }
+    input:hover{
+     transform: scale(1.1);
+    }
+    input:focus{
+     transform: scale(1.1);
+    }
+
+    input::placeholder{
+      text-align: center;
+      color: white;
+      font-size: 22px;
+    }
+
     table {
       border-collapse: collapse;
       width: 100%;
@@ -18,51 +96,68 @@
     }
 
     thead {
-      background-color: #f2f2f2;
+      background-color: transparent;
+      font-weight: 600;
+      font-size: 25px;
+      text-decoration: underline;
     }
 
     tbody tr:nth-child(even) {
-      background-color: #f9f9f9;
+      background-color: transparent;
     }
-
-    .search-container {
-      margin-bottom: 20px;
+    tr{
+      font-size: 22px;
     }
-
-    .search-container input {
-      margin-right: 10px;
+    @media (max-width: 900px) {
+      .search-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        align-items: stretch;
+        width: 280px;
+        margin: 0 auto;
+      }
+      .search-container input {
+        margin: 5px 0;
+      }
     }
   </style>
 </head>
-
+<div class="image">
 <body>
-  <h1>Trades Table</h1>
+  <div class="container">
+    <h1>Client assets tracking table</h1>
 
-  <div class="search-container">
-    <label for="searchName">Search by Coin Name:</label>
-    <input type="text" id="searchName" placeholder="Enter coin name...">
-    
-    <label for="searchValue">Search by Value:</label>
-    <input type="number" id="searchValue" placeholder="Enter value...">
-    
-    <label for="searchUser">Search by User Name:</label>
-    <input type="text" id="searchUser" placeholder="Enter user name...">
+    <div class="search-container">
+      <div>
+        <label for="searchName">Search by Coin Name:</label>
+        <input type="text" id="searchName">
+      </div>
+      <div>
+        <label for="searchValue">Search by Value:</label>
+        <input type="number" id="searchValue">
+      </div>
+      <div>
+        <label for="searchUser">Search by User Name:</label>
+        <input type="text" id="searchUser">
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Coin Name</th>
+          <th>Amount</th>
+          <th>Value</th>
+          <th>User Name</th>
+          <th>Last Change</th>
+        </tr>
+      </thead>
+      <tbody id="tradeTableBody">
+        <!-- Trades will be dynamically added here -->
+      </tbody>
+    </table>
   </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Coin Name</th>
-        <th>Amount</th>
-        <th>Value</th>
-        <th>User Name</th>
-        <th>Last Change</th>
-      </tr>
-    </thead>
-    <tbody id="tradeTableBody">
-      <!-- Trades will be dynamically added here -->
-    </tbody>
-  </table>
 
   <script>
     // Make a request to the server and fetch the trades data
@@ -119,5 +214,5 @@
       .catch(error => console.error('Error:', error));
   </script>
 </body>
-
+</div>
 </html>
