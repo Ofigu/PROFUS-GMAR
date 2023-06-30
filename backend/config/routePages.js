@@ -47,8 +47,8 @@ router.post('/addTrade', async (req, res) => {
 
     // Check if a trade with the same coin and username exists
     const existingTrade = await Trade.findOne({ CoinName, UserName });
-    const theUser = await User.findOne({UserName}) 
-    const theCoin = await Coin.findOne({CoinName})
+    const theUser = await User.findOne({ UserName })
+    const theCoin = await Coin.findOne({ CoinName })
 
     if (existingTrade && theUser) {
       // If a trade exists, update its properties
@@ -72,12 +72,12 @@ router.post('/addTrade', async (req, res) => {
         UserName,
         LastDate: new Date() // Set the Date field to the current date and time
       });
-      const theSameUser = await User.findOne({UserName}) 
+      const theSameUser = await User.findOne({ UserName })
       theSameUser.Balance -= Value;
       // Save the new trade to the database
       const savedTrade = await newTrade.save();
       await theSameUser.save()
-   
+
       res.status(200).json(savedTrade);
     }
   } catch (error) {
@@ -94,8 +94,8 @@ router.post('/reduceTrade', async (req, res) => {
 
     // Find the trade with the given coin and username
     const existingTrade = await Trade.findOne({ CoinName, UserName });
-    const theUser = await User.findOne({UserName})
-    const theCoin =await Coin.findOne({CoinName})
+    const theUser = await User.findOne({ UserName })
+    const theCoin = await Coin.findOne({ CoinName })
 
     if (existingTrade) {
       if (Amount < existingTrade.Amount) {
@@ -110,7 +110,7 @@ router.post('/reduceTrade', async (req, res) => {
         await theUser.save();
 
         res.status(200).json(updatedTrade);
-      } 
+      }
       else if (Amount === existingTrade.Amount) {
 
         theUser.Balance += Value;
@@ -185,7 +185,7 @@ router.post('/addCoin', async (req, res) => {
       // Save the coin to the database
       await coin.save();
       console.log('Coin added successfully');
-      
+
       const tweet = async () => {
         try {
           await twitterClient.v2.tweet(tweetContent);
@@ -296,6 +296,32 @@ router.get('/user/balance', async (req, res) => {
     }
   } catch (error) {
     console.error('Error fetching user balance:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Add a route handler for fetching coin amounts for a user
+router.get('/user/coin-amounts', async (req, res) => {
+  const username = req.query.username;
+  try {
+    // Find all trades for the specified user
+    const trades = await Trade.find({ UserName: username });
+
+    // Create an object to store the coin amounts
+    const coinAmounts = {};
+
+    // Iterate over the trades and calculate the total amount for each coin
+    for (const trade of trades) {
+      const coinName = trade.CoinName;
+      const amount = trade.Amount;
+
+      // Update the coin amount in the object
+      coinAmounts[coinName] = (coinAmounts[coinName] || 0) + amount;
+    }
+    console.log(coinAmounts);
+    res.json(coinAmounts);
+  } catch (error) {
+    console.error('Error fetching coin amounts:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
