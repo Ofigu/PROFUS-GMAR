@@ -139,8 +139,12 @@
           const response = await fetch(`/trades/${username}`);
           const trades = await response.json();
           if (response.ok) {
-            displayTrades(trades);
-            calculateTotalValue(trades);
+            if (trades.length === 0) {
+              alert("You don't have any coins yet, it's time to visit the Trade page");
+            } else {
+              displayTrades(trades);
+              calculateTotalValue(trades);
+            }
           } else {
             console.error('Error fetching user trades:', trades.error);
           }
@@ -148,6 +152,7 @@
           console.error('Error fetching user trades:', error);
         }
       }
+
 
       function displayTrades(trades) {
         const tradeTableBody = document.getElementById('tradeTableBody');
