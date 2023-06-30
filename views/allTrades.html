@@ -24,20 +24,39 @@
     tbody tr:nth-child(even) {
       background-color: #f9f9f9;
     }
+
+    .search-container {
+      margin-bottom: 20px;
+    }
+
+    .search-container input {
+      margin-right: 10px;
+    }
   </style>
 </head>
 
 <body>
   <h1>Trades Table</h1>
 
+  <div class="search-container">
+    <label for="searchName">Search by Coin Name:</label>
+    <input type="text" id="searchName" placeholder="Enter coin name...">
+    
+    <label for="searchValue">Search by Value:</label>
+    <input type="number" id="searchValue" placeholder="Enter value...">
+    
+    <label for="searchUser">Search by User Name:</label>
+    <input type="text" id="searchUser" placeholder="Enter user name...">
+  </div>
+
   <table>
     <thead>
       <tr>
-        <th>CoinName</th>
+        <th>Coin Name</th>
         <th>Amount</th>
         <th>Value</th>
-        <th>UserName</th>
-        <th>LastDate</th>
+        <th>User Name</th>
+        <th>Last Change</th>
       </tr>
     </thead>
     <tbody id="tradeTableBody">
@@ -54,17 +73,48 @@
         data.sort((a, b) => b.Value - a.Value);
 
         const tradeTableBody = document.getElementById('tradeTableBody');
-        data.forEach(trade => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${trade.CoinName}</td>
-            <td>${trade.Amount}</td>
-            <td>${trade.Value}</td>
-            <td>${trade.UserName}</td>
-            <td>${trade.LastDate}</td>
-          `;
-          tradeTableBody.appendChild(row);
-        });
+        const searchNameInput = document.getElementById('searchName');
+        const searchValueInput = document.getElementById('searchValue');
+        const searchUserInput = document.getElementById('searchUser');
+
+        const filterTrades = () => {
+          const searchName = searchNameInput.value.toLowerCase();
+          const searchValue = searchValueInput.value;
+          const searchUser = searchUserInput.value.toLowerCase();
+
+          const filteredTrades = data.filter(trade => {
+            const tradeName = trade.CoinName.toLowerCase();
+            const tradeValue = trade.Value;
+            const tradeUser = trade.UserName.toLowerCase();
+
+            return tradeName.includes(searchName) &&
+              (!searchValue || tradeValue <= searchValue) &&
+              tradeUser.includes(searchUser);
+          });
+
+          renderTrades(filteredTrades);
+        };
+
+        const renderTrades = (trades) => {
+          tradeTableBody.innerHTML = '';
+          trades.forEach(trade => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${trade.CoinName}</td>
+              <td>${trade.Amount}</td>
+              <td>${trade.Value}</td>
+              <td>${trade.UserName}</td>
+              <td>${trade.LastDate}</td>
+            `;
+            tradeTableBody.appendChild(row);
+          });
+        };
+
+        searchNameInput.addEventListener('input', filterTrades);
+        searchValueInput.addEventListener('input', filterTrades);
+        searchUserInput.addEventListener('input', filterTrades);
+
+        renderTrades(data);
       })
       .catch(error => console.error('Error:', error));
   </script>
