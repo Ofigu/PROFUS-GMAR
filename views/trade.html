@@ -4,6 +4,17 @@
 <head>
   <title>Knoni exchange</title>
   <style>
+    body{
+    }
+    h1 {
+  text-align: center;
+  background-color: #007bff; /* Replace with your preferred color */
+  color: #fff; /* Replace with your preferred text color */
+  padding: 20px;
+  font-family: 'Arial', sans-serif; /* Use a preferred font */
+  font-size: 36px;
+  font-weight: bold;
+}
     /* Set a fixed width and height for the coin images */
     td img {
       width: 40px;
@@ -12,29 +23,39 @@
     }
 
     .search-filters {
-      justify-content: center;
-      display: flex;
-      gap: 10px;
-    }
+  justify-content: center;
+  display: flex;
+  gap: 10px;
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 5px;
+}
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
+.search-filters label {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: right;
+  width: 100px;
+}
 
-    th,
-    td {
-      text-align: left;
-      padding: 8px;
-    }
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
-    thead {
-      background-color: #f2f2f2;
-    }
+th,
+td {
+  text-align: center; /* Center align the table content */
+  padding: 8px;
+}
 
-    tbody tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
+thead {
+  background-color: #f2f2f2;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
 
     .operations {
       text-align: center;
@@ -46,6 +67,23 @@
       align-items: center;
       gap: 10px;
     }
+    .buy-button {
+  background-color: #5cb85c; /* Replace with your preferred color for buy */
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.sell-button {
+  background-color: #d9534f; /* Replace with your preferred color for sell */
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
   </style>
 </head>
 

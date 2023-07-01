@@ -160,7 +160,8 @@
       font-weight: 600;
       font-size: 22px;
     }
-    img{
+
+    img {
       border-radius: 50%;
     }
   </style>
@@ -198,6 +199,7 @@
       const firstName = urlParams.get('firstName');
 
       updateBalanceDisplay(firstName);
+      showLoadingIndicator();
       fetchUserTrades(firstName);
 
       async function fetchUserBalance(username) {
@@ -224,8 +226,11 @@
             if (trades.length === 0) {
               alert("You don't have any coins yet, it's time to visit the Trade page");
             } else {
-              displayTrades(trades);
-              calculateTotalValue(trades);
+              setTimeout(() => {
+                displayTrades(trades);
+                calculateTotalValue(trades);
+                hideLoadingIndicator(); // Hide the loading indicator once the data is ready
+              }, 1); // Simulate a delay of 3 seconds
             }
           } else {
             console.error('Error fetching user trades:', trades.error);
@@ -233,6 +238,17 @@
         } catch (error) {
           console.error('Error fetching user trades:', error);
         }
+      }
+
+      function showLoadingIndicator() {
+        // Display the loading indicator, e.g., show a spinner or change the table content to "Loading..."
+        const tradeTableBody = document.getElementById('tradeTableBody');
+        tradeTableBody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
+      }
+
+      function hideLoadingIndicator() {
+        // Hide the loading indicator, e.g., remove the spinner or restore the table content
+        fetchUserTrades(firstName);
       }
 
 
