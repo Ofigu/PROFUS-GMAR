@@ -12,7 +12,10 @@
       font-weight: 500;
     }
     body {
-      background: linear-gradient(135deg, #050093, #020070);
+      background-image: url('resources/signup-background.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       font-size: 22px;
       margin: 0;
       padding: 0;
@@ -34,7 +37,8 @@
       -webkit-backdrop-filter: blur(60px);
       border: 1px solid rgba(255, 255, 255, 0.05);
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-      border-radius: 0 0 20px 20px;
+      border-radius: 20px;
+      width: 90%;
         }
 
     .search-container {
@@ -46,20 +50,23 @@
     }
 
     .search-container input {
-      color: white;
-      font-size: 22px;
-      background-color: transparent;
-      border-radius: 20px;
-      padding: 6px;
-      padding-left: 5px;
-      padding-right: 5px;
-      padding-top: 3px;
-      text-align: center;
-      box-shadow: none;
-      border: solid 2px white;
-      animation-duration: 2s;
-      transition: all 0.3s ease;
-      margin-left: 10px;
+      color: rgba(255, 255, 255, 0.9);
+    font-size: 23px;
+    font-weight: 600;
+    height: 35px;
+    width: 70%;
+    padding-top: 4px;
+    margin-bottom: 2px;
+    margin-top: 5px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+    backdrop-filter: blur(120px); 
+    -webkit-backdrop-filter: blur(120px);
+    border-radius: 20px;
+    border:1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    animation-duration: 2s;
+    transition: all 0.3s ease;
+    text-align: center;
     }
     input:hover{
      transform: scale(1.1);
@@ -67,7 +74,12 @@
     input:focus{
      transform: scale(1.1);
     }
-
+    .search-container input::-webkit-inner-spin-button,
+   .search-container input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      display: none;
+    }
     input::placeholder{
       text-align: center;
       color: white;
@@ -82,14 +94,12 @@
     th,
     td {
       text-align: left;
-      padding: 8px;
+      padding: 16px;
     }
-
     thead {
       background-color: transparent;
       font-weight: 600;
-      font-size: 25px;
-      text-decoration: underline;
+      font-size: 30px;
     }
 
     tbody tr:nth-child(even) {
@@ -97,6 +107,7 @@
     }
     tr{
       font-size: 22px;
+      border-bottom: rgba(255, 255, 255, 0.1);
     }
     @media (max-width: 900px) {
       .search-container {
