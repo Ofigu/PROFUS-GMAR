@@ -141,8 +141,10 @@ tbody tr:nth-child(even) {
 
   <script>
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const firstName = urlParams.get('firstName');
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const firstName = urlParams.get('firstName');
+
+    const firstName = sessionStorage.getItem('firstName');
 
     // Call the updateBalanceDisplay function with the username
     updateBalanceDisplay(firstName);
