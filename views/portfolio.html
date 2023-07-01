@@ -316,7 +316,7 @@
       function filterTrades(searchTerm) {
         const tradeRows = document.querySelectorAll('#tradeTableBody tr');
         tradeRows.forEach(row => {
-          const coinName = row.querySelector('td:first-child').innerText.toLowerCase();
+          const coinName = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
           if (coinName.includes(searchTerm)) {
             row.style.display = '';
           } else {
