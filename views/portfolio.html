@@ -8,146 +8,158 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
     body {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  margin: 0;
-  padding: 0;
-  background-image: url('resources/signup-background.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  background-attachment: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-.container {
-  border-radius: 20px;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.9);
-  max-width: 800px; /* Adjust the max-width to your preference */
-  width: 90%; /* Responsive width */
-  margin: 0 auto; /* Center the container */
-  padding: 20px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-  backdrop-filter: blur(60px);
-  -webkit-backdrop-filter: blur(60px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-  overflow-y: auto;
-}
-.container::-webkit-scrollbar {
-  display: none; /* Hide the scroll bar */
-}
-
-.search-container {
-  margin-top: 20px;
-  margin-bottom: 30px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap; /* Allow wrapping on smaller screens */
-}
-
-.search-container label{
-  font-weight: 600;
-  font-size: 20px;
-}
-
-.search-container input{
-  color: rgba(255, 255, 255, 0.9);
-    font-size: 23px;
-    font-weight: 600;
-    height: 35px;
-    width: 60%;
-    padding-top: 4px;
-    margin-bottom: 2px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-    backdrop-filter: blur(120px); 
-    -webkit-backdrop-filter: blur(120px);
-    border-radius: 20px;
-    border:1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-    animation-duration: 2s;
-    transition: scale 0.3s ease,box-shadow 0.3s ease;
-    text-align: center;
-}
-    .search-container input:focus{
-       box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
-       scale: 1.03;
-    }
-    .search-container input:hover{
-       scale: 1.03;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      margin: 0;
+      padding: 0;
+      background-image: url('resources/signup-background.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-.search-input {
-  padding: 5px;
-  margin-left: 10px;
-  flex-grow: 1; /* Take remaining space */
-}
+    .container {
+      border-radius: 20px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 800px;
+      /* Adjust the max-width to your preference */
+      width: 90%;
+      /* Responsive width */
+      margin: 0 auto;
+      /* Center the container */
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(60px);
+      -webkit-backdrop-filter: blur(60px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      overflow-y: auto;
+    }
 
-h1{
-  font-size: 35px;
-  font-weight: 600;
-  text-decoration: underline;
-}
+    .container::-webkit-scrollbar {
+      display: none;
+      /* Hide the scroll bar */
+    }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  table-layout: fixed; /* Prevent table from expanding */
-}
+    .search-container {
+      margin-top: 20px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      /* Allow wrapping on smaller screens */
+    }
 
-thead{
-  font-size: 26px
-}
+    .search-container label {
+      font-weight: 600;
+      font-size: 20px;
+    }
 
-th,
-td {
-  border-bottom: solid 2px rgba(255, 255, 255, 0.1);
-  padding: 10px;
-  text-align: center;
-  word-wrap: break-word; /* Wrap long text */
-}
+    .search-container input {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 23px;
+      font-weight: 600;
+      height: 35px;
+      width: 60%;
+      padding-top: 4px;
+      margin-bottom: 2px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(120px);
+      -webkit-backdrop-filter: blur(120px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      animation-duration: 2s;
+      transition: scale 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+    }
 
-tr{
-  font-weight: 600;
-  font-size: 18px;
-}
+    .search-container input:focus {
+      box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
+      scale: 1.03;
+    }
 
-#totalValue {
-  margin-top: 20px;
-  font-weight: 600;
-}
+    .search-container input:hover {
+      scale: 1.03;
+    }
 
-@media only screen and (max-width: 768px) {
-  /* Styles for screens up to 768px */
-  .container {
-    padding: 10px;
-  }
-  
-  .search-container {
-    margin-bottom: 20px;
-  }
-  
-  .search-input {
-    margin-top: 10px;
-  }
-}
+    .search-input {
+      padding: 5px;
+      margin-left: 10px;
+      flex-grow: 1;
+      /* Take remaining space */
+    }
 
-p{
-  font-weight: 600;
-  font-size: 22px;
-}
+    h1 {
+      font-size: 35px;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      table-layout: fixed;
+      /* Prevent table from expanding */
+    }
+
+    thead {
+      font-size: 26px
+    }
+
+    th,
+    td {
+      border-bottom: solid 2px rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      text-align: center;
+      word-wrap: break-word;
+      /* Wrap long text */
+    }
+
+    tr {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    #totalValue {
+      margin-top: 20px;
+      font-weight: 600;
+    }
+
+    @media only screen and (max-width: 768px) {
+
+      /* Styles for screens up to 768px */
+      .container {
+        padding: 10px;
+      }
+
+      .search-container {
+        margin-bottom: 20px;
+      }
+
+      .search-input {
+        margin-top: 10px;
+      }
+    }
+
+    p {
+      font-weight: 600;
+      font-size: 22px;
+    }
   </style>
 </head>
 
@@ -164,6 +176,7 @@ p{
     <table>
       <thead>
         <tr>
+          <th>Image</th>
           <th>Coin Name</th>
           <th>Amount</th>
           <th>Value</th>
@@ -225,22 +238,31 @@ p{
         tradeTableBody.innerHTML = ''; // Clear existing rows
 
         // Sort trades by value in descending order
-        trades.sort((a, b) => b.Value - a.Value);
+        trades.sort((a, b) => b.trade.Value - a.trade.Value);
 
         trades.forEach(trade => {
           const row = document.createElement('tr');
-          row.innerHTML = `
-        <td>${trade.CoinName}</td>
-        <td>${trade.Amount}</td>
-        <td>${formatNumber(trade.Value)}</td>
-        <td>${formatDateTime(trade.LastDate)}</td>
-      `;
+          const coinImage = document.createElement('img');
+          coinImage.src = trade.image;
+          coinImage.alt = trade.trade.CoinName;
+          coinImage.style.width = '50px';
+          const coinNameCell = document.createElement('td');
+          coinNameCell.textContent = trade.trade.CoinName;
+          const amountCell = document.createElement('td');
+          amountCell.textContent = formatNumber(trade.trade.Amount);
+          const valueCell = document.createElement('td');
+          valueCell.textContent = formatNumber(trade.trade.Value);
+          const lastChangeCell = document.createElement('td');
+          lastChangeCell.textContent = formatDateTime(trade.trade.LastDate);
+          const imageCell = document.createElement('td');
+          imageCell.appendChild(coinImage);
+          row.appendChild(imageCell);
+          row.appendChild(coinNameCell);
+          row.appendChild(amountCell);
+          row.appendChild(valueCell);
+          row.appendChild(lastChangeCell);
           tradeTableBody.appendChild(row);
         });
-      }
-
-      function formatNumber(number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
 
       function formatDateTime(dateTime) {
@@ -259,9 +281,10 @@ p{
 
       function calculateTotalValue(trades) {
         const totalValueElement = document.getElementById('totalValue');
-        const totalValue = trades.reduce((sum, trade) => sum + trade.Value, 0);
-        totalValueElement.innerText += ` $${formatNumber(totalValue.toFixed(2))}`;
+        const totalValue = trades.reduce((sum, trade) => sum + trade.trade.Value, 0);
+        totalValueElement.innerText = formatNumber(totalValue.toFixed(2));
       }
+
 
       async function updateBalanceDisplay(username) {
         const balanceElement = document.getElementById('balance');
@@ -299,12 +322,16 @@ p{
         });
       }
 
-      // Format numbers with commas
       function formatNumber(number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const parsedNumber = parseFloat(number);
+        if (isNaN(parsedNumber)) {
+          return number; // Return the input as is if it's not a valid number
+        }
+        return parsedNumber.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
     });
   </script>
 </body>
+
 
 </html>

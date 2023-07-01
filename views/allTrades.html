@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Client Assets</title>
   <style>
-      
-    *{
+    * {
       font-family: sans-serif, 'popins';
       font-weight: 500;
     }
+
     body {
       background-image: url('resources/signup-background.jpg');
       background-size: cover;
@@ -39,7 +39,7 @@
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
       border-radius: 20px;
       width: 90%;
-        }
+    }
 
     .search-container {
       font-size: 25px;
@@ -51,36 +51,40 @@
 
     .search-container input {
       color: rgba(255, 255, 255, 0.9);
-    font-size: 23px;
-    font-weight: 600;
-    height: 35px;
-    width: 70%;
-    padding-top: 4px;
-    margin-bottom: 2px;
-    margin-top: 5px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-    backdrop-filter: blur(120px); 
-    -webkit-backdrop-filter: blur(120px);
-    border-radius: 20px;
-    border:1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-    animation-duration: 2s;
-    transition: all 0.3s ease;
-    text-align: center;
+      font-size: 23px;
+      font-weight: 600;
+      height: 35px;
+      width: 70%;
+      padding-top: 4px;
+      margin-bottom: 2px;
+      margin-top: 5px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(120px);
+      -webkit-backdrop-filter: blur(120px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+      animation-duration: 2s;
+      transition: all 0.3s ease;
+      text-align: center;
     }
-    input:hover{
-     transform: scale(1.1);
+
+    input:hover {
+      transform: scale(1.1);
     }
-    input:focus{
-     transform: scale(1.1);
+
+    input:focus {
+      transform: scale(1.1);
     }
+
     .search-container input::-webkit-inner-spin-button,
-   .search-container input::-webkit-outer-spin-button {
+    .search-container input::-webkit-outer-spin-button {
       -webkit-appearance: none;
       margin: 0;
       display: none;
     }
-    input::placeholder{
+
+    input::placeholder {
       text-align: center;
       color: white;
       font-size: 22px;
@@ -96,6 +100,7 @@
       text-align: left;
       padding: 16px;
     }
+
     thead {
       background-color: transparent;
       font-weight: 600;
@@ -105,10 +110,12 @@
     tbody tr:nth-child(even) {
       background-color: transparent;
     }
-    tr{
+
+    tr {
       font-size: 22px;
       border-bottom: rgba(255, 255, 255, 0.1);
     }
+
     @media (max-width: 900px) {
       .search-container {
         flex-direction: column;
@@ -118,17 +125,23 @@
         width: 280px;
         margin: 0 auto;
       }
+
       .search-container input {
         margin: 5px 0;
       }
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Client assets tracking table</h1>
 
     <div class="search-container">
+      <div>
+        <label for="searchUser">Search by User Name:</label>
+        <input type="text" id="searchUser">
+      </div>
       <div>
         <label for="searchName">Search by Coin Name:</label>
         <input type="text" id="searchName">
@@ -137,19 +150,15 @@
         <label for="searchValue">Search by Value:</label>
         <input type="number" id="searchValue">
       </div>
-      <div>
-        <label for="searchUser">Search by User Name:</label>
-        <input type="text" id="searchUser">
-      </div>
     </div>
 
     <table>
       <thead>
         <tr>
+          <th>User Name</th>
           <th>Coin Name</th>
           <th>Amount</th>
           <th>Value</th>
-          <th>User Name</th>
           <th>Last Change</th>
         </tr>
       </thead>
@@ -164,13 +173,23 @@
     fetch('/alltrades')
       .then(response => response.json())
       .then(data => {
-        // Sort the trades by Value in descending order
-        data.sort((a, b) => b.Value - a.Value);
+        // Sort the trades by User Name in alphabetical order
+        data.sort((a, b) => a.UserName.localeCompare(b.UserName));
 
         const tradeTableBody = document.getElementById('tradeTableBody');
         const searchNameInput = document.getElementById('searchName');
         const searchValueInput = document.getElementById('searchValue');
         const searchUserInput = document.getElementById('searchUser');
+
+        const formatNumber = (number) => {
+          const formattedNumber = Number(number).toFixed(2);
+          return formattedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        };
+
+        const formatDate = (dateString) => {
+          const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+          return new Date(dateString).toLocaleDateString('en-US', options);
+        };
 
         const filterTrades = () => {
           const searchName = searchNameInput.value.toLowerCase();
@@ -195,11 +214,11 @@
           trades.forEach(trade => {
             const row = document.createElement('tr');
             row.innerHTML = `
+              <td>${trade.UserName}</td>
               <td>${trade.CoinName}</td>
               <td>${trade.Amount}</td>
-              <td>${trade.Value}</td>
-              <td>${trade.UserName}</td>
-              <td>${trade.LastDate}</td>
+              <td>${formatNumber(trade.Value)}</td>
+              <td>${formatDate(trade.LastDate)}</td>
             `;
             tradeTableBody.appendChild(row);
           });
@@ -214,4 +233,5 @@
       .catch(error => console.error('Error:', error));
   </script>
 </body>
+
 </html>
