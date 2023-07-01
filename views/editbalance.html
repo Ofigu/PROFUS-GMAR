@@ -23,10 +23,10 @@
       min-height: 450px;
       text-align: center;
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
-      backdrop-filter: blur(60px); 
+      backdrop-filter: blur(60px);
       -webkit-backdrop-filter: blur(60px);
       border-radius: 20px;
-      border:1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
       padding: 24px;
       max-width: 400px;
@@ -72,28 +72,28 @@
     }
 
     button {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 20px;
-    height: 30px;
-    width: 50%;
-    padding-top: 4px;
-    margin-top: 15px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-    backdrop-filter: blur(80px); 
-    -webkit-backdrop-filter: blur(80px);
-    border-radius: 20px;
-    border:1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-    animation-duration: 2s;
-    transition: all 0.3s ease;
-    text-align: center;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 20px;
+      height: 30px;
+      width: 50%;
+      padding-top: 4px;
+      margin-top: 15px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(80px);
+      -webkit-backdrop-filter: blur(80px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      animation-duration: 2s;
+      transition: all 0.3s ease;
+      text-align: center;
     }
 
     button:hover {
       width: 55%;
-    font-size: 25px;
-    height: 40px;
-    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
+      font-size: 25px;
+      height: 40px;
+      box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
     }
 
     button:active {
@@ -112,36 +112,38 @@
       }
     }
 
-    .container input{
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 23px;
-    font-weight: 500;
-    height: 35px;
-    width: 85%;
-    padding-top: 4px;
-    margin-bottom: 2px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-    backdrop-filter: blur(80px); 
-    -webkit-backdrop-filter: blur(80px);
-    border-radius: 20px;
-    border:1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-    animation-duration: 2s;
-    transition: scale 0.3s ease,box-shadow 0.3s ease;
-    text-align: center;
-    
-}
+    .container input {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 23px;
+      font-weight: 500;
+      height: 35px;
+      width: 85%;
+      padding-top: 4px;
+      margin-bottom: 2px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(80px);
+      -webkit-backdrop-filter: blur(80px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      animation-duration: 2s;
+      transition: scale 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
 
-.container input:focus{
-       box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
-       scale: 1.05;
     }
-    .container input:hover{
-       box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
-       scale: 1.05;
+
+    .container input:focus {
+      box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
+      scale: 1.05;
     }
-   .container input::-webkit-inner-spin-button,
-   .container input::-webkit-outer-spin-button {
+
+    .container input:hover {
+      box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
+      scale: 1.05;
+    }
+
+    .container input::-webkit-inner-spin-button,
+    .container input::-webkit-outer-spin-button {
       -webkit-appearance: none;
       margin: 0;
       display: none;
@@ -167,7 +169,7 @@
   </div>
 
   <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       // Retrieve the customer's first name from the URL query parameter
       const urlParams = new URLSearchParams(window.location.search);
       const firstName = urlParams.get('firstName');
@@ -199,18 +201,26 @@
             console.error('Error fetching user balance:', response.error);
             balanceElement.innerText = 'N/A';
           } else {
-            balanceElement.innerText = response.toFixed(2);
+            const formattedBalance = formatBalance(response);
+            balanceElement.innerText = formattedBalance;
           }
         } else {
           balanceElement.innerText = 'N/A';
         }
       }
 
+      // Helper function to format the balance with commas and two decimal places
+      function formatBalance(balance) {
+        const parts = balance.toFixed(2).toString().split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return parts.join('.');
+      }
+
       // Update the HTML content with the customer's first name
       $('#userName').text(firstName);
 
       // Add event listener for "Add Money" button click
-      $('#addMoney').click(function() {
+      $('#addMoney').click(function () {
         const addAmount = parseFloat($('#addAmount').val());
         if (!isNaN(addAmount) && addAmount > 0) {
           const newBalance = getCurrentBalance() + addAmount;
@@ -221,7 +231,7 @@
       });
 
       // Add event listener for "Withdraw Money" button click
-      $('#withdrawMoney').click(function() {
+      $('#withdrawMoney').click(function () {
         const withdrawAmount = parseFloat($('#withdrawAmount').val());
         if (!isNaN(withdrawAmount) && withdrawAmount > 0) {
           const currentBalance = getCurrentBalance();
