@@ -176,6 +176,7 @@
     <table>
       <thead>
         <tr>
+          <th>Image</th>
           <th>Coin Name</th>
           <th>Amount</th>
           <th>Value</th>
@@ -237,16 +238,29 @@
         tradeTableBody.innerHTML = ''; // Clear existing rows
 
         // Sort trades by value in descending order
-        trades.sort((a, b) => b.Value - a.Value);
+        trades.sort((a, b) => b.trade.Value - a.trade.Value);
 
         trades.forEach(trade => {
           const row = document.createElement('tr');
-          row.innerHTML = `
-          <td>${trade.CoinName}</td>
-          <td>${formatNumber(trade.Amount)}</td>
-          <td>${formatNumber(trade.Value)}</td>
-          <td>${formatDateTime(trade.LastDate)}</td>
-    `;
+          const coinImage = document.createElement('img');
+          coinImage.src = trade.image;
+          coinImage.alt = trade.trade.CoinName;
+          coinImage.style.width = '50px';
+          const coinNameCell = document.createElement('td');
+          coinNameCell.textContent = trade.trade.CoinName;
+          const amountCell = document.createElement('td');
+          amountCell.textContent = formatNumber(trade.trade.Amount);
+          const valueCell = document.createElement('td');
+          valueCell.textContent = formatNumber(trade.trade.Value);
+          const lastChangeCell = document.createElement('td');
+          lastChangeCell.textContent = formatDateTime(trade.trade.LastDate);
+          const imageCell = document.createElement('td');
+          imageCell.appendChild(coinImage);
+          row.appendChild(imageCell);
+          row.appendChild(coinNameCell);
+          row.appendChild(amountCell);
+          row.appendChild(valueCell);
+          row.appendChild(lastChangeCell);
           tradeTableBody.appendChild(row);
         });
       }
@@ -267,9 +281,10 @@
 
       function calculateTotalValue(trades) {
         const totalValueElement = document.getElementById('totalValue');
-        const totalValue = trades.reduce((sum, trade) => sum + trade.Value, 0);
-        totalValueElement.innerText += ` $${formatNumber(totalValue.toFixed(2))}`;
+        const totalValue = trades.reduce((sum, trade) => sum + trade.trade.Value, 0);
+        totalValueElement.innerText = formatNumber(totalValue.toFixed(2));
       }
+
 
       async function updateBalanceDisplay(username) {
         const balanceElement = document.getElementById('balance');
@@ -308,10 +323,15 @@
       }
 
       function formatNumber(number) {
-        return number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const parsedNumber = parseFloat(number);
+        if (isNaN(parsedNumber)) {
+          return number; // Return the input as is if it's not a valid number
+        }
+        return parsedNumber.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
     });
   </script>
 </body>
+
 
 </html>

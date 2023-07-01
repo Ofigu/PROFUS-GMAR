@@ -331,13 +331,23 @@ router.get('/trades', function (req, res) {
 router.get('/trades/:username', async (req, res) => {
   try {
     const { username } = req.params;
-    console.log(username)
     const trades = await Trade.find({ UserName: username }, '-_id CoinName Amount Value LastDate');
-    res.json(trades);
+    const tradesWithImages = [];
+
+    for (const trade of trades) {
+      const coin = await Coin.findOne({ CoinName: trade.CoinName });
+      const tradeWithImage = {
+        trade,
+        image: coin ? coin.ImageOfCoin : '' // Assuming the 'ImageOfCoin' field contains the image string
+      };
+      tradesWithImages.push(tradeWithImage);
+    }
+
+    res.json(tradesWithImages);
   } catch (error) {
     console.error('Error fetching trades:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 
