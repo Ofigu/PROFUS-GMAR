@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
         }
 
         .welcome-container {
+            position: relative;
             max-width: 800px;
             margin: 0 auto;
             padding: 40px;
@@ -22,6 +24,7 @@
             background-color: rgba(255, 255, 255, 0.8);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 4px;
+            z-index: 1;
         }
 
         .welcome-container .logo {
@@ -50,23 +53,138 @@
         }
 
         .social-media img {
-            width: 30px;
-            height: 30px;
+            width: 55px;
+            height: 55px;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
     </style>
 </head>
+
 <body>
     <div class="welcome-container">
         <a href="/loginPage">
             <img src="resources/logo.png" alt="Kanoni Family Logo" class="logo">
         </a>
         <h1>Welcome to Kanoni Family!</h1>
+        <h2>Press our logo to sign in, or anywhere esle for a cool effect!</h2>
         <p>We are delighted to have you as a member of our crypto coin internet shop. Start exploring our wide range of crypto coins and enjoy a secure and seamless shopping experience.</p>
         <p>Follow us on social media:</p>
         <div class="social-media">
-            <a href="https://www.facebook.com/your-facebook-page" target="_blank"><img src="resources/facebook.png" alt="Facebook"></a>
-            <a href="https://twitter.com/KanoniCoin" target="_blank"><img src="resources/twitter.png" alt="Instagram"></a>
+            <a href="https://www.facebook.com/your-facebook-page" target="_blank"><img src="resources/facebook.png"
+                    alt="Facebook"></a>
+            <a href="https://twitter.com/KanoniCoin" target="_blank"><img src="resources/twitter.png"
+                    alt="Instagram"></a>
         </div>
     </div>
+    <canvas></canvas>
+    <script>
+        const canvas = document.querySelector('canvas');
+        const c = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const mouse = {
+            x: innerWidth / 2,
+            y: innerHeight / 2
+        };
+
+        const colors = ['#2185C5', '#7ECEFD', '#FFF6E5', '#FF7F66'];
+
+        addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        const gravity = 0.03;
+        const friction = 0.99;
+
+        class Particle {
+            constructor(x, y, radius, color, velocity) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+                this.velocity = {
+                    x: velocity.x,
+                    y: velocity.y
+                };
+                this.opacity = 1;
+            }
+
+            draw() {
+                c.save();
+                c.globalAlpha = this.opacity;
+                c.beginPath();
+                c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                c.fillStyle = this.color;
+                c.fill();
+                c.closePath();
+                c.restore();
+            }
+
+            update() {
+                this.draw();
+                this.velocity.x *= friction;
+                this.velocity.y *= friction;
+                this.velocity.y += gravity;
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.opacity -= 0.003;
+            }
+        }
+
+        setTimeout(() => {
+            animate();
+        }, 2000); // Delay animation start by 2 seconds
+
+        let particles = [];
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            c.fillStyle = 'rgba(255, 255, 255, 0.05)'; // Lighter background color
+            c.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((particle, i) => {
+                if (particle.opacity > 0) {
+                    particle.update();
+                } else {
+                    particles.splice(i, 1);
+                }
+            });
+        }
+
+        addEventListener('click', (event) => {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
+
+            const particleCount = 500;
+            const power = 12;
+            let radians = (Math.PI * 2) / particleCount;
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(
+                    new Particle(
+                        mouse.x,
+                        mouse.y,
+                        3,
+                        `hsl(${Math.random() * 360}, 50%, 50%)`,
+                        {
+                            x: Math.cos(radians * i) * (Math.random() * power),
+                            y: Math.sin(radians * i) * (Math.random() * power)
+                        }
+                    )
+                );
+            }
+        });
+    </script>
 </body>
+
 </html>

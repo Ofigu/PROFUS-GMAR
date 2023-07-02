@@ -4,12 +4,101 @@
 <head>
   <title>Knoni exchange</title>
   <style>
+    body{
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      margin: 0;
+      padding: 0;
+      background-image: url('resources/signup-background.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container{
+      text-align: center;
+      color: rgba(255, 255, 255, 0.9);
+      width: 100%;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(60px);
+      -webkit-backdrop-filter: blur(60px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      overflow-y: auto;
+    }
+
+    input[type="text"] {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 23px;
+      font-weight: 600;
+      height: 25px;
+      width: 55%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(120px);
+      -webkit-backdrop-filter: blur(120px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      animation-duration: 2s;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    #maxPriceInput {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 23px;
+      font-weight: 600;
+      height: 25px;
+      width: 55%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(120px);
+      -webkit-backdrop-filter: blur(120px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      animation-duration: 2s;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    #maxPriceInput::-webkit-inner-spin-button,
+    #maxPriceInput::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      display: none;
+    }
+    #recommendedInput,#altCoinInput,#proofOfWorkInput{
+      scale:1.7;
+    }
+    
+
+    input:focus {
+      box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
+      scale: 1.03;
+    }
+
+    input:hover {
+      scale: 1.03;
+    }
+
+
     h1 {
   text-align: center;
-  background-color: #007bff; /* Replace with your preferred color */
   color: #fff; /* Replace with your preferred text color */
   padding: 20px;
-  font-family: 'Arial', sans-serif; /* Use a preferred font */
+  font-family: 'poppins', sans-serif; /* Use a preferred font */
   font-size: 36px;
   font-weight: bold;
 }
@@ -24,13 +113,12 @@
   justify-content: center;
   display: flex;
   gap: 10px;
-  background-color: #f2f2f2;
   padding: 10px;
   border-radius: 5px;
 }
 
 .search-filters label {
-  font-size: 16px;
+  font-size: 22px;
   font-weight: bold;
   text-align: right;
   width: 100px;
@@ -47,13 +135,6 @@ td {
   padding: 8px;
 }
 
-thead {
-  background-color: #f2f2f2;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
 
     .operations {
       text-align: center;
@@ -86,18 +167,19 @@ tbody tr:nth-child(even) {
 </head>
 
 <body>
+  <div class="container">
   <h1 style="text-align:center;">Kanoni Coin Exchange</h1>
-  <p style="text-align:center;">Current cash balance: <span id="balance">-</span>$</p>
+  <p style="text-align:center; font-size: 25px;">Current cash balance: <span id="balance">-</span>$</p>
 
   <div class="search-filters">
     <div>
       <label for="searchInput">Search:</label>
-      <input type="text" id="searchInput" oninput="filterCoins()" placeholder="Search by coin name">
+      <input type="text" id="searchInput" oninput="filterCoins()">
     </div>
 
     <div>
       <label for="maxPriceInput">Max Price:</label>
-      <input type="number" id="maxPriceInput" oninput="filterCoins()" step="0.01" placeholder="Enter max price">
+      <input type="number" id="maxPriceInput" oninput="filterCoins()" step="0.01">
     </div>
 
     <div>
@@ -119,8 +201,8 @@ tbody tr:nth-child(even) {
   <table>
     <thead>
       <tr>
-        <th>Image</th>
-        <th>Coin Name</th>
+        <th>Logo</th>
+        <th>Name</th>
         <th>Price</th>
         <th>Recommended</th>
         <th>Alt Coin</th>
@@ -133,14 +215,10 @@ tbody tr:nth-child(even) {
       <!-- Coins will be dynamically added here -->
     </tbody>
   </table>
-
-
-
-
+  </div>
   <script>
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const firstName = urlParams.get('firstName');
+    const firstName = sessionStorage.getItem('firstName');
 
     // Call the updateBalanceDisplay function with the username
     updateBalanceDisplay(firstName);
@@ -190,11 +268,11 @@ tbody tr:nth-child(even) {
             <td>${coin.AltCoin}</td>
             <td>${coin.ProofOfWork}</td>
             <td>
-              <input class="buy-input" type="text" placeholder="Amount">
+              <input class="buy-input" type="text">
               <button class="buy-button" onclick="performTrade(this, '${coin._id}', 'buy')">Buy</button>
             </td>
             <td>
-              <input class="sell-input" type="text" placeholder="Amount">
+              <input class="sell-input" type="text">
               <button class="sell-button" onclick="performTrade(this, '${coin._id}', 'sell')">Sell</button>
             </td>
             <td id="${coin._id}Amount">-</td> <!-- New column -->
@@ -240,7 +318,7 @@ tbody tr:nth-child(even) {
               },
               body: JSON.stringify({
                 CoinName: coinNames[coinId],
-                UserName: urlParams.get('firstName'),
+                UserName: firstName
               }),
             });
 
@@ -269,7 +347,7 @@ tbody tr:nth-child(even) {
 
     async function buyCoin(coinId, price, amount) {
       const totalPrice = price * amount;
-      const username = urlParams.get('firstName');
+      const username = firstName;
 
       if (confirm('Are you sure you want to buy?')) {
         const response = await fetch('/addTrade', {
@@ -299,7 +377,7 @@ tbody tr:nth-child(even) {
 
     async function sellCoin(coinId, price, amount) {
       const totalPrice = price * amount;
-      const username = urlParams.get('firstName');
+      const username = firstName;
 
       if (confirm('Are you sure you want to sell?')) {
         const response = await fetch('/reduceTrade', {
