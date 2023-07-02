@@ -119,16 +119,16 @@
       font-size: 10px;
     }
     .nav-bar {
-      font-size: 9px;
+      font-size: 12px;
     }
     
     .nav-bar a {
       flex-grow: 1;
     }
   }
-  @media (max-width: 300px) {
+  @media (max-width: 330px) {
     .nav-bar {
-      font-size: 8px;
+      font-size: 11px;
     }
     
     .nav-bar a {
@@ -231,6 +231,8 @@
     max-width: 1150px;
     margin: 60px;
   }
+
+
   
   
   
@@ -248,38 +250,28 @@
     color: white;
   }
   .social{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   }
   
-  /* Social media section */
   .social-media {
-    width: 100%; /* Set the desired width of your container */
     max-width: 550px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25));
-    /* backdrop-filter: blur(10px); */
-    /* -webkit-backdrop-filter: blur(10px); */
     border-radius: 20px;
     border:1px solid rgba(255, 255, 255, 0);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    margin-right: 150px;
-  
+    padding: 10px;
+    font-weight: 600;
+    font-size: 25px;
   }
-  @media (max-width: 1096px){
-    .social{
-      flex-direction: column;
-    }
+  @media (max-width: 350px){
     .social-media{
-      margin-left: 145px;
+      font-size: 17px;
     }
-  }
-  
-  .social-media p {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 550;
+    .social-media img{
+      scale: 1.7;
+      display: flex;
+    }
   }
   
   .social-buttons-frame {
@@ -352,6 +344,7 @@
     margin-bottom: 20px;
     max-width: 100%;
     height: auto;
+    border-radius: 5px;
   }
   .social-media img{
     flex-grow: 1;
@@ -598,15 +591,6 @@
             <a href="https://twitter.com/KanoniCoin" target="_blank"><img src="resources/twitter.png" alt=""></a>
             </div>
           </div>
-        <div class="contact-form">
-          <h3>Contact Us</h3>
-          <form class="footer-form">
-            <input type="text" placeholder="Name">
-            <input type="email" placeholder="Email">
-            <textarea placeholder="Message"></textarea>
-            <button type="submit">Send</button>
-          </form>
-        </div>
     </div>
         <div class="main-branch-text">
             <h2>International HQ</h2>
