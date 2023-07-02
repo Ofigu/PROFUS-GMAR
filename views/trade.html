@@ -40,6 +40,33 @@
       overflow-y: auto;
     }
 
+    input {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 23px;
+      font-weight: 600;
+      height: 25px;
+      width: 55%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(120px);
+      -webkit-backdrop-filter: blur(120px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      animation-duration: 2s;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    input:focus {
+      box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
+      scale: 1.03;
+    }
+
+    input:hover {
+      scale: 1.03;
+    }
+
+
     h1 {
   text-align: center;
   color: #fff; /* Replace with your preferred text color */
@@ -120,12 +147,12 @@ td {
   <div class="search-filters">
     <div>
       <label for="searchInput">Search:</label>
-      <input type="text" id="searchInput" oninput="filterCoins()" placeholder="Search by coin name">
+      <input type="text" id="searchInput" oninput="filterCoins()">
     </div>
 
     <div>
       <label for="maxPriceInput">Max Price:</label>
-      <input type="number" id="maxPriceInput" oninput="filterCoins()" step="0.01" placeholder="Enter max price">
+      <input type="number" id="maxPriceInput" oninput="filterCoins()" step="0.01">
     </div>
 
     <div>
@@ -217,11 +244,11 @@ td {
             <td>${coin.AltCoin}</td>
             <td>${coin.ProofOfWork}</td>
             <td>
-              <input class="buy-input" type="text" placeholder="Amount">
+              <input class="buy-input" type="text">
               <button class="buy-button" onclick="performTrade(this, '${coin._id}', 'buy')">Buy</button>
             </td>
             <td>
-              <input class="sell-input" type="text" placeholder="Amount">
+              <input class="sell-input" type="text">
               <button class="sell-button" onclick="performTrade(this, '${coin._id}', 'sell')">Sell</button>
             </td>
             <td id="${coin._id}Amount">-</td> <!-- New column -->
