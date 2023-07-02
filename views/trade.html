@@ -40,7 +40,7 @@
       overflow-y: auto;
     }
 
-    input {
+    input[type="text"] {
       color: rgba(255, 255, 255, 0.9);
       font-size: 23px;
       font-weight: 600;
@@ -56,6 +56,33 @@
       transition: all 0.3s ease;
       text-align: center;
     }
+
+    #maxPriceInput {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 23px;
+      font-weight: 600;
+      height: 25px;
+      width: 55%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(120px);
+      -webkit-backdrop-filter: blur(120px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      animation-duration: 2s;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    #maxPriceInput::-webkit-inner-spin-button,
+    #maxPriceInput::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      display: none;
+    }
+    #recommendedInput,#altCoinInput,#proofOfWorkInput{
+      scale:1.7;
+    }
+    
 
     input:focus {
       box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
@@ -91,7 +118,7 @@
 }
 
 .search-filters label {
-  font-size: 16px;
+  font-size: 22px;
   font-weight: bold;
   text-align: right;
   width: 100px;
@@ -142,7 +169,7 @@ td {
 <body>
   <div class="container">
   <h1 style="text-align:center;">Kanoni Coin Exchange</h1>
-  <p style="text-align:center;">Current cash balance: <span id="balance">-</span>$</p>
+  <p style="text-align:center; font-size: 25px;">Current cash balance: <span id="balance">-</span>$</p>
 
   <div class="search-filters">
     <div>
