@@ -5,13 +5,46 @@
   <title>Knoni exchange</title>
   <style>
     body{
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      margin: 0;
+      padding: 0;
+      background-image: url('resources/signup-background.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
+
+    .container{
+      text-align: center;
+      color: rgba(255, 255, 255, 0.9);
+      width: 100%;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      backdrop-filter: blur(60px);
+      -webkit-backdrop-filter: blur(60px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+      overflow-y: auto;
+    }
+
     h1 {
   text-align: center;
-  background-color: #007bff; /* Replace with your preferred color */
   color: #fff; /* Replace with your preferred text color */
   padding: 20px;
-  font-family: 'Arial', sans-serif; /* Use a preferred font */
+  font-family: 'poppins', sans-serif; /* Use a preferred font */
   font-size: 36px;
   font-weight: bold;
 }
@@ -26,7 +59,6 @@
   justify-content: center;
   display: flex;
   gap: 10px;
-  background-color: #f2f2f2;
   padding: 10px;
   border-radius: 5px;
 }
@@ -49,13 +81,6 @@ td {
   padding: 8px;
 }
 
-thead {
-  background-color: #f2f2f2;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
 
     .operations {
       text-align: center;
@@ -88,6 +113,7 @@ tbody tr:nth-child(even) {
 </head>
 
 <body>
+  <div class="container">
   <h1 style="text-align:center;">Kanoni Coin Exchange</h1>
   <p style="text-align:center;">Current cash balance: <span id="balance">-</span>$</p>
 
@@ -135,10 +161,7 @@ tbody tr:nth-child(even) {
       <!-- Coins will be dynamically added here -->
     </tbody>
   </table>
-
-
-
-
+  </div>
   <script>
 
     // const urlParams = new URLSearchParams(window.location.search);
