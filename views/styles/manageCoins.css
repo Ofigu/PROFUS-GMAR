@@ -1,0 +1,119 @@
+*{
+    color: white;
+    font-family: sans-serif, 'popins';
+    font-weight: 500;
+  }
+  /* Table Styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+  label{
+    font-size: 26px;
+  }
+
+  th,
+  td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 22px;
+  }
+
+  /* Set a fixed width and height for the coin images */
+  td.coin-image img {
+    width: 40px;
+  }
+
+  /* Button Styling */
+  button {
+    padding: 10px;
+    background-color: #0083e1;
+    color: white;
+    border: solid 1px white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 17px;
+  }
+
+  button:hover {
+    background-color: #0062ac;
+  }
+
+  /* Page Styling */
+  body {
+    padding: 20px;
+    background: linear-gradient(135deg, #05008a, rgb(51, 0, 118), #4d00b3);
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .search-input {
+    margin-right: 10px;
+  }
+
+  .search-checkbox {
+    margin-left: 10px;
+  }
+  #recommendedCheckbox{
+    cursor: pointer;
+    zoom: 2;
+  }
+  #altCoinCheckbox{
+    cursor: pointer;
+    zoom: 2;
+  }
+  #proofOfWorkCheckbox{
+    cursor: pointer;
+    zoom: 2;
+  }
+  #saveButton{
+    font-size: 20px;
+    float: right;
+  }
+  img{
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+  }
+
+  #maxPriceInput, #searchInput{
+    font-size: 19px;
+    background-color: transparent;
+    border-radius: 20px;
+    padding: 4px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 7px;
+    text-align: center;
+    box-shadow: none;
+    border: solid 2px white;
+    animation-duration: 2s;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+  }
+  #maxPriceInput::content, #searchInput::content{
+    font-size: 20px;
+  }
+  #maxPriceInput:hover, #searchInput:hover{
+    transform:scale(1.1);
+  }
+  #maxPriceInput:focus, #searchInput:focus{
+    transform:scale(1.1);
+  }
+  #coinTableBody input{
+    cursor: pointer;
+    zoom: 2;
+  }
+  #maxPriceInput::-webkit-inner-spin-button,
+  #maxPriceInput input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    display: none;
+  }
