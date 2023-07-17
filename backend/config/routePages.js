@@ -331,7 +331,7 @@ router.get('/trades/:username', async (req, res) => {
       const coin = await Coin.findOne({ CoinName: trade.CoinName });
       const tradeWithImage = {
         trade,
-        image: coin ? coin.ImageOfCoin : '' // Assuming the 'ImageOfCoin' field contains the image string
+        image: coin ? coin.ImageOfCoin : '' 
       };
       tradesWithImages.push(tradeWithImage);
     }
