@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path'); // Add this line to include the path module
+const path = require('path');
 const User = require('../models/user');
 const Coin = require('../models/coin');
 const Trade = require('../models/trades');
@@ -23,7 +23,7 @@ router.post('/addUser', async (req, res) => {
     res.redirect('/welcome');
 
   } catch (error) {
-    if (error.code === 11000 && error.keyPattern && error.keyValue && error.keyValue.UserName) {
+    if (error.code === 11000 && error.keyPattern && error.keyValue && error.keyValue.UserName) { 
       // Duplicate username error
       const errorMessage = 'Username already exists. Please choose a different username.';
       console.error(errorMessage);
@@ -290,7 +290,7 @@ router.get('/user/balance', async (req, res) => {
   }
 });
 
-// Sends all the amaounts of coins the a user has to the trade page
+// Sends all the amaounts of coins that a user has to the trade page
 router.get('/user/coin-amounts', async (req, res) => {
   const username = req.query.username;
   try {
@@ -385,7 +385,7 @@ router.delete('/coins/:id', async (req, res) => {
   }
 });
 
-// Updates coin in the DB
+// Updates coin in the DB______________________________________________________
 router.patch('/coins/:id', async (req, res) => {
   try {
     const { id } = req.params;
