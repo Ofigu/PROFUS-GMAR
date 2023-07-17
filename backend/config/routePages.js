@@ -7,7 +7,7 @@ const Trade = require('../models/trades');
 require("dotenv").config({ path: __dirname + "../../.env" });
 const { twitterClient } = require("../../twitterClient");
 
-
+// Adding user to the DB
 router.post('/addUser', async (req, res) => {
   const user = new User({
     FirstName: req.body.FirstName,
@@ -37,7 +37,7 @@ router.post('/addUser', async (req, res) => {
 });
 
 
-// Add or update a trade
+// Adds trade to DB or updates
 router.post('/addTrade', async (req, res) => {
   try {
     // Extract the trade data from the request body
@@ -83,12 +83,11 @@ router.post('/addTrade', async (req, res) => {
   }
 });
 
+// Deletes trade from DB or updates
 router.post('/reduceTrade', async (req, res) => {
   try {
     // Extract the trade data from the request body
     const { CoinName, Amount, Value, UserName } = req.body;
-    console.log(Amount);
-    console.log(Value);
 
     // Find the trade with the given coin and username
     const existingTrade = await Trade.findOne({ CoinName, UserName });
@@ -127,6 +126,7 @@ router.post('/reduceTrade', async (req, res) => {
   }
 });
 
+// Gets candidate keys of user and coin and returns the amaount field of the relevante trade
 router.post('/getOwnedAmount', async (req, res) => {
   try {
     const { CoinName, UserName } = req.body;
@@ -146,19 +146,7 @@ router.post('/getOwnedAmount', async (req, res) => {
   }
 });
 
-// router.post('/' , async (req,res) => {
-//   const tweet = async () => {
-//     try {
-//       await twitterClient.v2.tweet("ssuusususususususus");
-//       console.log("activated the tweet function-tweeted the tweet");
-//     } catch (e) {
-//       console.log(e)
-//     }
-//   }
-//   tweet();
-// })
-
-
+// Adds coin to the DB and also tweets about it
 router.post('/addCoin', async (req, res) => {
   const coin = new Coin({
     CoinName: req.body.CoinName,
@@ -203,6 +191,7 @@ router.post('/addCoin', async (req, res) => {
 });
 
 
+// Connects users to the site by classification 
 router.post('/login', async (req, res) => {
   const username = req.body.Username;
   const password = req.body.Password;
@@ -231,38 +220,42 @@ router.post('/login', async (req, res) => {
   }
 });
 
-
+// Sends to customer home page
 router.get('/customer', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'indexCustomer.html'));
 });
 
+// Sends to admin home page
 router.get('/admin', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'indexAdmin.html'));
 });
 
-
-
+// Sends to login page
 router.get('/loginPage', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'login.html'));
 });
 
+// Sends to add coin page
 router.get('/Coin', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'addCoin.html'));
 });
 
+// Sends to signup page
 router.get('/signup', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'signup.html'));
 });
 
+// Sends to welcome page
 router.get('/welcome', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'welcome.html'));
 });
 
+// Sends to trade page
 router.get('/trade', async (req, res) => {
   res.sendFile(path.join(__dirname, '../../views', 'trade.html'));
 });
 
-
+// Sends all the trades from DB to allTrades page
 router.get('/alltrades', async (req, res) => {
   try {
     // Retrieve all trades from the database
@@ -274,12 +267,12 @@ router.get('/alltrades', async (req, res) => {
   }
 });
 
-
+// Sends to editBalance page
 router.get('/editBalance', async (req, res) => {
   res.sendFile(path.join(__dirname, '../../views', 'editbalance.html'));
 });
 
-
+// Gets a user name and returns the balance
 router.get('/user/balance', async (req, res) => {
   const username = req.query.username;
   try {
@@ -297,7 +290,7 @@ router.get('/user/balance', async (req, res) => {
   }
 });
 
-// Add a route handler for fetching coin amounts for a user
+// Sends all the amaounts of coins the a user has to the trade page
 router.get('/user/coin-amounts', async (req, res) => {
   const username = req.query.username;
   try {
@@ -315,7 +308,6 @@ router.get('/user/coin-amounts', async (req, res) => {
       // Update the coin amount in the object
       coinAmounts[coinName] = (coinAmounts[coinName] || 0) + amount;
     }
-    console.log(coinAmounts);
     res.json(coinAmounts);
   } catch (error) {
     console.error('Error fetching coin amounts:', error);
@@ -323,11 +315,12 @@ router.get('/user/coin-amounts', async (req, res) => {
   }
 });
 
-
+// Sends to trades page
 router.get('/trades', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'allTrades.html'));
 });
 
+// Sends all the trades of one user to the portfolio page
 router.get('/trades/:username', async (req, res) => {
   try {
     const { username } = req.params;
@@ -346,23 +339,27 @@ router.get('/trades/:username', async (req, res) => {
     res.json(tradesWithImages);
   } catch (error) {
     console.error('Error fetching trades:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+    res.status(500).json({ error: 'Internal server error'});
+  }
 });
 
-
+// Sends to about page
 router.get('/about', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'about.html'));
 });
 
+// Sends to portfolio page
 router.get('/portfolio', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'portfolio.html'));
 });
 
+// Sends to ManageCoins page
 router.get('/ManageCoins', function (req, res) {
   res.sendFile(path.join(__dirname, '../../views', 'manageCoins.html'));
 });
 
+
+// Sends all the coins to the manage coin page
 router.get('/coins', async (req, res) => {
   try {
     // Retrieve all coins from the database
@@ -376,6 +373,7 @@ router.get('/coins', async (req, res) => {
   }
 });
 
+// Deletes coins from DB
 router.delete('/coins/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -387,6 +385,7 @@ router.delete('/coins/:id', async (req, res) => {
   }
 });
 
+// Updates coin in the DB
 router.patch('/coins/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -411,8 +410,7 @@ router.patch('/coins/:id', async (req, res) => {
   }
 });
 
-
-// Route to update user balance
+// Updates user balance
 router.patch('/user/balance', async (req, res) => {
   const { username, balance } = req.body;
   try {

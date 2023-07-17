@@ -8,53 +8,53 @@
 
 <body>
   <div class="container">
-  <h1 style="text-align:center;">Kanoni Coin Exchange</h1>
-  <p style="text-align:center; font-size: 25px;">Current cash balance: <span id="balance">-</span>$</p>
+    <h1 style="text-align:center;">Kanoni Coin Exchange</h1>
+    <p style="text-align:center; font-size: 25px;">Current cash balance: <span id="balance">-</span>$</p>
 
-  <div class="search-filters">
-    <div>
-      <label for="searchInput">Search:</label>
-      <input type="text" id="searchInput" oninput="filterCoins()">
+    <div class="search-filters">
+      <div>
+        <label for="searchInput">Search:</label>
+        <input type="text" id="searchInput" oninput="filterCoins()">
+      </div>
+
+      <div>
+        <label for="maxPriceInput">Max Price:</label>
+        <input type="number" id="maxPriceInput" oninput="filterCoins()" step="0.01">
+      </div>
+
+      <div>
+        <label for="recommendedInput">Recommended:</label>
+        <input type="checkbox" id="recommendedInput" onclick="filterCoins()">
+      </div>
+
+      <div>
+        <label for="altCoinInput">Alt Coin:</label>
+        <input type="checkbox" id="altCoinInput" onclick="filterCoins()">
+      </div>
+
+      <div>
+        <label for="proofOfWorkInput">Proof of Work:</label>
+        <input type="checkbox" id="proofOfWorkInput" onclick="filterCoins()">
+      </div>
     </div>
 
-    <div>
-      <label for="maxPriceInput">Max Price:</label>
-      <input type="number" id="maxPriceInput" oninput="filterCoins()" step="0.01">
-    </div>
-
-    <div>
-      <label for="recommendedInput">Recommended:</label>
-      <input type="checkbox" id="recommendedInput" onclick="filterCoins()">
-    </div>
-
-    <div>
-      <label for="altCoinInput">Alt Coin:</label>
-      <input type="checkbox" id="altCoinInput" onclick="filterCoins()">
-    </div>
-
-    <div>
-      <label for="proofOfWorkInput">Proof of Work:</label>
-      <input type="checkbox" id="proofOfWorkInput" onclick="filterCoins()">
-    </div>
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Logo</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Recommended</th>
-        <th>Alt Coin</th>
-        <th>Proof of Work</th>
-        <th class="operations" colspan="2">Operations</th>
-        <th>Amount</th>
-      </tr>
-    </thead>
-    <tbody id="coinTableBody">
-      <!-- Coins will be dynamically added here -->
-    </tbody>
-  </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Logo</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Recommended</th>
+          <th>Alt Coin</th>
+          <th>Proof of Work</th>
+          <th class="operations" colspan="2">Operations</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody id="coinTableBody">
+        <!-- Coins will be dynamically added here -->
+      </tbody>
+    </table>
   </div>
   <script>
 
@@ -63,16 +63,6 @@
     // Call the updateBalanceDisplay function with the username
     updateBalanceDisplay(firstName);
 
-    async function fetchUserBalance(username) {
-      try {
-        const response = await fetch(`/user/balance?username=${username}`);
-        const balance = await response.json();
-        return balance;
-      } catch (error) {
-        console.error('Error fetching user balance:', error);
-        return null;
-      }
-    }
     // Update the balance display
     async function updateBalanceDisplay(username) {
       const balanceElement = document.getElementById('balance');
@@ -84,8 +74,21 @@
       }
     }
 
+    // Sends a request to the backend to get the balance
+    async function fetchUserBalance(username) {
+      try {
+        const response = await fetch(`/user/balance?username=${username}`);
+        const balance = await response.json();
+        return balance;
+      } catch (error) {
+        console.error('Error fetching user balance:', error);
+        return null;
+      }
+    }
+
     // Object to store coin names by ID
     const coinNames = {};
+
     // Function to fetch coins from the backend and populate the table
     async function fetchCoins() {
       try {
@@ -245,27 +248,7 @@
       }
     }
 
-    async function updateBalance(username, balance) {
-      try {
-        const response = await fetch('/user/balance', {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: username,
-            balance: balance,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to update user balance');
-        }
-      } catch (error) {
-        console.error('Error updating user balance:', error);
-      }
-    }
-
+    // Function to fetch amaounts of every coin the user has 
     async function updateCoinAmounts(username) {
       try {
         const response = await fetch(`/user/coin-amounts?username=${username}`);
@@ -285,8 +268,6 @@
         console.error('Error updating coin amounts:', error);
       }
     }
-
-
 
     // Function to filter coins based on search criteria
     function filterCoins() {
