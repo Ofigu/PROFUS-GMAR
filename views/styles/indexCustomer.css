@@ -209,7 +209,7 @@
    }
  
  }
- /*---------------widget container---------------*/
+ /*-------------------------------widget container--------------------------------*/
  
  .tradingview-widget-container{
    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
@@ -221,14 +221,8 @@
    max-width: 1150px;
    margin: 60px;
  }
-
-
- 
- 
- 
  
  /*---------------footer---------------*/
- /* Footer container */
  footer {
    width: 100%;
    padding: 20px;
@@ -254,7 +248,7 @@
    font-weight: 600;
    font-size: 25px;
  }
- @media (max-width: 350px){
+ @media (max-width: 350px){ /* footer responsivnes*/
    .social-media{
      font-size: 17px;
    }
@@ -341,7 +335,7 @@
    width: 100%;
  }
  
- .tradingview-widget-copyright {
+ .tradingview-widget-copyright { /*removes the copyright text from the bottom of the widgets*/
    font-size: 13px !important;
    line-height: 32px !important;
    text-align: center !important;

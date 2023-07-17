@@ -197,10 +197,10 @@
   }
 
   .conformation {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);
-    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));/* blur effect */
+    backdrop-filter: blur(60px);/* blur effect */
+    -webkit-backdrop-filter: blur(60px);/* blur effect */
+    border-radius: 20px; /*round border effect*/
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
     text-align: center;
@@ -212,7 +212,7 @@
     padding-right: 11px;
   }
 
-  .conformation p {
+  .conformation p { /*add coin button mouse hover*/
     color: rgba(255, 179, 0, 0.9);
     font-weight: 700;
     font-size: 25px;

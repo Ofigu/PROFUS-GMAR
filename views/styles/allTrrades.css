@@ -70,13 +70,13 @@
   }
 
   .search-container input::-webkit-inner-spin-button,
-  .search-container input::-webkit-outer-spin-button {
+  .search-container input::-webkit-outer-spin-button { /*disable the arrows on the input bar that have numbers*/
     -webkit-appearance: none;
     margin: 0;
     display: none;
   }
 
-  input::placeholder {
+  input::placeholder { /* text inside input box edit*/
     text-align: center;
     color: white;
     font-size: 22px;
@@ -108,7 +108,7 @@
     border-bottom: rgba(255, 255, 255, 0.1);
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 900px) { /* responsivnes */
     .search-container {
       flex-direction: column;
       align-items: center;
@@ -118,7 +118,7 @@
       margin: 0 auto;
     }
 
-    .search-container input {
+    .search-container input { /*  inputs css for inputs in cointainer*/
       margin: 5px 0;
     }
   }

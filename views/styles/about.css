@@ -1,5 +1,5 @@
 *{
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.9); /*text color */
   }
   body {
     font-family: sans-serif;
@@ -21,7 +21,6 @@ z-index: -1;
 background-attachment: fixed;
 }
 .content {
-/* max-width: 800px; */
 margin: 0 auto;
 padding: 20px;
 margin-top: -25px;
@@ -30,12 +29,12 @@ backdrop-filter: blur(20px);
 -webkit-backdrop-filter: blur(20px);
 border: 1px solid rgba(255, 255, 255, 0.05);
 box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-height: 100vh; /* Added to make the content div take up the full viewport height */
-overflow-y: auto; /* Added to enable vertical scrolling */
+height: 100vh;
+overflow-y: auto; /*enable vertical scrolling*/
 padding-left: 20px;
 }
 .content::-webkit-scrollbar {
-display: none; /* Hide the scroll bar */
+display: none; /*Hide the scroll bar */
 }
 
   h1 {
@@ -83,9 +82,9 @@ display: none; /* Hide the scroll bar */
     margin: 10px;
     padding: 10px;
     text-align: center;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3));
-  backdrop-filter: blur(140px); 
-  -webkit-backdrop-filter: blur(140px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3)); /* blur effect */
+  backdrop-filter: blur(140px); /* blur effect */
+  -webkit-backdrop-filter: blur(140px); /* blur effect */
  
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
   border-radius: 5px;
@@ -110,7 +109,7 @@ display: none; /* Hide the scroll bar */
     margin-top: 10px;
   }
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1200px) { /*responsivnes - screen sizes*/
     .container {
       max-width: 100%;
     }

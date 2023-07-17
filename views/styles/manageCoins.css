@@ -63,15 +63,15 @@
   }
   #recommendedCheckbox{
     cursor: pointer;
-    zoom: 2;
+    zoom: 2; /*enlarge the checkboxes*/
   }
   #altCoinCheckbox{
     cursor: pointer;
-    zoom: 2;
+    zoom: 2; /*enlarge the checkboxes*/
   }
   #proofOfWorkCheckbox{
     cursor: pointer;
-    zoom: 2;
+    zoom: 2; /*enlarge the checkboxes*/
   }
   #saveButton{
     font-size: 20px;
@@ -98,13 +98,13 @@
     transition: all 0.3s ease;
     margin-left: 10px;
   }
-  #maxPriceInput::content, #searchInput::content{
+  #maxPriceInput::content, #searchInput::content{ /*hovering on input field enlarge-text*/
     font-size: 20px;
   }
-  #maxPriceInput:hover, #searchInput:hover{
+  #maxPriceInput:hover, #searchInput:hover{ /*hovering on input field enlarge*/
     transform:scale(1.1);
   }
-  #maxPriceInput:focus, #searchInput:focus{
+  #maxPriceInput:focus, #searchInput:focus{ /*hovering on input field enlarge*/
     transform:scale(1.1);
   }
   #coinTableBody input{
@@ -112,7 +112,7 @@
     zoom: 2;
   }
   #maxPriceInput::-webkit-inner-spin-button,
-  #maxPriceInput input::-webkit-outer-spin-button {
+  #maxPriceInput input::-webkit-outer-spin-button { /* input field-when clicked - hide arrows on the side*/
     -webkit-appearance: none;
     margin: 0;
     display: none;

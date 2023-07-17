@@ -4,9 +4,6 @@
     box-sizing: border-box;
  }
  #myVideo{
-   /* position: absolute;
-   bottom: 0;
-   z-index: -1; */
    position: fixed;
    top: 0;
    left: 0;
@@ -14,17 +11,15 @@
    height: 100%;
    opacity: 0;
    z-index: -1;
-   /* filter: brightness(80%); */
-   
  }
  
- @media(min-aspect-ratio:16/9){
+ @media(min-aspect-ratio:16/9){ /*background-video-responsivnes*/
    #myVideo{
      width: 100%;
      height: auto;
    }
  }
- @media(max-aspect-ratio:16/9){
+ @media(max-aspect-ratio:16/9){ /*background-video-responsivnes*/
    #myVideo{
      width: auto;
      height: 100%;
@@ -34,7 +29,6 @@
    margin: 0;
    font-family: 'Poppins', sans-serif;
    margin: 0;
-   /* background: linear-gradient(to top left, #2b2b2b, #183b80, #202020); Set your gradient colors */
    background-color: black;
    display: flex;
    flex-direction: column;
@@ -91,7 +85,7 @@
    min-width: 0;
  }
  
- @media (max-width: 768px) {
+ @media (max-width: 768px) { /*boxes responsivness*/
    .text-box{
      font-size: 12px;
    }
@@ -104,7 +98,7 @@
    }
  }
  
- @media (max-width: 480px) {
+ @media (max-width: 480px) { /*boxes responsivness*/
    .text-box{
      font-size: 10px;
    }
@@ -116,7 +110,7 @@
      flex-grow: 1;
    }
  }
- @media (max-width: 300px) {
+ @media (max-width: 300px) { /*boxes responsivness*/
    .nav-bar {
      font-size: 8px;
    }
@@ -129,8 +123,8 @@
    width: 100%;
    position: relative;
    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255 , 255, 255, 0.1));
-   backdrop-filter: blur(40px);
-   -webkit-backdrop-filter: blur(40px);
+   backdrop-filter: blur(40px); /*blur effect*/
+   -webkit-backdrop-filter: blur(40px); /*blur effect*/
    border:1px solid rgba(255, 255, 255, 0.05);
    position: fixed;
    top: 0;
@@ -155,8 +149,8 @@
    margin-top: 170px;
    margin-bottom:160px;
    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
-   backdrop-filter: blur(40px); 
-   -webkit-backdrop-filter: blur(40px);
+   backdrop-filter: blur(40px);  /*blur effect*/
+   -webkit-backdrop-filter: blur(40px); /*blur effect*/
    border-radius: 20px;
    border:1px solid rgba(255, 255, 255, 0.05);
    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
@@ -183,7 +177,7 @@
    padding: 0;
    margin: 15px;
  }
- @media (min-height: 1080px) {
+ @media (min-height: 1080px) { /*boxes responsivnes*/
    .text-box{
      max-width: 900px;
    }
@@ -195,7 +189,7 @@
    }
  
  }
- @media  (max-width: 750px) {
+ @media  (max-width: 750px) { /*boxes responsivnes*/
    .text-box{
      margin-top: 200px;
      margin-bottom: 180px;
@@ -209,12 +203,12 @@
    }
  
  }
- /*---------------widget container---------------*/
+ /*---------------------------widget container-------------------------------*/
  
  .tradingview-widget-container{
    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
-   backdrop-filter: blur(40px);
-   -webkit-backdrop-filter: blur(40px);
+   backdrop-filter: blur(40px); /*blur effect*/
+   -webkit-backdrop-filter: blur(40px); /*blur effect*/
    border-radius: 20px;
    border:1px solid rgba(255, 255, 255, 0.1);
    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
@@ -222,11 +216,8 @@
    margin: 60px;
  }
  
- 
- 
- 
  /*---------------footer---------------*/
- /* Footer container */
+
  footer {
    width: 100%;
    padding: 20px;
@@ -252,7 +243,7 @@
    font-weight: 600;
    font-size: 25px;
  }
- @media (max-width: 350px){
+ @media (max-width: 350px){ /* footer responsivnes*/
    .social-media{
      font-size: 17px;
    }
@@ -339,7 +330,7 @@
    width: 100%;
  }
  
- .tradingview-widget-copyright {
+ .tradingview-widget-copyright { /*removes the copyright text from the bottom of the widgets*/
    font-size: 13px !important;
    line-height: 32px !important;
    text-align: center !important;
