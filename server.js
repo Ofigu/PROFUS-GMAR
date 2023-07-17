@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
 require('./tweet.js');
-// const User = require('./backend/models/user');
 
 const app = express();
 
@@ -26,8 +25,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./views'));
 
-// Set folders
-// app.use(express.static(__dirname + '/views/public'));
+// Set home page
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
   });

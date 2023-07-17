@@ -65,7 +65,7 @@
         }
       }
 
-      // Helper function to format the balance with commas and two decimal places
+      // Function to format the balance with commas and two decimal places
       function formatBalance(balance) {
         const parts = balance.toFixed(2).toString().split('.');
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -86,7 +86,7 @@
         }
       });
 
-      // Add event listener for "Withdraw Money" button click
+      // Event listener for Withdraw Money button click
       $('#withdrawMoney').click(function () {
         const withdrawAmount = parseFloat($('#withdrawAmount').val());
         if (!isNaN(withdrawAmount) && withdrawAmount > 0) {
@@ -102,25 +102,25 @@
         }
       });
 
-      // Helper function to retrieve the current balance from the UI
+      // Function to retrieve the current balance from the UI
       function getCurrentBalance() {
         const balanceElement = document.getElementById('balance');
         return parseFloat(balanceElement.innerText);
       }
 
-      // Helper function to show a success message
+      // Function to show a success message
       function showSuccessMessage(message) {
         alert(message);
         clearInputFields();
       }
 
-      // Helper function to clear the input fields
+      // Function to clear the input fields
       function clearInputFields() {
         $('#addAmount').val('');
         $('#withdrawAmount').val('');
       }
 
-      // Helper function to update the balance
+      // Function to update the balance
       async function updateBalance(username, balance) {
         try {
           const response = await fetch('/user/balance', {

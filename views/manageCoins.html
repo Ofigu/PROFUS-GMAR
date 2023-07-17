@@ -222,7 +222,7 @@
     // Call the fetchCoins function when the page loads
     window.addEventListener('load', fetchCoins);
 
-    // Event delegation to handle changes made in the table
+    // Event listener to handle changes made in the table
     document.addEventListener('input', (event) => {
       const target = event.target;
       if (target.matches('[contenteditable]')) {
@@ -231,7 +231,7 @@
       }
     });
 
-    // Event delegation to handle changes made in the checkboxes
+    // Event listener to changes made in the checkboxes
     document.addEventListener('change', (event) => {
       const target = event.target;
       if (target.matches('input[type="checkbox"]')) {
